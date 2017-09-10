@@ -1,6 +1,23 @@
-#ifndef MODULE1_H
+﻿#ifndef MODULE1_H
 #define MODULE1_H
 
-void test();
+vector<int> pblok_key (int pblok_lenght);
+vector<char> get_data(string addres);
 
+struct pixel
+{
+	/*
+	ѕиксель состоит из трех байт: RGB
+	“ри байта его описывают
+	*/
+	char red;
+	char green;
+	char blue;
+};
+
+pixel get_one_pixel(string addres, int byte_seek);
+vector<pixel> get_all_pixels(string addres);
+vector<pixel> get_some_pixel(string addres, int seek, int count);
+
+vector<pixel> use_pblok(vector<pixel> original, vector<int> key);
 #endif
