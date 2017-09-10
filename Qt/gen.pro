@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,3 +22,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     home_windows.ui
+
+CONFIG += c++11
+
