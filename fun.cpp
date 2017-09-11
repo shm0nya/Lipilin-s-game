@@ -129,12 +129,14 @@ vector<pixel> get_some_pixel(string addres, int seek, int count)
 	return data;
 }
 
-vector<pixel> use_pblok(vector<pixel> original, vector<int> key)
+vector<pixel> use_pblok(vector<pixel>* original_ad, vector<int>* key_ad)
 {
 	/*
 	Применяет pblok к массиву с пикселями. Возвращает уже перемешанный
 	*/
 	vector<pixel> p_pixel;
+	vector<pixel> original = *original_ad;
+	vector<int> key = *key_ad;
 	pixel temp;
 	for (int i = 0; i < key.size(); i++)
 	{
