@@ -29,6 +29,23 @@ vector<int> pblok_key(int pblok_lenght)
 
 	return key;
 }
+vector<int> sblok_like_vigener_key(int count)
+{
+	/*
+	Генерирует случайные числа по модулю 256, которые будут являться элементами ключа
+	key[i] = x, где x -> [0..255]
+	Принимает размер ключа, возвращает массив с случайными числами
+	*/
+	vector<int> key;
+	int temp;
+	for (int i = 0; i < count; i++)
+	{
+		temp = rand() % 256;
+		key.push_back(temp);
+	}
+
+	return key;
+}
 
 vector<char> get_data(string addres)
 {
@@ -125,4 +142,31 @@ vector<pixel> use_pblok(vector<pixel> original, vector<int> key)
 		p_pixel.push_back(temp);
 	}
 	return p_pixel;
+}
+
+vector<char> sblok_like_cesar(vector<char>* data, int key)
+{
+	/*
+	Простой шифр Цезаря. Каждый байт складывается с ключом по модулю 256
+	*/
+	vector<char> new_data = *data;
+	for (int i = 0; i < new_data.size(); i++)
+		new_data[i] = (new_data[i] + key) % 256;
+
+	return new_data;
+}
+
+vector<char> sblok_like_vigener(vector<char>* data, vector<int>* k)
+{
+	/*
+	Шифр Виженера. Каждый байт складывается с числом, являющимся элементом ключа по модулю 256.
+	Если длина ключа больше, чем количество байт, то, когда ключ "заканчивается",
+	сложение продолжается с 0-ого элемента ключа
+	*/
+	vector<char> new_data = *data;
+	vector<int> key = *k;
+	for (int i = 0; i < new_data.size(); i++)
+		new_data[i] = (new_data[i] + key[i%key.size()]) % 256;
+
+	return new_data;
 }

@@ -11,43 +11,32 @@ using namespace std;
 
 int main()
 {
-	/*
-	ofstream out("out2.bmp");
-	vector<char> data = get_data("in.bmp");
-	for (int i = 0; i < data.size(); i++)
-		out << data[i];
-	*/
-
-	/*
-	ofstream out("test.pixel");
-	pixel pi = get_one_pixel("in.bmp", 0);
-	out<<pi.red<<pi.green<<pi.blue;
-	*/
-	vector<int> key = pblok_key(8);
+	extern int pblok_lenght;
+	extern int sblok_lenght;
 	ifstream in("in.bmp");
-	ofstream out("out.bmp");
-	char t;
+	ofstream out("out_S_like-vigener-32.bmp");
+
+	char temp;
+	vector<char> data;
+
 	for (int i = 0; i < 54; i++)
 	{
-		in.get(t);
-		out << t;
+		in.get(temp);
+		out << temp;
 	}
 
-	vector<pixel> temp, next;
-	int seek = 54;
-	while (seek!=100*100*3 + 54)
+	while (!in.eof())
 	{
-		temp = get_some_pixel("in.bmp", seek, 8);
-		next = use_pblok(temp, key);
-		for (int i = 0; i < next.size(); i++)
-		{
-			out << next[i].red;
-			out << next[i].green;
-			out << next[i].blue;
-		}
-		seek = seek + 8*3;
+		in.get(temp);
+		data.push_back(temp);
 	}
 
+	vector<char> uns;
+	vector<int> key = sblok_like_vigener_key(sblok_lenght);
+	uns = sblok_like_vigener(&data, &key);
+	//uns = sblok_like_cesar(&data, 100);
+	for (int i = 0; i < uns.size(); i++)
+		out << uns[i];
 
 	return 0;
 }
