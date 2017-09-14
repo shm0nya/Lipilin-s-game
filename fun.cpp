@@ -7,7 +7,20 @@
 using namespace std;
 
 #include "fun.h"
-#include "config.h"
+
+int NOD(int a, int b)
+{
+	/*
+	Ищет остатки от деления. см Алгоритм Евклида
+	https://habrahabr.ru/sandbox/60131/
+	*/
+	while (a && b)
+		if (a >= b)
+			a %= b;
+		else
+			b %= a;
+	return a | b;
+}
 
 vector<int> pblok_key(int pblok_lenght)
 {
@@ -45,6 +58,31 @@ vector<int> sblok_like_vigener_key(int count)
 	}
 
 	return key;
+}
+RSA RSA_key(int p, int q)
+{
+	/*
+	Генерирует все данные для RSA
+	http://www.paveldvlip.ru/algorithms/rsa.html
+	e генерируется чмурудно\
+	d не реализовано
+	*/
+	RSA temp;
+
+	temp.p = p;
+	temp.q = q;
+	temp.n = p*q;
+	temp.fi = (p - 1) * (q - 1);
+	
+	int e = rand() % temp.fi;
+	while (NOD(e, temp.fi) != 1)
+		e = rand() % temp.fi;
+
+	temp.e = e;
+	
+
+
+	return temp;
 }
 
 vector<char> get_data(string addres)
