@@ -79,8 +79,13 @@ RSA RSA_key(int p, int q)
 		e = rand() % temp.fi;
 
 	temp.e = e;
-	
 
+	for (int i = 2; i < temp.fi; i++)
+		if ((temp.e*i) % temp.fi == 1)
+		{
+			temp.d = i;
+			break;
+		}
 
 	return temp;
 }

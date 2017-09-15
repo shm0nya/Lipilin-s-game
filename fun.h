@@ -1,49 +1,6 @@
 ﻿#ifndef MODULE1_H
 #define MODULE1_H
 
-int NOD(int a, int b);
-
-class matrix
-{
-private:
-	/*
-	Матрица будет задаваться ввиде двумерного вектора
-	*/
-	vector<vector<int>> data;
-public:
-	matrix(int h_size = 2, int w_size = 2)
-	{
-		/*
-		Конструктор
-		*/
-		for (int i = 0; i < h_size; i++)
-		{
-			vector<int> temp;
-			for (int j = 0; j < w_size; j++)
-				temp.push_back(j);
-			data.push_back(temp);
-		}
-	}
-	void multiply(vector<vector<int>> mult)
-	{
-		/*умножение*/
-	}
-	vector <vector<int>> get_matrix()
-	{
-		/*
-		Получить матрицу
-		*/
-		return data;
-	}
-	void set_matrix(vector<vector<int>> new_data)
-	{
-		/*
-		Задать свою матрицу
-		*/
-		data = new_data;
-	}
-
-};
 struct pixel
 {
 	/*
@@ -58,14 +15,18 @@ struct RSA {
 	/*
 	RSA. Необходимы p,q,fi,e,d
 	Хранит всё. Избыточно, но все пригодится
+	vector<int> d создан для того, чтобы пользователь сам мог выбрать пару ключей e, d
+	Вдруг не понравятся?..
 	*/
 	int p;
 	int q; 
 	int n;  // n = p*q 
 	int fi; // fi = (p-1)(q-1)
 	int e;  // 1 < e < fi
-	int d;  // d*e = 1(mod fi)
+	int d;  // d*e = 1(mod fi) 
 };
+
+int NOD(int a, int b);
 
 vector<int> pblok_key (int pblok_lenght);
 vector<int> sblok_like_vigener_key(int count);

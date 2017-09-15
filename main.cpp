@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -14,29 +15,16 @@ int main()
 	extern int pblok_lenght;
 	extern int sblok_lenght;
 	ifstream in("in.bmp");
-	ofstream out("out_S_like-vigener-32.bmp");
+	ofstream out("out.bmp");
 
-	char temp;
-	vector<char> data;
+	RSA test;
+	test = RSA_key(3, 11);
 
-	for (int i = 0; i < 54; i++)
-	{
-		in.get(temp);
-		out << temp;
-	}
-
-	while (!in.eof())
-	{
-		in.get(temp);
-		data.push_back(temp);
-	}
-
-	vector<char> uns;
-	vector<int> key = sblok_like_vigener_key(sblok_lenght);
-	uns = sblok_like_vigener(&data, &key);
-	//uns = sblok_like_cesar(&data, 100);
-	for (int i = 0; i < uns.size(); i++)
-		out << uns[i];
+	int m = 3;
+	double c = pow(m, test.e);
+	cout << c;
+	double m2 = pow(c, test.d);
+	cout << m2;
 
 	return 0;
 }
