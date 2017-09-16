@@ -7,6 +7,24 @@
 using namespace std;
 
 #include "fun.h"
+string int_into_string(int value)
+{
+	/*
+	Перевод Ineger в строку
+	*/
+	if (value == 0)
+		return "0";
+
+	string unswer = "";
+	while (value > 0)
+	{
+		int temp = value % 10;
+		char a = temp + '0';
+		unswer = a + unswer;
+		value = value / 10;
+	}
+	return unswer;
+}
 
 int NOD(int a, int b)
 {

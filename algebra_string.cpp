@@ -73,6 +73,17 @@ void string_int::add(string summand)
 		}
 	}
 }
+
+int string_int::value_into_int()
+{
+	/*
+	Перевод из string в integer
+	*/
+	int unswer = 0;
+	for (int i = value.size() - 1; i >= 0; i--)
+	{
+		int temp = value[i] - '0';
+		unswer = unswer + temp * pow(10, i);
 	}
 	return unswer;
 }
