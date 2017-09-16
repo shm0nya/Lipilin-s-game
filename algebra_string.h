@@ -19,6 +19,8 @@ public:
 	void add(string summand);
 	void multiplicate(string mult);
 	void power(int range); // Надеюсь не надо будет возводить в 2^32 степень
+	void divide(string divider);
+	void subtract(string subtr);
 	int value_into_int();
 };
 

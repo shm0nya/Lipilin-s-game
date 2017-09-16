@@ -17,7 +17,8 @@ int main()
 	ifstream in("in.bmp");
 	ofstream out("out.bmp");
 
-	string_int test("5");
-	cout << compare("2000", "2000");
+	string_int test("1000");
+	test.subtract("902");
+	cout << test.get_value();
 	return 0;
 }
