@@ -8,7 +8,7 @@ using namespace std;
 
 #include "fun.h"
 #include "config.h"
-
+#include "algebra_string.h"
 
 int main()
 {
@@ -17,14 +17,9 @@ int main()
 	ifstream in("in.bmp");
 	ofstream out("out.bmp");
 
-	RSA test;
-	test = RSA_key(3, 11);
-
-	int m = 3;
-	double c = pow(m, test.e);
-	cout << c;
-	double m2 = pow(c, test.d);
-	cout << m2;
+	string_int test("313");
+	test.add("900");
+	cout  << test.get_value();
 
 	return 0;
 }
