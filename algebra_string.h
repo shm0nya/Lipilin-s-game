@@ -21,4 +21,6 @@ public:
 	int value_into_int();
 };
 
+string int_into_string(int value);
+
 #endif

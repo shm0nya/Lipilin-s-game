@@ -6,6 +6,26 @@ using namespace std;
 
 #include "algebra_string.h"
 
+string int_into_string(int value)
+{
+	/*
+	Перевод Ineger в строку
+	*/
+	if (value == 0)
+		return "0";
+
+	string unswer = "";
+	while (value > 0)
+	{
+		int temp = value % 10;
+		char a = temp + '0';
+		unswer = a + unswer;
+		value = value / 10;
+	}
+	return unswer;
+}
+
+//////////////////////////////Class metods///////////////////////////
 
 string_int::string_int(string str = "0")
 {
@@ -180,3 +200,4 @@ int string_int::value_into_int()
 	}
 	return unswer;
 }
+

@@ -27,7 +27,6 @@ struct RSA {
 };
 
 int NOD(int a, int b);
-string int_into_string(int value);
 
 vector<int> pblok_key (int pblok_lenght);
 vector<int> sblok_like_vigener_key(int count);
