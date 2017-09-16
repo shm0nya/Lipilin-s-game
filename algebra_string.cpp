@@ -1,4 +1,5 @@
 ﻿#include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -71,4 +72,7 @@ void string_int::add(string summand)
 			migrate = 0;
 		}
 	}
+}
+	}
+	return unswer;
 }

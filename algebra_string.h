@@ -8,6 +8,7 @@ class string_int
 	Дабы исключить возможность того, что будет переполнение предлагаю использовать строки
 	Ну или тестируйте c long long
 	Не включена поддержка отрицательных значений
+	Не включена поддержка проверки "влезает значение в int или нет"
 	*/
 private:
 	string value;
@@ -16,6 +17,7 @@ public:
 	string get_value();
 	void set_value(string new_value);
 	void add(string summand);
+	int value_into_int();
 };
 
 #endif

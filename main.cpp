@@ -18,8 +18,9 @@ int main()
 	ofstream out("out.bmp");
 
 	string_int test("313");
-	test.add("900");
-	cout  << test.get_value();
-
+	int c = test.value_into_int();
+	cout << c;
+	string str = int_into_string(0);
+	cout << ' ' << str;
 	return 0;
 }
