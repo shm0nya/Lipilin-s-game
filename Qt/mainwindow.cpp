@@ -18,8 +18,8 @@ MainWindow::~MainWindow()
 void MainWindow::Login()
 {
     QString name_login = ui->TextLogin->text();
-    sWindow = new Home_windows();
-    sWindow -> setLogin(name_login);
+    sWindow = new Home_windows(name_login);
+    //sWindow -> setLogin(name_login);
     sWindow->show();  // Показываем основное окно
     this->close();
 }

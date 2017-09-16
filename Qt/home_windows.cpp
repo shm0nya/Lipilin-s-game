@@ -4,29 +4,29 @@
 #include <QBuffer>
 #include <QFile>
 
-Home_windows::Home_windows(QWidget *parent) :
+Home_windows::Home_windows(QString str_login, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Home_windows)
 {
+    login_name = str_login;
     ui->setupUi(this);
 
-    //connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(Test()));
     ui->label_level->setText(level);
+    ui->label_login->setText(login_name);
+    ui->listWidget->addItem(login_name);
+
+    ui->pushButton->setStyleSheet( " background-color: green; " ); // ЗЁЛЕНАЯ КНОПКА
 
     soket = new QUdpSocket(this);
     soket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
     connect(soket, SIGNAL(readyRead()), this, SLOT(ready())); // ловим udp дейтаграммы
+    UserList = config(); // получаем IP адреса
+    StatusOnline(); // становимся онлайн (рассылка UDP пакетов)
 }
 
 Home_windows::~Home_windows()
 {
     delete ui;
-}
-
-void Home_windows::setLogin(const QString& str_login)
-{
-    login_name = str_login;
-    ui->label_login->setText(str_login);
 }
 
 /*
@@ -66,13 +66,82 @@ void Home_windows::ready()
     {
         QString temp = "";
         datagramma.replace(0, 6, temp);
+        level = datagramma;
         ui->label_level->setText(datagramma);
+    }
+    else if ((datagramma.left(8) == "1online:") || (datagramma.left(7) == "online:"))
+    {
+        QString temp = "";
+        bool first = false;
+        if (datagramma.left(8) == "1online:")
+        {
+            datagramma.replace(0, 8, temp);
+            first = true;
+        }
+        else if (datagramma.left(7) == "online:")
+             datagramma.replace(0, 7, temp);
+
+        if (UserList[sender.toString()] == "")
+        {
+            UserList[sender.toString()] = datagramma;
+            ui->listWidget->addItem(datagramma);
+        }
+        else
+        {
+            for (int i = 0; i < ui->listWidget ->count(); i++)
+            {
+                if (UserList[sender.toString()] == ui->listWidget->item(i)->text())
+                {
+                    delete ui->listWidget->takeItem(i);
+                    break;
+                }
+            }
+
+            UserList[sender.toString()] = datagramma;
+            ui->listWidget->addItem(datagramma);
+        }
+
+        if (first)
+        {
+            QByteArray Data;
+            Data.append("online:");
+            Data.append(login_name);
+            soket->writeDatagram(Data,QHostAddress(sender), 65201);
+        }
     }
     else
     {
         QImage image;
         image.loadFromData(buffer, "BMP");
-        ui->label_2->setPixmap(QPixmap::fromImage(image));
-        ui->label_2->setScaledContents(true);
+        //ui->label_2->setPixmap(QPixmap::fromImage(image));
+        //ui->label_2->setScaledContents(true);
+    }
+}
+
+QMap<QString,QString> Home_windows::config()
+{
+    QMap<QString,QString> list;
+    QFile file("config.txt");
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return list;
+
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        QString IPaddress = in.readLine();
+        list[IPaddress] = "";
+    }
+    file.close();
+    return list;
+}
+
+void Home_windows::StatusOnline()
+{
+    for(auto e : UserList.keys())
+    {
+        QByteArray Data;
+        Data.append("1online:");
+        Data.append(login_name);
+        soket->writeDatagram(Data,QHostAddress(e), 65201);
     }
 }

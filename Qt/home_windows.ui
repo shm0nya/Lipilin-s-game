@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label_login">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>10</y>
-     <width>191</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
@@ -141,6 +128,42 @@ font: 75 10pt &quot;Verdana&quot;;</string>
        <y>280</y>
        <width>311</width>
        <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_login">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>10</y>
+       <width>191</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>login</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_level">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>40</y>
+       <width>201</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>lvl</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>10</y>
+       <width>191</width>
+       <height>101</height>
       </rect>
      </property>
     </widget>
@@ -404,24 +427,6 @@ font: 75 10pt &quot;Verdana&quot;;</string>
       </property>
      </widget>
     </widget>
-    <zorder>label_6</zorder>
-    <zorder>label_7</zorder>
-    <zorder>label_5</zorder>
-    <zorder>label_login</zorder>
-    <zorder>label_login</zorder>
-    <zorder>label_8</zorder>
-    <zorder>widget</zorder>
-    <zorder>widget_2</zorder>
-    <zorder>label_9</zorder>
-    <zorder>label_10</zorder>
-    <zorder>label_11</zorder>
-    <zorder>pushButton_2</zorder>
-    <zorder>pushButton_3</zorder>
-    <zorder>pushButton_4</zorder>
-    <zorder>pushButton_5</zorder>
-    <zorder>pushButton_6</zorder>
-    <zorder>pushButton_8</zorder>
-    <zorder>frame</zorder>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -478,8 +483,6 @@ font: 75 10pt &quot;Verdana&quot;;</string>
     </widget>
    </widget>
   </widget>
-  <zorder>tabWidget</zorder>
-  <zorder>label_login</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -14,9 +14,10 @@ class Home_windows : public QWidget
     Q_OBJECT
 
 public:
-    explicit Home_windows(QWidget *parent = 0);
+    explicit Home_windows(QString str_login, QWidget *parent = 0);
     ~Home_windows();
-    void setLogin(const QString& str_login);
+    QMap<QString,QString> config();
+    void StatusOnline();
     QString takeLogin() const { return login_name; }
 
 private slots:
@@ -32,6 +33,7 @@ private:
     QString level = "1"; // уровень
 
     QUdpSocket *soket; //сокет
+    QMap<QString,QString> UserList;
 
 };
 

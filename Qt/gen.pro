@@ -21,6 +21,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     home_windows.ui
-
+	
 CONFIG += c++11
 
