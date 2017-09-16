@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QObject>
+#include <QList>
 #include <QUdpSocket>
 
 namespace Ui {
@@ -31,7 +32,9 @@ private:
     Ui::Home_windows *ui;
     QString login_name; // логин
     QString level = "1"; // уровень
-
+    QString key; // ключ
+    QString iOverhear; // кого пользователь прослушивает
+    QList <QString> meOverhear; // кто пользователя прослушивает
     QUdpSocket *soket; //сокет
     QMap<QString,QString> UserList;
 
