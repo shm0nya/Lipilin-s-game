@@ -17,8 +17,7 @@ int main()
 	ifstream in("in.bmp");
 	ofstream out("out.bmp");
 
-	string_int test("13");
-	test.multiplicate("0");
-	cout << test.get_value();
+	string_int test("5");
+	test.power(2);
 	return 0;
 }

@@ -201,3 +201,10 @@ int string_int::value_into_int()
 	return unswer;
 }
 
+void string_int::power(int range)
+{
+	string mult = value;
+	for (int i = 1; i < range; i++)
+		this->multiplicate(mult);
+}
+

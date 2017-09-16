@@ -18,6 +18,7 @@ public:
 	void set_value(string new_value);
 	void add(string summand);
 	void multiplicate(string mult);
+	void power(int range); // Надеюсь не надо будет возводить в 2^32 степень
 	int value_into_int();
 };
 
