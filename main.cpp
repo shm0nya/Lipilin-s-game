@@ -17,10 +17,8 @@ int main()
 	ifstream in("in.bmp");
 	ofstream out("out.bmp");
 
-	string_int test("313");
-	int c = test.value_into_int();
-	cout << c;
-	string str = int_into_string(0);
-	cout << ' ' << str;
+	string_int test("13");
+	test.multiplicate("0");
+	cout << test.get_value();
 	return 0;
 }

@@ -17,6 +17,7 @@ public:
 	string get_value();
 	void set_value(string new_value);
 	void add(string summand);
+	void multiplicate(string mult);
 	int value_into_int();
 };
 
