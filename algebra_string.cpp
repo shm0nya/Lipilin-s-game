@@ -187,6 +187,23 @@ void string_int::multiplicate(string mult)
 		this->add(adding_values[i]);
 }
 
+void string_int::power(int range)
+{
+	/*
+	Возведение в степень - умножение value n раз
+	В начале сохраняется множитель затем поднимается до n-ой степени.
+	Первоначальная степень = 1
+	*/
+	if (range == 0)
+	{
+		value = "1";
+		return;
+	}
+	string mult = value;
+	for (int i = 1; i < range; i++)
+		this->multiplicate(mult);
+}
+
 int string_int::value_into_int()
 {
 	/*
@@ -201,10 +218,23 @@ int string_int::value_into_int()
 	return unswer;
 }
 
-void string_int::power(int range)
+string compare(string a, string b)
 {
-	string mult = value;
-	for (int i = 1; i < range; i++)
-		this->multiplicate(mult);
+	if (a.size() > b.size())
+		return "more";
+	else
+		if (a.size() < b.size())
+			return "less";
+
+	for (int i = a.size() - 1; i >= 0; i--)
+	{
+		if (a[i] > b[i])
+			return "more";
+		else
+			if (a[i] < b[i])
+				return "less";
+	}
+
+	return "same";
 }
 

@@ -18,6 +18,6 @@ int main()
 	ofstream out("out.bmp");
 
 	string_int test("5");
-	test.power(2);
+	cout << compare("2000", "2000");
 	return 0;
 }

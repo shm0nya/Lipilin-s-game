@@ -23,5 +23,6 @@ public:
 };
 
 string int_into_string(int value);
+string compare(string a, string b);
 
 #endif
