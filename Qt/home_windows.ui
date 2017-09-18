@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>981</width>
-     <height>571</height>
+     <width>961</width>
+     <height>591</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -27,208 +27,293 @@
 font: 75 10pt &quot;Verdana&quot;;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
      <string>Tab 1</string>
     </attribute>
-    <widget class="QTableView" name="tableView">
-     <property name="geometry">
-      <rect>
-       <x>520</x>
-       <y>50</y>
-       <width>371</width>
-       <height>401</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>40</y>
-       <width>61</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Уровень:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>10</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Ваш логин:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>120</y>
-       <width>471</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Введите логин того человека, с кем хотите вести переписку:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>240</y>
-       <width>491</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Введите логин того человека, чьи сообщения хотите перехватывать:</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>402</y>
-       <width>171</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">selection-background-color: rgb(255, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>Готово</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>150</y>
-       <width>311</width>
-       <height>41</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>280</y>
-       <width>311</width>
-       <height>41</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_login">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>10</y>
-       <width>191</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>login</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_level">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>40</y>
-       <width>201</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>lvl</string>
-     </property>
-    </widget>
     <widget class="QListWidget" name="listWidget">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>590</x>
        <y>10</y>
-       <width>191</width>
-       <height>101</height>
+       <width>361</width>
+       <height>511</height>
       </rect>
      </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>531</width>
+       <height>511</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="left_layout">
+      <item>
+       <layout class="QVBoxLayout" name="summary_show_componation">
+        <item>
+         <layout class="QHBoxLayout" name="login_componation">
+          <item>
+           <layout class="QHBoxLayout" name="login_show">
+            <item>
+             <widget class="QLabel" name="login_show_lbl">
+              <property name="text">
+               <string>Ваш логин:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_login">
+              <property name="text">
+               <string>login</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="level_componation">
+          <item>
+           <layout class="QHBoxLayout" name="level_show">
+            <item>
+             <widget class="QLabel" name="level_show_lbl">
+              <property name="text">
+               <string>Уровень:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_level">
+              <property name="text">
+               <string>lvl</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="friend_show_componation">
+          <item>
+           <widget class="QLabel" name="friend_sho_who_it_lbl">
+            <property name="text">
+             <string>Вы общаeтесь с:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="friend_show_who_it_value">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>188</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="opponent_show_componation">
+          <item>
+           <widget class="QLabel" name="opponent_show_is_lbl">
+            <property name="text">
+             <string>Вы перехватываете сообщение у:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="opponent_show_is_value">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>248</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="summary_edit_componation">
+        <item>
+         <layout class="QHBoxLayout" name="friend_edit_componation">
+          <item>
+           <layout class="QVBoxLayout" name="friend_edit_show">
+            <item>
+             <widget class="QLabel" name="friend_show_lbl">
+              <property name="text">
+               <string>Введите логин того человека, с кем хотите вести переписку:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="friend_show_line_edit">
+              <item>
+               <widget class="QLineEdit" name="friend_edit"/>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="opponent_edit_componation">
+          <item>
+           <layout class="QVBoxLayout" name="opponent_edit_show">
+            <item>
+             <widget class="QLabel" name="opponent_edit_show_text">
+              <property name="text">
+               <string>Введите логин того человека, чьи сообщения хотите перехватывать:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="opponent_show_line_edit">
+              <item>
+               <widget class="QLineEdit" name="opponent_edit"/>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
      <string>Tab 2</string>
     </attribute>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>10</y>
-       <width>101</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Ваш логин:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>40</y>
-       <width>71</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Уровень:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>20</y>
-       <width>61</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ЗАДАНИЕ:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_8">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>20</y>
-       <width>541</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>100</y>
+       <x>10</x>
+       <y>130</y>
        <width>331</width>
        <height>291</height>
       </rect>
@@ -238,56 +323,17 @@ font: 75 10pt &quot;Verdana&quot;;</string>
      <property name="geometry">
       <rect>
        <x>590</x>
-       <y>100</y>
+       <y>140</y>
        <width>331</width>
        <height>291</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_9">
+    <widget class="QPushButton" name="Button_Sblok_use">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>80</y>
-       <width>161</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Исходное изображение</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_10">
-     <property name="geometry">
-      <rect>
-       <x>670</x>
-       <y>80</y>
-       <width>211</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Зашифрованное изображение</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_11">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>150</y>
-       <width>151</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Выберите действия:</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>410</x>
-       <y>190</y>
+       <x>390</x>
+       <y>180</y>
        <width>141</width>
        <height>23</height>
       </rect>
@@ -296,11 +342,11 @@ font: 75 10pt &quot;Verdana&quot;;</string>
       <string>Замена (S)</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="Button_Pblok_use">
      <property name="geometry">
       <rect>
-       <x>410</x>
-       <y>260</y>
+       <x>390</x>
+       <y>220</y>
        <width>141</width>
        <height>23</height>
       </rect>
@@ -313,7 +359,7 @@ font: 75 10pt &quot;Verdana&quot;;</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>420</y>
+       <y>470</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -361,71 +407,251 @@ font: 75 10pt &quot;Verdana&quot;;</string>
       <string>Применить</string>
      </property>
     </widget>
-    <widget class="QFrame" name="frame">
+    <widget class="QWidget" name="layoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>450</y>
-       <width>301</width>
-       <height>61</height>
+       <x>340</x>
+       <y>10</y>
+       <width>331</width>
+       <height>71</height>
       </rect>
      </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+     <layout class="QHBoxLayout" name="S_key_componate">
+      <item>
+       <layout class="QVBoxLayout" name="S_key_info_componate">
+        <item>
+         <layout class="QHBoxLayout" name="S_key_value_componate">
+          <item>
+           <widget class="QLabel" name="S_key_value_show_lbl">
+            <property name="text">
+             <string>Ключ S:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>18</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="S_key_line_edit">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="S_key_size_componate">
+          <item>
+           <widget class="QLabel" name="S_key_size_show_lbl">
+            <property name="text">
+             <string>Длина:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="S_key_size_slider">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="S_key_size_spinBox">
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="singleStep">
+             <number>2</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="S_key_generate_button">
+        <property name="text">
+         <string>Задать</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>321</width>
+       <height>68</height>
+      </rect>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+     <layout class="QHBoxLayout" name="P_key_componate">
+      <item>
+       <layout class="QVBoxLayout" name="P_key_info_componate">
+        <item>
+         <layout class="QHBoxLayout" name="P_key_value_componate">
+          <item>
+           <widget class="QLabel" name="P_key_value_show_lbl">
+            <property name="text">
+             <string>Ключ P:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>18</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="P_key_line_edit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="P_key_size_componate">
+          <item>
+           <widget class="QLabel" name="P_key_size_show_lbl">
+            <property name="text">
+             <string>Длина:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="P_key_size_slider">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="P_key_size_spinBox">
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="singleStep">
+             <number>2</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="P_key_generate_button">
+        <property name="text">
+         <string>Задать</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>10</y>
+       <width>245</width>
+       <height>86</height>
+      </rect>
      </property>
-     <widget class="QWidget" name="widget_3" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>61</width>
-        <height>61</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="widget_4" native="true">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>0</y>
-        <width>61</width>
-        <height>61</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="widget_5" native="true">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>0</y>
-        <width>61</width>
-        <height>61</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="widget_6" native="true">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>0</y>
-        <width>61</width>
-        <height>61</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="widget_7" native="true">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>0</y>
-        <width>61</width>
-        <height>61</height>
-       </rect>
-      </property>
-     </widget>
+     <layout class="QVBoxLayout" name="show_now_use">
+      <item>
+       <widget class="QLabel" name="show_now_use_header">
+        <property name="text">
+         <string>Сейчас используются ключи:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="show_now_use_grid">
+        <item row="0" column="1">
+         <widget class="QLabel" name="show_now_use_value">
+          <property name="text">
+           <string>Значениe                </string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="show_now_use_P_value">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="show_now_use_S_value">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="show_now_use_P_size">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="show_now_use_S_size">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="show_now_use_size">
+          <property name="text">
+           <string>Длина</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="show_now_use_key">
+          <property name="text">
+           <string>Ключ</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="show_now_use_P">
+          <property name="text">
+           <string>P</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="show_now_use_S">
+          <property name="text">
+           <string>S</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_3">
@@ -485,5 +711,38 @@ font: 75 10pt &quot;Verdana&quot;;</string>
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>P_key_size_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>P_key_size_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>160</x>
+     <y>89</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>S_key_size_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>S_key_size_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>603</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>582</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

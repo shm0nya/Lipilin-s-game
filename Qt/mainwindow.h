@@ -19,8 +19,12 @@ public:
     ~MainWindow();
 
 private slots:
-    // Кнопки
-    void Login();
+    /*
+     * Два слота. Первый проверка на правильность ввода
+     * Второй - открытие основных окон.
+    */
+    void ok_enabled();
+    void on_Login_button_clicked();
 
 private:
     Ui::MainWindow *ui;

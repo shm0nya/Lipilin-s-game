@@ -1,6 +1,8 @@
 ﻿#ifndef MODULE1_H
 #define MODULE1_H
 
+using namespace std;
+
 struct pixel
 {
 	/*

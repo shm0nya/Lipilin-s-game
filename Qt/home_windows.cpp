@@ -1,27 +1,30 @@
 #include "home_windows.h"
 #include "ui_home_windows.h"
 
+#include <fun.h>
+
 #include <QBuffer>
 #include <QFile>
+#include <QString>
 
 Home_windows::Home_windows(QString str_login, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Home_windows)
 {
-    login_name = str_login;
     ui->setupUi(this);
+    // Tab 1:
+    login_name = str_login;
+    /*--------------------------------------------------------------*/
+    // Tab 2:
+    ui->Button_Pblok_use->setEnabled(false);
+    ui->Button_Sblok_use->setEnabled(false);
 
-    ui->label_level->setText(level);
-    ui->label_login->setText(login_name);
-    ui->listWidget->addItem(login_name);
+    /*
+     * Ловит ошибки
+    */
+    error* n = new error();
+    QObject::connect(this,SIGNAL(mistake(QString)),n,SLOT(send_error(QString)));
 
-    ui->pushButton->setStyleSheet( " background-color: green; " ); // ЗЁЛЕНАЯ КНОПКА
-
-    soket = new QUdpSocket(this);
-    soket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
-    connect(soket, SIGNAL(readyRead()), this, SLOT(ready())); // ловим udp дейтаграммы
-    UserList = config(); // получаем IP адреса
-    StatusOnline(); // становимся онлайн (рассылка UDP пакетов)
 }
 
 Home_windows::~Home_windows()
@@ -29,119 +32,132 @@ Home_windows::~Home_windows()
     delete ui;
 }
 
+/*------------------ TAB 1 ---------------------------------------*/
+
+void Home_windows::on_friend_edit_editingFinished()
+{
+    /*
+     * После того, как ввод пользователем завершен, идет проверка наличия такого человека
+     * Проверка того, что не перехватывает у того же, у кого и принимает
+     * #!Проверка пока не реализована
+     * После этого идёт изменение значения в поле, где показывается информация
+     * Затем строка очищается
+    */
+    ui->friend_show_who_it_value->setText(ui->friend_edit->text());
+    ui->friend_edit->clear();
+}
+
+void Home_windows::on_opponent_edit_editingFinished()
+{
+    /*
+     * После того, как ввод пользователем завершен, идет проверка наличия такого человека
+     * Проверка того, что не перехватывает у того же, у кого и принимает
+     * #!Проверка пока не реализована
+     * Указывается в атрибуте класса iOverhear, что он прослушивает данного человека
+     * После этого идёт изменение значения в поле, где показывается информация
+     * Затем строка очищается
+    */
+    iOverhear = ui->opponent_edit->text();
+    ui->opponent_show_is_value->setText(ui->opponent_edit->text());
+    ui->opponent_edit->clear();
+}
+
+/*----------------- TAB 2 ----------------------------------------*/
+
 /*
-void Home_windows::Test()
-{
-
-
-    QFile file("D:\\1.bmp");
-    file.open(QIODevice::ReadOnly);
-
-    QByteArray Data = file.readAll();
-    file.close();
-
-
-
-
-    QByteArray Data;
-    Data.append("level:5");
-
-    soket->writeDatagram(Data,QHostAddress("192.168.1.102"), 65201);
-}
+ * Изменение для spinBox сделаны через QTDesigner (изменение сигналов и слотов, F4)
 */
-void Home_windows::ready()
+
+void Home_windows::on_P_key_size_slider_valueChanged(int value)
 {
-    QByteArray buffer; //Дейтаграмма
-    buffer.resize(soket->pendingDatagramSize());
-
-    QHostAddress sender; // IP отправителя
-    quint16 senderPort; // Port
-
-    soket->readDatagram(buffer.data(), buffer.size(),&sender, &senderPort);
-
-    QString datagramma (buffer);
-
-    //анализируем дейтаграмму
-    if (datagramma.left(6) == "level:")
-    {
-        QString temp = "";
-        datagramma.replace(0, 6, temp);
-        level = datagramma;
-        ui->label_level->setText(datagramma);
-    }
-    else if ((datagramma.left(8) == "1online:") || (datagramma.left(7) == "online:"))
-    {
-        QString temp = "";
-        bool first = false;
-        if (datagramma.left(8) == "1online:")
-        {
-            datagramma.replace(0, 8, temp);
-            first = true;
-        }
-        else if (datagramma.left(7) == "online:")
-             datagramma.replace(0, 7, temp);
-
-        if (UserList[sender.toString()] == "")
-        {
-            UserList[sender.toString()] = datagramma;
-            ui->listWidget->addItem(datagramma);
-        }
-        else
-        {
-            for (int i = 0; i < ui->listWidget ->count(); i++)
-            {
-                if (UserList[sender.toString()] == ui->listWidget->item(i)->text())
-                {
-                    delete ui->listWidget->takeItem(i);
-                    break;
-                }
-            }
-
-            UserList[sender.toString()] = datagramma;
-            ui->listWidget->addItem(datagramma);
-        }
-
-        if (first)
-        {
-            QByteArray Data;
-            Data.append("online:");
-            Data.append(login_name);
-            soket->writeDatagram(Data,QHostAddress(sender), 65201);
-        }
-    }
-    else
-    {
-        QImage image;
-        image.loadFromData(buffer, "BMP");
-        //ui->label_2->setPixmap(QPixmap::fromImage(image));
-        //ui->label_2->setScaledContents(true);
-    }
+    /* У слайдера нельзя задать шаг 2, при перемещении его мышкой,
+     * поэтому это делается искусственно.
+     * good_value = value + 1 при нечетном, и value + 0 при четном
+     * Дополнительно меняет значение счетчика на соответствующее
+    */
+    int good_value;
+    good_value = value+value%2;
+    ui->P_key_size_slider->setValue(good_value);
+    ui->P_key_size_spinBox->setValue(good_value);
 }
 
-QMap<QString,QString> Home_windows::config()
+void Home_windows::on_S_key_size_slider_valueChanged(int value)
 {
-    QMap<QString,QString> list;
-    QFile file("config.txt");
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return list;
-
-    QTextStream in(&file);
-    while (!in.atEnd())
-    {
-        QString IPaddress = in.readLine();
-        list[IPaddress] = "";
-    }
-    file.close();
-    return list;
+    /* Аналогично, как и для P slider
+     * У слайдера нельзя задать шаг 2, при перемещении его мышкой,
+     * поэтому это делается искусственно.
+     * good_value = value + 1 при нечетном, и value + 0 при четном
+     * Дополнительно меняет значение счетчика на соответствующее
+    */
+    int good_value;
+    good_value = value+value%2;
+    ui->S_key_size_slider->setValue(good_value);
+    ui->S_key_size_spinBox->setValue(good_value);
 }
 
-void Home_windows::StatusOnline()
+void Home_windows::on_P_key_generate_button_clicked()
 {
-    for(auto e : UserList.keys())
+    /* При нажатии проверяет: 1) задано ли генерирующее слово
+     *                        2) Длина = 0 или нет
+     * В случае не выполнения данных условий - выводи окно ошибки и завершается метод
+     *
+     * В случае успеха - выводит данные пользователю:label show_now_use...
+     * Затем генерирует ключ перестановок, записывает его в атрибут p_key
+     * Делает активной клавишу "зашифровать P"
+    */
+    if (ui->P_key_line_edit->text() == "")
     {
-        QByteArray Data;
-        Data.append("1online:");
-        Data.append(login_name);
-        soket->writeDatagram(Data,QHostAddress(e), 65201);
+        emit mistake("Не задан ключ Р");
+        return;
     }
+
+    if (ui->P_key_size_spinBox->value()==0)
+    {
+        emit mistake("Длина ключа Р не может быть = 0");
+        return;
+    }
+
+    QString new_size = QString("%1").arg(ui->P_key_size_spinBox->value());
+    ui->show_now_use_P_size->setText(new_size);
+    ui->show_now_use_P_value->setText(ui->P_key_line_edit->text());
+
+    //srand();
+    p_key = pblok_key(ui->P_key_size_spinBox->value());
+
+    ui->Button_Pblok_use->setEnabled(true);
+}
+
+void Home_windows::on_S_key_generate_button_clicked()
+{
+    /* При нажатии проверяет: 1) задано ли генерирующее слово
+     *                        2) Длина = 0 или нет
+     * В случае не выполнения данных условий - выводи окно ошибки и завершается метод
+     *
+     * #!!! Реализован Виженер, а не SBLOK
+     *
+     * В случае успеха - выводит данные пользователю:label show_now_use...
+     * Затем генерирует ключ перестановок, записывает его в атрибут p_key
+     * Делает активной клавишу "Зашифровать S"
+    */
+    if (ui->S_key_line_edit->text() == "")
+    {
+        emit mistake("Не задан ключ S");
+        return;
+    }
+
+    if (ui->S_key_size_spinBox->value()==0)
+    {
+        emit mistake("Длина ключа S не может быть = 0");
+        return;
+    }
+
+
+    QString new_size = QString("%1").arg(ui->S_key_size_spinBox->value());
+    ui->show_now_use_S_size->setText(new_size);
+    ui->show_now_use_S_value->setText(ui->S_key_line_edit->text());
+
+    //srand();
+    s_key = pblok_key(ui->S_key_size_spinBox->value());
+
+    ui->Button_Sblok_use->setEnabled(true);
 }
