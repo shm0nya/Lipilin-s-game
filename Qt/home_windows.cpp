@@ -15,6 +15,8 @@ Home_windows::Home_windows(QString str_login, QWidget *parent) :
     ui->setupUi(this);
     // Tab 1:
     login_name = str_login;
+    ui->label_login->setText(login_name);
+    ui->label_level->setText("1");
     /*--------------------------------------------------------------*/
     // Tab 2:
     ui->Button_Pblok_use->setEnabled(false);
@@ -29,7 +31,7 @@ Home_windows::~Home_windows()
 
 /*------------------ TAB 1 ---------------------------------------*/
 
-void Home_windows::on_friend_edit_editingFinished()
+void Home_windows::on_Button_firend_deited__clicked()
 {
     /*
      * После того, как ввод пользователем завершен, идет проверка наличия такого человека
@@ -42,7 +44,7 @@ void Home_windows::on_friend_edit_editingFinished()
     ui->friend_edit->clear();
 }
 
-void Home_windows::on_opponent_edit_editingFinished()
+void Home_windows::on_Button_opponent_edited_clicked()
 {
     /*
      * После того, как ввод пользователем завершен, идет проверка наличия такого человека

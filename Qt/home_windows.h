@@ -33,10 +33,9 @@ private slots:
 
    // void ready();
 
+    void on_Button_firend_deited__clicked();
 
-    void on_friend_edit_editingFinished();
-
-    void on_opponent_edit_editingFinished();
+    void on_Button_opponent_edited_clicked();
 
     void on_P_key_size_slider_valueChanged(int value);
 
@@ -49,6 +48,7 @@ private slots:
     void on_Button_load_origin_img_clicked();
 
     void on_Button_save_img_clicked();
+
 
 private:
     Ui::Home_windows *ui;
@@ -63,6 +63,7 @@ private:
     std::vector<int> p_key;
     std::vector<int> s_key;
     QPixmap Loaded_image;
+    QPixmap Encrypted_image;
 };
 
 
