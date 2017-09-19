@@ -170,8 +170,17 @@ void Home_windows::on_Button_load_origin_img_clicked()
 
     img_original_puth = QFileDialog::getOpenFileName(
                 this,
-                tr("Open File"),
-                "C://",
+                tr("Выберите файл"),
+                "C:\\",
                 "All files (*.*);; Image file (*.bmp)"
+                );
+}
+
+void Home_windows::on_Button_save_img_clicked()
+{
+    img_save_puth_to_dir = QFileDialog::getExistingDirectory(
+                this,
+                tr("Выбреите директорию"),
+                "C:\\"
                 );
 }

@@ -48,6 +48,8 @@ private slots:
 
     void on_Button_load_origin_img_clicked();
 
+    void on_Button_save_img_clicked();
+
 private:
     Ui::Home_windows *ui;
     QString login_name; // логин
@@ -61,6 +63,7 @@ private:
     std::vector<int> p_key;
     std::vector<int> s_key;
     QString img_original_puth;
+    QString img_save_puth_to_dir;
 };
 
 

@@ -31,7 +31,7 @@ font: 75 10pt &quot;Verdana&quot;;</string>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>Tab 1</string>
+     <string>Информация</string>
     </attribute>
     <widget class="QListWidget" name="listWidget">
      <property name="geometry">
@@ -307,7 +307,7 @@ font: 75 10pt &quot;Verdana&quot;;</string>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>Tab 2</string>
+     <string>Шифрование</string>
     </attribute>
     <widget class="QWidget" name="img_original" native="true">
      <property name="geometry">
@@ -381,11 +381,11 @@ font: 75 10pt &quot;Verdana&quot;;</string>
       <string>Отправить</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="Button_save_img">
      <property name="geometry">
       <rect>
-       <x>844</x>
-       <y>440</y>
+       <x>820</x>
+       <y>420</y>
        <width>81</width>
        <height>23</height>
       </rect>
