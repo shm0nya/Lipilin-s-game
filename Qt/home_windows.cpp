@@ -6,6 +6,7 @@
 #include <QBuffer>
 #include <QFile>
 #include <QString>
+#include <QFileDialog>
 
 Home_windows::Home_windows(QString str_login, QWidget *parent) :
     QWidget(parent),
@@ -18,12 +19,6 @@ Home_windows::Home_windows(QString str_login, QWidget *parent) :
     // Tab 2:
     ui->Button_Pblok_use->setEnabled(false);
     ui->Button_Sblok_use->setEnabled(false);
-
-    /*
-     * Ловит ошибки
-    */
-    error* n = new error();
-    QObject::connect(this,SIGNAL(mistake(QString)),n,SLOT(send_error(QString)));
 
 }
 
@@ -107,13 +102,13 @@ void Home_windows::on_P_key_generate_button_clicked()
     */
     if (ui->P_key_line_edit->text() == "")
     {
-        emit mistake("Не задан ключ Р");
+        QMessageBox::information(this,"Error","Не задан ключ P");
         return;
     }
 
     if (ui->P_key_size_spinBox->value()==0)
     {
-        emit mistake("Длина ключа Р не может быть = 0");
+        QMessageBox::information(this,"Error","Длина ключа P не может быть = 0");
         return;
     }
 
@@ -141,13 +136,13 @@ void Home_windows::on_S_key_generate_button_clicked()
     */
     if (ui->S_key_line_edit->text() == "")
     {
-        emit mistake("Не задан ключ S");
+        QMessageBox::information(this,"Error","Не задан ключ S");
         return;
     }
 
     if (ui->S_key_size_spinBox->value()==0)
     {
-        emit mistake("Длина ключа S не может быть = 0");
+        QMessageBox::information(this,"Error","Длина ключа S не может быть = 0");
         return;
     }
 
@@ -160,4 +155,23 @@ void Home_windows::on_S_key_generate_button_clicked()
     s_key = pblok_key(ui->S_key_size_spinBox->value());
 
     ui->Button_Sblok_use->setEnabled(true);
+}
+
+void Home_windows::on_Button_load_origin_img_clicked()
+{
+    /*
+     * Хитрый класс QFileDialog
+     * Метод getOpenFileName открывает окошко и позволяет вытащить адрес открываемого файла
+     * Принимает в себя параметры:  this - текущее окно
+     *                              tr("Open File") - Заголовок в окне
+     *                              "C://" по идее должна быть папка по умолчанию. Иначе в том месте, где запущена программа
+     *                              Типы файлов, указывается ->  название+маска
+    */
+
+    img_original_puth = QFileDialog::getOpenFileName(
+                this,
+                tr("Open File"),
+                "C://",
+                "All files (*.*);; Image file (*.bmp)"
+                );
 }

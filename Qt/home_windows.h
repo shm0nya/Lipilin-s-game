@@ -6,6 +6,8 @@
 #include <QList>
 #include <QUdpSocket>
 #include <QMessageBox>
+//-------- Работа с изображениями-------//
+#include <QImage>
 
 #include <fun.h>
 
@@ -44,9 +46,7 @@ private slots:
 
     void on_S_key_generate_button_clicked();
 
-signals:
-    void mistake (QString str);
-
+    void on_Button_load_origin_img_clicked();
 
 private:
     Ui::Home_windows *ui;
@@ -60,27 +60,7 @@ private:
     /*----------------------------------------------*/
     std::vector<int> p_key;
     std::vector<int> s_key;
-};
-
-
-class error: public QObject
-{
-    // Простой класс для вывод ошибок. Код ошибки - на будущее, мб
-    Q_OBJECT
-private:
-    int code;
-public slots:
-
-    void send_error(QString str)
-    {
-        /*
-         * Принимает один параметра - строку ошибки.
-         * Выводит на экран данные об этой ошибке
-        */
-        QMessageBox msg;
-        msg.setText(str);
-        msg.exec();
-    }
+    QString img_original_puth;
 };
 
 
