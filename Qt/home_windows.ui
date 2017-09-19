@@ -309,65 +309,6 @@ font: 75 10pt &quot;Verdana&quot;;</string>
     <attribute name="title">
      <string>Шифрование</string>
     </attribute>
-    <widget class="QWidget" name="img_original" native="true">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>331</width>
-       <height>291</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QWidget" name="img_afto_encr_or_decr" native="true">
-     <property name="geometry">
-      <rect>
-       <x>580</x>
-       <y>110</y>
-       <width>331</width>
-       <height>291</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Button_Sblok_use">
-     <property name="geometry">
-      <rect>
-       <x>390</x>
-       <y>180</y>
-       <width>141</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Замена (S)</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Button_Pblok_use">
-     <property name="geometry">
-      <rect>
-       <x>390</x>
-       <y>220</y>
-       <width>141</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Перестановка (P)</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Button_load_origin_img">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>420</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Загрузить</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton_5">
      <property name="geometry">
       <rect>
@@ -381,24 +322,11 @@ font: 75 10pt &quot;Verdana&quot;;</string>
       <string>Отправить</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="Button_save_img">
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>420</y>
-       <width>81</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Сохранить</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton_8">
      <property name="geometry">
       <rect>
-       <x>670</x>
-       <y>470</y>
+       <x>740</x>
+       <y>480</y>
        <width>81</width>
        <height>23</height>
       </rect>
@@ -653,6 +581,160 @@ font: 75 10pt &quot;Verdana&quot;;</string>
       </item>
      </layout>
     </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>120</y>
+       <width>352</width>
+       <height>334</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="componate_load">
+      <item>
+       <widget class="QLabel" name="img_label_original">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>300</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_load_button">
+        <item>
+         <widget class="QPushButton" name="Button_load_origin_img">
+          <property name="text">
+           <string>Загрузить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_12">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>120</y>
+       <width>131</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="componate_PS_button">
+      <item>
+       <widget class="QPushButton" name="Button_Sblok_use">
+        <property name="text">
+         <string>Замена (S)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Button_Pblok_use">
+        <property name="text">
+         <string>Перестановка (P)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>120</y>
+       <width>351</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="componate_save">
+      <item>
+       <widget class="QLabel" name="img_label_after">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>300</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_save_button">
+        <item>
+         <widget class="QPushButton" name="Button_save_img">
+          <property name="text">
+           <string>Сохранить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_13">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <zorder>Button_Sblok_use</zorder>
+    <zorder>Button_Pblok_use</zorder>
+    <zorder>Button_load_origin_img</zorder>
+    <zorder>pushButton_5</zorder>
+    <zorder>Button_save_img</zorder>
+    <zorder>pushButton_8</zorder>
+    <zorder>layoutWidget_2</zorder>
+    <zorder>layoutWidget</zorder>
+    <zorder>layoutWidget</zorder>
+    <zorder>img_label_original</zorder>
+    <zorder>img_label_after</zorder>
+    <zorder>horizontalSpacer_9</zorder>
+    <zorder>horizontalSpacer_12</zorder>
+    <zorder>verticalSpacer_2</zorder>
+    <zorder>verticalSpacer_3</zorder>
+    <zorder>Button_Sblok_use</zorder>
+    <zorder>horizontalSpacer_13</zorder>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">

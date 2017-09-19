@@ -7,7 +7,7 @@
 #include <QUdpSocket>
 #include <QMessageBox>
 //-------- Работа с изображениями-------//
-#include <QImage>
+#include <QPixmap>
 
 #include <fun.h>
 
@@ -62,8 +62,7 @@ private:
     /*----------------------------------------------*/
     std::vector<int> p_key;
     std::vector<int> s_key;
-    QString img_original_puth;
-    QString img_save_puth_to_dir;
+    QPixmap Loaded_image;
 };
 
 

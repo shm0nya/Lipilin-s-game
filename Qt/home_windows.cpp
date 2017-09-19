@@ -168,17 +168,35 @@ void Home_windows::on_Button_load_origin_img_clicked()
      *                              Типы файлов, указывается ->  название+маска
     */
 
-    img_original_puth = QFileDialog::getOpenFileName(
+    QString img_original_puth = QFileDialog::getOpenFileName(
                 this,
                 tr("Выберите файл"),
                 "C:\\",
                 "All files (*.*);; Image file (*.bmp)"
                 );
+
+    /*
+     * Новое изображение загружается
+     *
+     * #! При загрузке старое должно стиратсья - не реализовано
+     *
+     * Переменные wid и hei обозначают соответственно ширину и высоту
+     * Введены для большей понятности кода
+    */
+
+    Loaded_image.load(img_original_puth);
+    int wid = ui->img_label_original->width();
+    int hei = ui->img_label_original->height();
+    ui->img_label_original->setPixmap(Loaded_image.scaled(wid,hei));
 }
 
 void Home_windows::on_Button_save_img_clicked()
 {
-    img_save_puth_to_dir = QFileDialog::getExistingDirectory(
+    /*
+     * Метод getExistingDirectory, работает аналогично getOpenFileName
+     * (см: void Home_windows::on_Button_load_origin_img_clicked() или документацию (F1))
+    */
+    QString img_save_puth_to_dir = QFileDialog::getExistingDirectory(
                 this,
                 tr("Выбреите директорию"),
                 "C:\\"
