@@ -10,6 +10,7 @@
 #include <QPixmap>
 
 #include <fun.h>
+#include <send_messege.h>
 
 namespace Ui {
 class Home_windows;
@@ -27,28 +28,8 @@ public:
     QString takeLogin() const { return login_name; }
 
 private slots:
-    // Кнопки
-    //void Test();
 
-
-   // void ready();
-
-    void on_Button_firend_deited__clicked();
-
-    void on_Button_opponent_edited_clicked();
-
-    void on_P_key_size_slider_valueChanged(int value);
-
-    void on_S_key_size_slider_valueChanged(int value);
-
-    void on_P_key_generate_button_clicked();
-
-    void on_S_key_generate_button_clicked();
-
-    void on_Button_load_origin_img_clicked();
-
-    void on_Button_save_img_clicked();
-
+    void on_button_send_messege_clicked();
 
 private:
     Ui::Home_windows *ui;
@@ -60,10 +41,8 @@ private:
     QUdpSocket *soket; //сокет
     QMap<QString,QString> UserList;
     /*----------------------------------------------*/
-    std::vector<int> p_key;
-    std::vector<int> s_key;
-    QPixmap Loaded_image;
-    QPixmap Encrypted_image;
+    send_messege send_messege_window;
+
 };
 
 

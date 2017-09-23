@@ -15,14 +15,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     home_windows.cpp \
-    fun.cpp
+    fun.cpp \
+    send_messege.cpp
 
 HEADERS  += mainwindow.h \
     home_windows.h \
-    fun.h
+    fun.h \
+    send_messege.h
 
 FORMS    += mainwindow.ui \
-    home_windows.ui
+    home_windows.ui \
+    send_messege.ui
 	
 CONFIG += c++11
+
+QMAKE_CXXFLAGS_DEBUG += -gdwarf-3
+
 
