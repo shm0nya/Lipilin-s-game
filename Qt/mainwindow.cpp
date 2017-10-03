@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     */
 
     ui->Login_button->setEnabled(false);
-    QRegExp is_login_variable("[a-zA-Z0-9]{0,20}");
+    QRegExp is_login_variable("[a-zA-Z0-9]{1,20}");
     ui->login_edit->setValidator(new QRegExpValidator(is_login_variable, this)); // Необходимо указывать родителся, чтобы автоматически удаляться при закрытии данного окна
 
     connect(ui->login_edit,SIGNAL(textChanged(QString)),this,SLOT(ok_enabled()));

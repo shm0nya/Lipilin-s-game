@@ -31,11 +31,12 @@ private slots:
 
     void on_button_send_messege_clicked();
 
+    void ready();
+
 private:
     Ui::Home_windows *ui;
     QString login_name; // логин
-    QString level = "1"; // уровень
-    QString key; // ключ
+    QString level;
     QString iOverhear; // кого пользователь прослушивает
     QList <QString> meOverhear; // кто пользователя прослушивает
     QUdpSocket *soket; //сокет
