@@ -25,9 +25,6 @@ public:
     ~send_messege();
 
 private slots:
-    void on_p_key_size_edit_slider_valueChanged(int value);
-
-    void on_s_key_size_edit_slider_valueChanged(int value);
 
     void on_button_load_img_clicked();
 

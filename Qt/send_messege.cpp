@@ -15,28 +15,6 @@ send_messege::~send_messege()
     delete ui;
 }
 
-void send_messege::on_p_key_size_edit_slider_valueChanged(int value)
-{
-    /*
-     * Длина ключа должна быть кратной 2
-     * Длина ключа задается двумя элементами: slider, spinbox
-     * При смене значения на слайдере значения увеличивается до четного (или нет)
-    */
-    int good_value = value + value%2;
-    ui->p_key_size_edit_slider->setValue(good_value);
-    ui->p_key_size_edit_spbox->setValue(good_value);
-}
-
-void send_messege::on_s_key_size_edit_slider_valueChanged(int value)
-{
-    /*
-     * Смотри: void send_messege::on_p_key_size_edit_slider_valueChanged(int value)
-    */
-    int good_value = value + value%2;
-    ui->s_key_size_edit_slider->setValue(good_value);
-    ui->s_key_size_edit_spbox->setValue(good_value);
-}
-
 void send_messege::on_button_load_img_clicked()
 {
         /*
