@@ -299,19 +299,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="button_algoritm_crypto">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>550</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Зашифровать исходное сообщение по алгоритму</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
@@ -325,7 +312,7 @@
     <item>
      <widget class="QLabel" name="lbl_algoritm_show">
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>Созданный алгоритм шифрования:</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -335,7 +322,7 @@
     <item>
      <widget class="QLabel" name="lbl_algoritm_value">
       <property name="text">
-       <string>Созданный алгоритм шифрования:</string>
+       <string/>
       </property>
      </widget>
     </item>
@@ -354,16 +341,29 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QPushButton" name="button_send_messege">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>130</y>
+     <x>860</x>
+     <y>570</y>
+     <width>131</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Отправить сообщение</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>22</x>
+     <y>132</y>
      <width>872</width>
      <height>404</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="componate_center_img_buttons">
+   <layout class="QHBoxLayout" name="componate_img_center">
     <item>
      <layout class="QVBoxLayout" name="componate_img_original_with_all">
       <item>
@@ -392,13 +392,6 @@
          <widget class="QPushButton" name="button_load_img">
           <property name="text">
            <string>Загрузить</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="button_paint">
-          <property name="text">
-           <string>Нарисовать</string>
           </property>
          </widget>
         </item>
@@ -487,7 +480,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="componate_img_changed_with_all">
+     <layout class="QVBoxLayout" name="componate_img_changed">
       <item>
        <widget class="QLabel" name="lbl_img_changed">
         <property name="text">
@@ -509,45 +502,64 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="componate_button_save">
-        <item>
-         <widget class="QPushButton" name="button_save_img">
-          <property name="text">
-           <string>Сохарнить</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="button_send_messege">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>860</x>
-     <y>570</y>
-     <width>131</width>
-     <height>61</height>
+     <x>540</x>
+     <y>550</y>
+     <width>261</width>
+     <height>56</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Отправить сообщение</string>
-   </property>
+   <layout class="QVBoxLayout" name="componate_button_algoritme">
+    <item>
+     <widget class="QPushButton" name="button_algoritm_crypto">
+      <property name="text">
+       <string>Зашифровать исходное сообщение по алгоритму</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="componate_button_algoritme_delte">
+      <item>
+       <widget class="QPushButton" name="button_algoritm_crypto_delete">
+        <property name="text">
+         <string>Сбросить алгоритм</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

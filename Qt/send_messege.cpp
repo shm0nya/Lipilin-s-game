@@ -6,6 +6,7 @@ send_messege::send_messege(QWidget *parent) :
     ui(new Ui::send_messege)
 {
     ui->setupUi(this);
+    ui->lbl_algoritm_value->setText("");
     ui->button_crypto_p->setEnabled(!p_key.empty());
     ui->button_crypto_s->setEnabled(!s_key.empty());
 }
@@ -36,17 +37,22 @@ void send_messege::on_button_load_img_clicked()
         /*
          * Новое изображение загружается
          *
-         * #! При загрузке старое должно стиратсья - не реализовано
+         * После загрузки устанавливаюстя два изображения - оригинальное и "изменяемое"
          *
          * Переменные wid и hei обозначают соответственно ширину и высоту
          * Введены для большей понятности кода
         */
 
         Loaded_image.load(img_original_puth);
+        flag_new_image = true;
         Encrypted_image = Loaded_image;
         int wid = ui->img_original->width();
         int hei = ui->img_original->height();
         ui->img_original->setPixmap(QPixmap::fromImage(Loaded_image.scaled(wid,hei)));
+
+        int widch = ui->img_changed->width();
+        int heich = ui->img_changed->height();
+        ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
 }
 
 void send_messege::on_button_p_key_generate_clicked()
@@ -111,33 +117,15 @@ void send_messege::on_button_s_key_generate_clicked()
     ui->lbl_s_key_value->setText(ui->s_key_edit->text());
 }
 
-void send_messege::on_button_save_img_clicked()
-{
-    /*
-     * Метод getExistingDirectory, работает аналогично getOpenFileName
-     * (см: void Home_windows::on_Button_load_origin_img_clicked() или документацию (F1))
-    */
-    QString img_save_puth_to_dir = QFileDialog::getExistingDirectory(
-                this,
-                tr("Выберите директорию"),
-                "C:\\"
-                );
-}
-
-
 void send_messege::on_button_crypto_p_clicked()
 {
     /*
      * Сначал идет проверка, загружено ли изображение.
      * Если нет - выдается сообщение об ошибке.
      *
-     * Каждый пиксель задается своими координтами: высота и ширина.
-     * Используется цикл со счетчиком count от нуля до Высота*Ширина изображения.
-     * QImage.pixel(wid,hei)=Qmage.pixel(целая часть от деления count на ширину,
-     *                                      остаток от деления count на ширину)
+     * Проверка, на безграничность роста алгоритма
      *
-     * Считывается блок пикселей размером с длину блока, заданную пользователем,
-     * перемешивается, после чего записывается обратно в изображение.
+     * Шифрование
      *
      * После обработки добавляет букву "P" в алгоритм
      * Устанавливает зашифрованную картинку на экран
@@ -146,41 +134,25 @@ void send_messege::on_button_crypto_p_clicked()
     if(Loaded_image.isNull())
     {
         QMessageBox::information(this,"Error","Вы не загрузили изображение.");
-         return;
+        return;
     }
 
-    // Инициируются переменные для удобства использования
-    int wid = Encrypted_image.width();
-    int hei = Encrypted_image.height();
-    int p_size = p_key.size();
-
-    for (int i = 0; i < hei*wid;)
+    if (flag_new_image == true)
     {
-
-        // Считывание и шифрование
-        vector<QRgb> temp;
-        for (int j=0; j<p_size; j++)
-        {
-            QRgb t;
-            t=Encrypted_image.pixel(i%wid, i/wid);
-            temp.push_back(t);
-            i++;
-        }
-
-        // Шифроание и запись зашифрованных пикселей
-        if (temp.size()==p_size)
-        {
-            temp = use_pblok(temp, p_key);
-            for (int j = 0; j<p_size;j++)
-            {
-                int k=i-p_size+j;
-                Encrypted_image.setPixel(k%wid, k/wid, temp[j]);
-            }
-        }
+        flag_new_image = false;
+        ui->lbl_algoritm_value->setText("");
     }
 
-    QString new_algoritm = ui->lbl_algoritm_value->text() + "P";
-    ui->lbl_algoritm_value->setText(new_algoritm);
+    QString algoritm = ui->lbl_algoritm_value->text();
+    if (algoritm.size() > algoritme_size)
+    {
+        QMessageBox::information(this,"Error","Слишком большой алгоритм");
+        return;
+    }
+    algoritm += "P";
+    ui->lbl_algoritm_value->setText(algoritm);
+
+    Encrypted_image = encrypt_image_p(Encrypted_image, p_key);
 
     int lblwid = ui->img_changed->width();
     int lblhei = ui->img_changed->height();
@@ -190,42 +162,32 @@ void send_messege::on_button_crypto_p_clicked()
 
 void send_messege::on_button_crypto_s_clicked()
 {
+    /*
+     * Работает аналоично шифрованию P
+    */
     if(Loaded_image.isNull())
     {
         QMessageBox::information(this,"Error","Вы не загрузили изображение.");
          return;
     }
 
-    int wid = Encrypted_image.width();
-    int hei = Encrypted_image.height();
-    int blok_size = s_key.size();
-
-    // Считывание
-    for (int i = 0; i < hei*wid;)
+    if (flag_new_image == true)
     {
-        vector<QRgb> temp;
-        for (int j=0; j<blok_size; j++)
-        {
-            QRgb t;
-            t=Encrypted_image.pixel(i%wid, i/wid);
-            temp.push_back(t);
-            i++;
-        }
-
-        // Шифроание и запись зашифрованных пикселей
-        if (temp.size()==blok_size)
-        {
-            temp = sblok_like_vigener(temp, s_key);
-            for (int j = 0; j<blok_size;j++)
-            {
-                int k=i-blok_size+j;
-                Encrypted_image.setPixel(k%wid, k/wid, temp[j]);
-            }
-        }
+        flag_new_image = false;
+        ui->lbl_algoritm_value->setText("");
     }
 
-    QString new_algoritm = ui->lbl_algoritm_value->text() + "S";
-    ui->lbl_algoritm_value->setText(new_algoritm);
+    Encrypted_image = encrypt_image_s(Encrypted_image, s_key);
+
+    QString algoritm = ui->lbl_algoritm_value->text();
+    if (algoritm.size() > algoritme_size)
+    {
+        QMessageBox::information(this,"Error","Слишком большой алгоритм");
+        return;
+    }
+    algoritm += "S";
+    ui->lbl_algoritm_value->setText(algoritm);
+
 
     int lblwid = ui->img_changed->width();
     int lblhei = ui->img_changed->height();
@@ -236,9 +198,27 @@ void send_messege::on_button_crypto_s_clicked()
 void send_messege::on_button_algoritm_crypto_clicked()
 {
     /*
-     * На сегодня не реализовано
+     Считывает строку и шифрует, в зависимости от символа
     */
-    QMessageBox::information(this,"sorry","Нереализовано");
+    if (ui->lbl_algoritm_value->text()=="")
+    {
+        QMessageBox::information(this,"good_luck","Вы пытаетесь зашифровать без алгоритма");
+        return;
+    }
+
+    Encrypted_image = Loaded_image;
+    QString algoritme = ui->lbl_algoritm_value->text();
+    for (int i = 0; i<algoritme.size(); i++)
+    {
+        if(algoritme[i]=='P')
+            Encrypted_image = encrypt_image_p(Encrypted_image, p_key);
+        else
+            Encrypted_image = encrypt_image_s(Encrypted_image, s_key);
+    }
+    int lblwid = ui->img_changed->width();
+    int lblhei = ui->img_changed->height();
+
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
 }
 
 void send_messege::on_button_paint_clicked()
@@ -250,3 +230,75 @@ void send_messege::on_button_crypto_cansel_clicked()
 {
     QMessageBox::information(this,"sorry","Нереализовано");
 }
+
+void send_messege::on_button_algoritm_crypto_delete_clicked()
+{
+    ui->lbl_algoritm_value->setText("");
+}
+
+QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
+{
+    // Инициируются переменные для удобства использования
+    int wid = encrypted_image.width();
+    int hei = encrypted_image.height();
+    int p_size = pb_key.size();
+
+    for (int i = 0; i < hei*wid;)
+    {
+
+        // Считывание и шифрование
+        vector<QRgb> temp;
+        for (int j=0; j<p_size; j++)
+        {
+            QRgb t;
+            t=encrypted_image.pixel(i%wid, i/wid);
+            temp.push_back(t);
+            i++;
+        }
+
+        // Шифроание и запись зашифрованных пикселей
+        if (temp.size()==p_size)
+        {
+            temp = use_pblok(temp, pb_key);
+            for (int j = 0; j<p_size;j++)
+            {
+                int k=i-p_size+j;
+                encrypted_image.setPixel(k%wid, k/wid, temp[j]);
+            }
+        }
+    }
+    return encrypted_image;
+}
+
+QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
+{
+    int wid = encrypted_image.width();
+    int hei = encrypted_image.height();
+    int blok_size = sb_key.size();
+
+    // Считывание
+    for (int i = 0; i < hei*wid;)
+    {
+        vector<QRgb> temp;
+        for (int j=0; j<blok_size; j++)
+        {
+            QRgb t;
+            t=encrypted_image.pixel(i%wid, i/wid);
+            temp.push_back(t);
+            i++;
+        }
+
+        // Шифроание и запись зашифрованных пикселей
+        if (temp.size()==blok_size)
+        {
+            temp = sblok_like_vigener(temp, sb_key);
+            for (int j = 0; j<blok_size;j++)
+            {
+                int k=i-blok_size+j;
+                encrypted_image.setPixel(k%wid, k/wid, temp[j]);
+            }
+        }
+    }
+    return encrypted_image;
+}
+
