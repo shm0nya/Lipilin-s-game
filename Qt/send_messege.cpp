@@ -221,14 +221,32 @@ void send_messege::on_button_algoritm_crypto_clicked()
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
 }
 
-void send_messege::on_button_paint_clicked()
-{
-    QMessageBox::information(this,"sorry","Нереализовано");
-}
-
 void send_messege::on_button_crypto_cansel_clicked()
 {
-    QMessageBox::information(this,"sorry","Нереализовано");
+    QString algoritme = ui->lbl_algoritm_value->text();
+    if (algoritme == "")
+    {
+        QMessageBox::information(this,"Oops","Вы не применили ни один шифр");
+        return;
+    }
+
+    if (algoritme[algoritme.size()-1] == 'P')
+    {
+        vector<int> revers = pblok_key_revers(p_key);
+        Encrypted_image = encrypt_image_p(Encrypted_image, revers);
+    }
+    else
+    {
+
+    }
+    algoritme.chop(1);
+    ui->lbl_algoritm_value->setText(algoritme);
+
+
+    int lblwid = ui->img_changed->width();
+    int lblhei = ui->img_changed->height();
+
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
 }
 
 void send_messege::on_button_algoritm_crypto_delete_clicked()
@@ -259,7 +277,7 @@ QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
         // Шифроание и запись зашифрованных пикселей
         if (temp.size()==p_size)
         {
-            temp = use_pblok(temp, pb_key);
+            temp = pblok_use(temp, pb_key);
             for (int j = 0; j<p_size;j++)
             {
                 int k=i-p_size+j;

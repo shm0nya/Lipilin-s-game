@@ -66,7 +66,7 @@ vector <vector<int>> sblok_like_vigener_key(int count)
     return key;
 }
 
-vector<QRgb> use_pblok(vector<QRgb> &original, vector<int> &key)
+vector<QRgb> pblok_use(vector<QRgb> &original, vector<int> &key)
 {
     /*
     Применяет pblok к массиву с пикселями. Возвращает уже перемешанный
@@ -103,4 +103,26 @@ vector<QRgb> sblok_like_vigener(vector<QRgb> &data, vector<vector<int>> &key)
     }
 
     return data;
+}
+
+vector<int> pblok_key_revers(vector<int> &pblok_key)
+{
+    /*
+    Получает на вход p-блок, выводит обратный к нему пблок
+    Для каждого возможного элемента в p-блок ищет "обратный к нему"
+    Распиши пример на бумажке
+    */
+    vector<int> revers;
+    int i = 0;
+    while (i != pblok_key.size())
+    {
+        for (int j = 0; j < pblok_key.size(); j++)
+            if (pblok_key[j] == i)
+            {
+                revers.push_back(j);
+                break;
+            }
+        i++;
+    }
+    return revers;
 }
