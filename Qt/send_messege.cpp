@@ -6,6 +6,15 @@ send_messege::send_messege(QWidget *parent) :
     ui(new Ui::send_messege)
 {
     ui->setupUi(this);
+
+    Loaded_image.load(":/data/images/resourses/test.png");
+    Encrypted_image = Loaded_image;
+    int wid = ui->img_original->width();
+    int hei = ui->img_original->height();
+    ui->img_original->setPixmap(QPixmap::fromImage(Loaded_image.scaled(wid,hei)));
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(wid,hei)));
+
+
     ui->lbl_algoritm_value->setText("");
     ui->button_crypto_p->setEnabled(!p_key.empty());
     ui->button_crypto_s->setEnabled(!s_key.empty());

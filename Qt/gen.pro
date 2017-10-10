@@ -31,4 +31,7 @@ CONFIG += c++11
 
 QMAKE_CXXFLAGS_DEBUG += -gdwarf-3
 
+RESOURCES += \
+    resourses.qrc
+
 
