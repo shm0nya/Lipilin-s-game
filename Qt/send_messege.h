@@ -78,5 +78,6 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> pb_key);
                                                                            Возвращает зашифрованный QImage
                                                                            Алгоритм аналогичен "encrypt_image_p"
                                                                            */
+QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key); /*Делает то же, что и encrypt, только использует sblok_like_vigener_revers*/
 
 #endif // SEND_MESSEGE_H

@@ -236,9 +236,7 @@ void send_messege::on_button_crypto_cansel_clicked()
         Encrypted_image = encrypt_image_p(Encrypted_image, revers);
     }
     else
-    {
-
-    }
+        Encrypted_image = decrypt_image_s(Encrypted_image, s_key);
     algoritme.chop(1);
     ui->lbl_algoritm_value->setText(algoritme);
 
@@ -309,7 +307,39 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
         // Шифроание и запись зашифрованных пикселей
         if (temp.size()==blok_size)
         {
-            temp = sblok_like_vigener(temp, sb_key);
+            temp = sblok_like_vigener_use(temp, sb_key);
+            for (int j = 0; j<blok_size;j++)
+            {
+                int k=i-blok_size+j;
+                encrypted_image.setPixel(k%wid, k/wid, temp[j]);
+            }
+        }
+    }
+    return encrypted_image;
+}
+
+QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
+{
+    int wid = encrypted_image.width();
+    int hei = encrypted_image.height();
+    int blok_size = sb_key.size();
+
+    // Считывание
+    for (int i = 0; i < hei*wid;)
+    {
+        vector<QRgb> temp;
+        for (int j=0; j<blok_size; j++)
+        {
+            QRgb t;
+            t=encrypted_image.pixel(i%wid, i/wid);
+            temp.push_back(t);
+            i++;
+        }
+
+        // Шифроание и запись зашифрованных пикселей
+        if (temp.size()==blok_size)
+        {
+            temp = sblok_like_vigener_reverse(temp, sb_key);
             for (int j = 0; j<blok_size;j++)
             {
                 int k=i-blok_size+j;

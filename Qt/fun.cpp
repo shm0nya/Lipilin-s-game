@@ -81,7 +81,7 @@ vector<QRgb> pblok_use(vector<QRgb> &original, vector<int> &key)
     return p_pixel;
 }
 
-vector<QRgb> sblok_like_vigener(vector<QRgb> &data, vector<vector<int>> &key)
+vector<QRgb> sblok_like_vigener_use(vector<QRgb> &data, vector<vector<int>> &key)
 {
     /*
      * Принимает массив QRgb пикселей и vector< vector <key>> Ключ
@@ -126,3 +126,32 @@ vector<int> pblok_key_revers(vector<int> &pblok_key)
     }
     return revers;
 }
+
+vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> &key)
+{
+    /*
+     * Принимает массив QRgb пикселей и vector< vector <key>> Ключ
+     * Возвращает массив QRgb
+     * a + b (mod n) = c
+     * c - b (mod n) = a
+     * В данном случае ищем a, т.к. на входе подается уже зашифрованное изображение
+     * Поскольку у нас не конечное поле, то могут быть отрицательные значения, преобразуем к
+     * c - b + n (mod n) = a
+    */
+    for (int i = 0; i < data.size(); i++)
+    {
+        // Способ работы с пикселем - QColor
+        // Каждую составляющую складывает с ключом
+        QColor temp = QColor(data[i]);
+        int red = (temp.red() - key[0][i%key[0].size()] + 256) % 256; // Первый ключ соответствует red
+        temp.setRed(red);
+        int green = (temp.green() - key[1][i%key[1].size()] + 256) % 256; // Второй green
+        temp.setGreen(green);
+        int blue = (temp.blue() - key[2][i%key[2].size()] + 256) % 256; // Третий blue
+        temp.setBlue(blue);
+        data[i] = temp.rgb();
+    }
+
+    return data;
+}
+

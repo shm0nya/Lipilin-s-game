@@ -11,5 +11,6 @@ vector<int> pblok_key_revers(vector<int> &pblok_key);
 
 
 vector<vector<int>> sblok_like_vigener_key(int count);
-vector<QRgb> sblok_like_vigener(vector<QRgb> &data, vector<vector<int>> &key);
+vector<QRgb> sblok_like_vigener_use(vector<QRgb> &data, vector<vector<int>> &key);
+vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> &key);
 #endif
