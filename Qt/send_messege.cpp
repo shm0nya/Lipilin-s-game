@@ -66,14 +66,37 @@ void send_messege::on_button_load_img_clicked()
 
 void send_messege::on_button_p_key_generate_clicked()
 {
-    /* При нажатии проверяет: 1) задано ли генерирующее слово
-     *                        2) Длина = 0 или нет
+    /* Проверка как при нажатии на S
+     *
      * В случае не выполнения данных условий - выводи окно ошибки и завершается метод
      *
      * В случае успеха - выводит данные пользователю:label show_now_use...
      * Затем генерирует ключ перестановок, записывает его в атрибут p_key
      * Делает активной клавишу "зашифровать P"
     */
+
+    /* Проверка на "шифрование различными ключами" */
+    if (Loaded_image != Encrypted_image)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"warning",
+                              "Вы меняете ключ, при уже зашифрованной картинке "
+                              "это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы уверены в своем решении?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+        {
+            Encrypted_image = Loaded_image;
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+            flag_new_image = true;
+        }
+        else
+            return;
+    }
+
+    /* Проверка на "задан ли верно ключ" */
     if (ui->p_key_edit->text() == "")
     {
         QMessageBox::information(this,"Error","Не задан ключ P");
@@ -86,7 +109,14 @@ void send_messege::on_button_p_key_generate_clicked()
         return;
     }
 
-    p_key = pblok_key(ui->p_key_size_edit_spbox->value());
+    /* Инициирование стартового значения генератора */
+    string value_key = ui->p_key_edit->text().toStdString();
+    int generator_start = 0;
+    for (int i = 0; i < value_key.size(); i++)
+        generator_start = generator_start + value_key[i];
+
+
+    p_key = pblok_key(ui->p_key_size_edit_spbox->value(), generator_start);
     ui->button_crypto_p->setEnabled(true);
 
     QString str = QString("%1").arg(ui->p_key_size_edit_spbox->value());// Перевод int в строку
@@ -98,7 +128,10 @@ void send_messege::on_button_s_key_generate_clicked()
 {
     /* При нажатии проверяет: 1) задано ли генерирующее слово
      *                        2) Длина = 0 или нет
+     *
      * В случае не выполнения данных условий - выводи окно ошибки и завершается метод
+     *
+     * Проверяет следующую ситуацию: сообщение уже зашифровано, пользователь пытается шифровать на другом ключе
      *
 #!   * #!!! Реализован Виженер, а не SBLOK
      *
@@ -106,6 +139,29 @@ void send_messege::on_button_s_key_generate_clicked()
      * Затем генерирует ключ перестановок, записывает его в атрибут p_key
      * Делает активной клавишу "Зашифровать S"
     */
+
+    /* Проверка на "шифрование различными ключами" */
+    if (Loaded_image != Encrypted_image)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"warning",
+                              "Вы меняете ключ, при уже зашифрованной картинке "
+                              "это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы уверены в своем решении?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+        {
+            Encrypted_image = Loaded_image;
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+            flag_new_image = true;
+        }
+        else
+            return;
+    }
+
+    /* Проверка на "задан ли верно ключ" */
     if (ui->s_key_edit->text() == "")
     {
         QMessageBox::information(this,"Error","Не задан ключ S");
@@ -118,7 +174,14 @@ void send_messege::on_button_s_key_generate_clicked()
         return;
     }
 
-    s_key = sblok_like_vigener_key(ui->s_key_size_edit_spbox->value());
+    /* Инициирование стартового значения генератора */
+    string value_key = ui->s_key_edit->text().toStdString();
+    int generator_start = 0;
+    for (int i = 0; i < value_key.size(); i++)
+        generator_start = generator_start + value_key[i];
+
+
+    s_key = sblok_like_vigener_key(ui->s_key_size_edit_spbox->value(), generator_start);
     ui->button_crypto_s->setEnabled(true);
 
     QString str = QString("%1").arg(ui->s_key_size_edit_spbox->value());// Перевод int в строку
@@ -129,8 +192,7 @@ void send_messege::on_button_s_key_generate_clicked()
 void send_messege::on_button_crypto_p_clicked()
 {
     /*
-     * Сначал идет проверка, загружено ли изображение.
-     * Если нет - выдается сообщение об ошибке.
+     * Проверки как при нажатии S
      *
      * Проверка, на безграничность роста алгоритма
      *
@@ -258,6 +320,26 @@ void send_messege::on_button_crypto_cansel_clicked()
 
 void send_messege::on_button_algoritm_crypto_delete_clicked()
 {
+    if (Encrypted_image != Loaded_image)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"warning",
+                              "Вы меняете алгоритм, при уже зашифрованной картинке "
+                              "это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы уверены в своем решении?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+        {
+            Encrypted_image = Loaded_image;
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+            flag_new_image = true;
+        }
+        else
+            return;
+    }
+
     ui->lbl_algoritm_value->setText("");
 }
 

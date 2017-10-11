@@ -23,13 +23,17 @@ int NOD(int a, int b)
     return a | b;
 }
 
-vector<int> pblok_key(int pblok_lenght)
+vector<int> pblok_key(int pblok_lenght, int start)
 {
     /*
-    Функция, которая генерирует ключ перестановки
-    Ключ возвращается ввиде массива (vector), где
-    каждому i-ому символу соответствует его новое место
+     * Принимает на вход: int длина П-блока, стартовое значение ГСЧ
+     *
+     * Функция, которая генерирует ключ перестановки
+     * Ключ возвращается ввиде массива (vector), где
+     * каждому i-ому символу соответствует его новое место
     */
+    srand(start);
+
     vector<int> key;
     for (int i = 0; i < pblok_lenght; i++)
         key.push_back(i);
@@ -43,13 +47,17 @@ vector<int> pblok_key(int pblok_lenght)
 
     return key;
 }
-vector <vector<int>> sblok_like_vigener_key(int count)
+vector <vector<int>> sblok_like_vigener_key(int count, int start)
 {
     /*
-    Генерирует случайные числа по модулю 256, которые будут являться элементами ключа
-    key[i] = x, где x -> [0..255]
-    Принимает размер ключа, возвращает массив с случайными числами
+     * Принимает на вход: int длина S-блока, стартовое значение ГСЧ
+     *
+     * Генерирует случайные числа по модулю 256, которые будут являться элементами ключа
+     * key[i] = x, где x -> [0..255]
+     * Принимает размер ключа, возвращает массив с случайными числами
     */
+    srand(start);
+
     vector <vector<int>> key;
     for (int i = 0; i < 3; i++)
     {
