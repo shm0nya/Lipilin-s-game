@@ -54,3 +54,20 @@ void MainWindow::on_Login_button_clicked()
     sWindow->show();
     this->close();
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key()==Qt::Key_Return)
+    {
+        /*
+         * В начале создается окно mainwindow
+         * Пользователю предлагается ввести login. (QLineEdit = input_login)
+         * После чего открывается окно Home_windows, в него передается значение login
+         * Окно main закрывается
+        */
+        QString name_login = ui->login_edit->text();
+        sWindow = new Home_windows(name_login);
+        sWindow->show();
+        this->close();
+    }
+}

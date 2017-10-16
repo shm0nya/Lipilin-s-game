@@ -25,6 +25,7 @@ private slots:
     */
     void ok_enabled();
     void on_Login_button_clicked();
+    void MainWindow::keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::MainWindow *ui;
