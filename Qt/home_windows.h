@@ -5,9 +5,16 @@
 #include <QObject>
 #include <QList>
 #include <QUdpSocket>
-#include <QMessageBox>
+#include <QString>
+
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QPushButton>
 //-------- Работа с изображениями-------//
 #include <QPixmap>
+#include <QImage>
+
+#include <vector>
 
 #include <fun.h>
 #include <send_messege.h>
@@ -26,6 +33,7 @@ public:
     QMap<QString,QString> config();
     void StatusOnline();
     QString takeLogin() const { return login_name; }
+    void create_img_buttons(vector<vector<QImage>> &cut, int n, int m);
 
 private slots:
 
@@ -44,7 +52,15 @@ private:
     /*----------------------------------------------*/
     send_messege send_messege_window;
 
+    /* Deafult values */
 };
+
+vector <vector<QImage>> cut_image(QImage &image, int n, int m); /*Функция, которая разрезает изображение на n*m кусков
+                                                    #! Функция универсальная, но предполагается, что изображение 500*500
+                                                    Принимает Изображение, n,m
+                                                    Возвращает массив размера n*m с изображениями
+                                                    */
+
 
 
 #endif // HOME_WINDOWS_H
