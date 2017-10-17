@@ -1,24 +1,11 @@
-﻿#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <cmath>
+#include "mainwindow.h"
+#include <QApplication>
 
-using namespace std;
-
-#include "fun.h"
-#include "config.h"
-#include "algebra_string.h"
-
-int main()
+int main(int argc, char *argv[])
 {
-	extern int pblok_lenght;
-	extern int sblok_lenght;
-	ifstream in("in.bmp");
-	ofstream out("out.bmp");
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-	string_int test("1000");
-	test.subtract("902");
-	cout << test.get_value();
-	return 0;
+    return a.exec();
 }

@@ -1,8 +1,9 @@
-﻿#include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
 #include <map>
+
+#include<QRgb>
+#include <QColor>
 
 using namespace std;
 
@@ -10,208 +11,155 @@ using namespace std;
 
 int NOD(int a, int b)
 {
-	/*
-	Ищет остатки от деления. см Алгоритм Евклида
-	https://habrahabr.ru/sandbox/60131/
-	*/
-	while (a && b)
-		if (a >= b)
-			a %= b;
-		else
-			b %= a;
-	return a | b;
+    /*
+    Ищет остатки от деления. см Алгоритм Евклида
+    https://habrahabr.ru/sandbox/60131/
+    */
+    while (a && b)
+        if (a >= b)
+            a %= b;
+        else
+            b %= a;
+    return a | b;
 }
 
-vector<int> pblok_key(int pblok_lenght)
+vector<int> pblok_key(int pblok_lenght, int start)
 {
-	/*
-	Функция, которая генерирует ключ перестановки
-	Ключ возвращается ввиде массива (vector), где
-	каждому i-ому символу соответствует его новое место
-	*/
-	vector<int> key;
-	for (int i = 0; i < pblok_lenght; i++)
-		key.push_back(i);
+    /*
+     * Принимает на вход: int длина П-блока, стартовое значение ГСЧ
+     *
+     * Функция, которая генерирует ключ перестановки
+     * Ключ возвращается ввиде массива (vector), где
+     * каждому i-ому символу соответствует его новое место
+    */
+    srand(start);
 
-	int temp;
-	for (int i = 0; i < pblok_lenght; i++)
-	{
-		temp = rand() % pblok_lenght;
-		swap(key[i], key[temp]);
-	}
+    vector<int> key;
+    for (int i = 0; i < pblok_lenght; i++)
+        key.push_back(i);
 
-	return key;
+    int temp;
+    for (int i = 0; i < pblok_lenght; i++)
+    {
+        temp = rand() % pblok_lenght;
+        swap(key[i], key[temp]);
+    }
+
+    return key;
 }
-vector<int> sblok_like_vigener_key(int count)
+vector <vector<int>> sblok_like_vigener_key(int count, int start)
 {
-	/*
-	Генерирует случайные числа по модулю 256, которые будут являться элементами ключа
-	key[i] = x, где x -> [0..255]
-	Принимает размер ключа, возвращает массив с случайными числами
-	*/
-	vector<int> key;
-	int temp;
-	for (int i = 0; i < count; i++)
-	{
-		temp = rand() % 256;
-		key.push_back(temp);
-	}
+    /*
+     * Принимает на вход: int длина S-блока, стартовое значение ГСЧ
+     *
+     * Генерирует случайные числа по модулю 256, которые будут являться элементами ключа
+     * key[i] = x, где x -> [0..255]
+     * Принимает размер ключа, возвращает массив с случайными числами
+    */
+    srand(start);
 
-	return key;
+    vector <vector<int>> key;
+    for (int i = 0; i < 3; i++)
+    {
+        int temp;
+        vector<int> temp_key;
+        for (int j = 0; j < count; j++)
+        {
+            temp = rand() % 256;
+            temp_key.push_back(temp);
+        }
+          key.push_back(temp_key);
+    }
+
+    return key;
 }
-RSA RSA_key(int p, int q)
+
+vector<QRgb> pblok_use(vector<QRgb> &original, vector<int> &key)
 {
-	/*
-	Генерирует все данные для RSA
-	http://www.paveldvlip.ru/algorithms/rsa.html
-	e генерируется чмурудно\
-	d не реализовано
-	*/
-	RSA temp;
-
-	temp.p = p;
-	temp.q = q;
-	temp.n = p*q;
-	temp.fi = (p - 1) * (q - 1);
-	
-	int e = rand() % temp.fi;
-	while (NOD(e, temp.fi) != 1)
-		e = rand() % temp.fi;
-
-	temp.e = e;
-
-	for (int i = 2; i < temp.fi; i++)
-		if ((temp.e*i) % temp.fi == 1)
-		{
-			temp.d = i;
-			break;
-		}
-
-	return temp;
+    /*
+    Применяет pblok к массиву с пикселями. Возвращает уже перемешанный
+    */
+    vector<QRgb> p_pixel;
+    QRgb temp;
+    for (int i = 0; i < key.size(); i++)
+    {
+        temp = original[key[i]];
+        p_pixel.push_back(temp);
+    }
+    return p_pixel;
 }
 
-vector<char> get_data(string addres)
+vector<QRgb> sblok_like_vigener_use(vector<QRgb> &data, vector<vector<int>> &key)
 {
-	/*
-	char имеет размер 1 байт по стандарту. Побайтово
-	(по одному char) считываем файл метотдом get,
-	возвращает массив (vector) байт
+    /*
+     * Принимает массив QRgb пикселей и vector< vector <key>> Ключ
+     * Шифр Виженера. Каждый цвет пикселя складывается с соответствующим ключом в массиве ключей key
+     * Возвращает массив QRgb
+    */
+    for (int i = 0; i < data.size(); i++)
+    {
+        // Способ работы с пикселем - QColor
+        // Каждую составляющую складывает с ключом
+        QColor temp = QColor(data[i]);
+        int red = (temp.red() + key[0][i%key[0].size()]) % 256; // Первый ключ соответствует red
+        temp.setRed(red);
+        int green = (temp.green() + key[1][i%key[1].size()]) % 256; // Второй green
+        temp.setGreen(green);
+        int blue = (temp.blue() + key[2][i%key[2].size()]) % 256; // Третий blue
+        temp.setBlue(blue);
+        data[i] = temp.rgb();
+    }
 
-	принимает string - адрес файла. По дефолту ищет в папке проект (in.bmp)
-	*/
-
-	ifstream in(addres);
-	char temp;
-	vector<char> data;
-	while (!in.eof())
-	{
-		in.get(temp);
-		data.push_back(temp);
-	}
-
-	return data;
+    return data;
 }
 
-pixel get_one_pixel(string addres, int byte_seek)
+vector<int> pblok_key_revers(vector<int> &pblok_key)
 {
-	/*
-	Позволяет получить один пиксель из изображения c
-	определенным смещением. Смещение в байтах (1 пиксель 3 байта)
-	*/
-	ifstream in(addres);
-	in.seekg(byte_seek);
-	pixel temp;
-	in.get(temp.red);
-	in.get(temp.green);
-	in.get(temp.blue);
-	return temp;
+    /*
+    Получает на вход p-блок, выводит обратный к нему пблок
+    Для каждого возможного элемента в p-блок ищет "обратный к нему"
+    Распиши пример на бумажке
+    */
+    vector<int> revers;
+    int i = 0;
+    while (i != pblok_key.size())
+    {
+        for (int j = 0; j < pblok_key.size(); j++)
+            if (pblok_key[j] == i)
+            {
+                revers.push_back(j);
+                break;
+            }
+        i++;
+    }
+    return revers;
 }
 
-vector<pixel> get_all_pixels(string addres)
+vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> &key)
 {
-	/*
-	Возвращает массив (vector) пикселей. При этом пропускает bmp заголовок
-	bmp заголовок хранится в первых 54 байтах. В моем изображении из paint
-	тоже так было 
-	http://vbzero.narod.ru/chapter3/article_2.htm
-	*/
-	ifstream in(addres);
-	int seek = 54;
-	pixel temp;
-	vector<pixel> data;
-	while (!in.eof())
-	{
-		in.get(temp.red);
-		in.get(temp.green);
-		in.get(temp.blue);
-		data.push_back(temp);
-	}
+    /*
+     * Принимает массив QRgb пикселей и vector< vector <key>> Ключ
+     * Возвращает массив QRgb
+     * a + b (mod n) = c
+     * c - b (mod n) = a
+     * В данном случае ищем a, т.к. на входе подается уже зашифрованное изображение
+     * Поскольку у нас не конечное поле, то могут быть отрицательные значения, преобразуем к
+     * c - b + n (mod n) = a
+    */
+    for (int i = 0; i < data.size(); i++)
+    {
+        // Способ работы с пикселем - QColor
+        // Каждую составляющую складывает с ключом
+        QColor temp = QColor(data[i]);
+        int red = (temp.red() - key[0][i%key[0].size()] + 256) % 256; // Первый ключ соответствует red
+        temp.setRed(red);
+        int green = (temp.green() - key[1][i%key[1].size()] + 256) % 256; // Второй green
+        temp.setGreen(green);
+        int blue = (temp.blue() - key[2][i%key[2].size()] + 256) % 256; // Третий blue
+        temp.setBlue(blue);
+        data[i] = temp.rgb();
+    }
 
-	return data;
+    return data;
 }
 
-vector<pixel> get_some_pixel(string addres, int seek, int count)
-{
-	/*
-	Считывает определенное количество пикселей из файла из определенного места файла.
-	Возвращает массив (vector) из этих пикселей
-	*/
-	vector<pixel> data;
-	ifstream in(addres);
-	in.seekg(seek);
-
-	pixel temp;
-	for (int i = 0; i < count; i++)
-	{
-		in.get(temp.red);
-		in.get(temp.green);
-		in.get(temp.blue);
-		data.push_back(temp);
-	}
-
-	return data;
-}
-
-vector<pixel> use_pblok(vector<pixel>* original_ad, vector<int>* key_ad)
-{
-	/*
-	Применяет pblok к массиву с пикселями. Возвращает уже перемешанный
-	*/
-	vector<pixel> p_pixel;
-	vector<pixel> original = *original_ad;
-	vector<int> key = *key_ad;
-	pixel temp;
-	for (int i = 0; i < key.size(); i++)
-	{
-		temp = original[key[i]];
-		p_pixel.push_back(temp);
-	}
-	return p_pixel;
-}
-
-vector<char> sblok_like_cesar(vector<char>* data, int key)
-{
-	/*
-	Простой шифр Цезаря. Каждый байт складывается с ключом по модулю 256
-	*/
-	vector<char> new_data = *data;
-	for (int i = 0; i < new_data.size(); i++)
-		new_data[i] = (new_data[i] + key) % 256;
-
-	return new_data;
-}
-
-vector<char> sblok_like_vigener(vector<char>* data, vector<int>* k)
-{
-	/*
-	Шифр Виженера. Каждый байт складывается с числом, являющимся элементом ключа по модулю 256.
-	Если длина ключа больше, чем количество байт, то, когда ключ "заканчивается",
-	сложение продолжается с 0-ого элемента ключа
-	*/
-	vector<char> new_data = *data;
-	vector<int> key = *k;
-	for (int i = 0; i < new_data.size(); i++)
-		new_data[i] = (new_data[i] + key[i%key.size()]) % 256;
-
-	return new_data;
-}
