@@ -30,7 +30,24 @@ void choose_button::open_button(QImage img, int i, int j)
     pb->reverse_img = img;
     pb->i = i;
     pb->j = j;
-    pb->was_opening = false;
+    pb->was_opening = true;
+
+    connect(pb, &QPushButton::clicked, [this, pb](){
+        if (pb->reverse_img.isNull())
+            QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
+        else
+        {
+            emit i_choose_img(pb->reverse_img);
+            this->close();
+        }
+    });
+
     set_button(pb, i, j);
 }
 
+
+void choose_button::on_button_cancel_clicked()
+{
+    emit close_wnd();
+    this->close();
+}

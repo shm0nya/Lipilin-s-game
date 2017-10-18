@@ -39,6 +39,7 @@ void MainWindow::on_Login_button_clicked()
 
     connect(hWnd, SIGNAL(do_it(int, int)), this, SLOT(create_pb(int, int)));
     connect(hWnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
+    connect(ch_bWnd, SIGNAL(close_wnd()), this, SLOT(if_close_wnd()));
     connect(ch_bWnd, SIGNAL(i_choose_img(QImage)),this ,SLOT(then_choosen_img(QImage)));
 
     hWnd->show();
@@ -97,3 +98,8 @@ void MainWindow::then_opend_img(QImage img, int i, int j)
     ch_bWnd->open_button(img, i, j);
 }
 
+void MainWindow::if_close_wnd()
+{
+    smWnd->setEnabled(true);
+    smWnd->show();
+}

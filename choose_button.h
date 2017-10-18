@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QImage>
+#include <QMessageBox>
 #include <vector>
 #include "qpb_modify.h"
 
@@ -27,7 +28,10 @@ private:
 
 signals:
     void i_choose_img(QImage);
+    void close_wnd();
 
+private slots:
+    void on_button_cancel_clicked();
 };
 
 #endif // CHOOSE_BUTTON_H

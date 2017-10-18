@@ -31,6 +31,7 @@ private slots:
     void create_pb(int i, int j);
     void show_ch_wnd();
     void then_opend_img(QImage img, int i, int j);
+    void if_close_wnd();
     void then_choosen_img(QImage img);
 
 private:

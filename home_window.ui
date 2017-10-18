@@ -233,12 +233,12 @@
     <rect>
      <x>70</x>
      <y>400</y>
-     <width>75</width>
-     <height>23</height>
+     <width>281</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Кнопка, заменяющая сигнал СТАААРТ!!!</string>
    </property>
   </widget>
  </widget>
