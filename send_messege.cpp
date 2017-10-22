@@ -22,6 +22,10 @@ send_messege::send_messege(QWidget *parent) :
     ui->button_crypto_p->setEnabled(!p_key.empty());
     ui->button_crypto_s->setEnabled(!s_key.empty());
 
+    QRegExp is_value_variable("[a-zA-Z0-9а-яА-Я]{1,20}");
+    ui->p_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
+    ui->s_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
+
     connect(ui->button_send_messege, SIGNAL(clicked()), this, SIGNAL(change_wnd_to_homewnd()));
     connect(ui->button_choose_img, SIGNAL(clicked()), this, SIGNAL(show_ch_buttons_sign()));
 }
@@ -251,12 +255,14 @@ void send_messege::on_button_crypto_s_clicked()
 void send_messege::on_button_algoritm_crypto_clicked()
 {
     /* Считывает строку и шифрует, в зависимости от символа */
+
     if (ui->lbl_algoritm_value->text()=="")
     {
         QMessageBox::information(this,"good_luck","Вы пытаетесь зашифровать без алгоритма");
         return;
     }
 
+    flag_new_image = false;
     Encrypted_image = Loaded_image;
     QString algoritme = ui->lbl_algoritm_value->text();
     for (int i = 0; i<algoritme.size(); i++)
@@ -274,6 +280,12 @@ void send_messege::on_button_algoritm_crypto_clicked()
 
 void send_messege::on_button_crypto_cansel_clicked()
 {
+    if( flag_new_image == true)
+    {
+        QMessageBox::information(this, "error", "Вы не применили ни один шифр");
+        return;
+    }
+
     QString algoritme = ui->lbl_algoritm_value->text();
     if (algoritme == "")
     {

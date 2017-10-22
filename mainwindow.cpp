@@ -41,6 +41,7 @@ void MainWindow::on_Login_button_clicked()
     connect(hWnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
     connect(ch_bWnd, SIGNAL(close_wnd()), this, SLOT(if_close_wnd()));
     connect(ch_bWnd, SIGNAL(i_choose_img(QImage)),this ,SLOT(then_choosen_img(QImage)));
+    connect(ch_bWnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
 
     hWnd->show();
     this->close();

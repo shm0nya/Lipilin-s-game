@@ -45,7 +45,7 @@ private:
     std::vector<vector<int>> s_key;
     QImage Loaded_image;
     QImage Encrypted_image;
-    bool flag_new_image; /* В случае, когда пользователь состпаил алгоритм, загрузил изображение и жмет на кнопку P или S,
+    bool flag_new_image; /* В случае, когда пользователь составил алгоритм, загрузил изображение и жмет на кнопку P или S,
                                 необходимо сбросить кнопку, дабы алгоритм не рос постоянно
                          */
     int algoritme_size = 30;
