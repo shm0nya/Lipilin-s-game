@@ -10,6 +10,9 @@
 #include <QPixmap>
 #include <QImage>
 
+#include <QUdpSocket>
+#include <QMap>
+
 #include <vector>
 
 #include "qpb_modify.h"
@@ -30,6 +33,10 @@ public:
     ~home_window();
     void create_img_buttons(vector<vector<QImage>> &cut, int n, int m);
 
+    QMap<QString,QString> config();
+    void StatusOnline();
+    QString takeLogin() const { return login_name; }
+
 signals:
     void change_wnd_to_swnd();
     void do_it(int, int);
@@ -37,10 +44,18 @@ signals:
 
 private slots:
     void on_pushButton_clicked();
+    void ready();
 
 private:
     Ui::home_window *ui;
     QImage original_img;
+    QString login_name; // логин
+    QString key; // ключ
+    QString level;
+    QString iOverhear; // кого пользователь прослушивает
+    QList <QString> meOverhear; // кто пользователя прослушивает
+    QUdpSocket *soket; //сокет
+    QMap<QString,QString> UserList;
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m);
