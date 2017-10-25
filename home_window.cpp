@@ -93,8 +93,6 @@ void home_window::ready()
     {
         QImage image;
         image.loadFromData(buffer, "BMP");
-        //ui->label_2->setPixmap(QPixmap::fromImage(image));
-        //ui->label_2->setScaledContents(true);
     }
 }
 
@@ -130,10 +128,10 @@ void home_window::StatusOnline()
 vector <vector<QImage>> cut_image(QImage &image, int n, int m)
 {
     vector<vector<QImage>> cut;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i<m; i++)
     {
         vector<QImage> str_image;
-        for (int j = 0; j<m; j++)
+        for (int j = 0; j<n; j++)
         {
             QImage temp(100,100,image.format());
             for (int wid = j*100; wid<j*100+100; wid++)
@@ -171,10 +169,12 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m)
             pb->setIconSize(icon_size);
 
             connect(pb, &QPushButton::clicked, [this, pb](){
-                pb->setIcon(QPixmap::fromImage(pb->reverse_img));
-                pb->setIconSize(pb->size());
-                pb->setEnabled(false);
+                QPushButton *pb2 = new QPushButton;
+                pb2->setIcon(QPixmap::fromImage(pb->reverse_img));
+                pb2->setIconSize(pb->size());
+                pb2->setMaximumSize(pb->size());
                 emit i_opend(pb->reverse_img, pb->i, pb->j);
+                ui->componate_custom_buttons_img->addWidget(pb2, pb->i, pb->j);
             });
 
             emit do_it(pb->i, pb->j);

@@ -31,7 +31,8 @@ SOURCES += \
     qpb_modify.cpp \
     send_messege.cpp \
     fun.cpp \
-    choose_button.cpp
+    choose_button.cpp \
+    root_window.cpp \
 
 HEADERS += \
         mainwindow.h \
@@ -39,13 +40,15 @@ HEADERS += \
     qpb_modify.h \
     send_messege.h \
     fun.h \
-    choose_button.h
+    choose_button.h \
+    root_window.h \
 
 FORMS += \
         mainwindow.ui \
     home_window.ui \
     send_messege.ui \
-    choose_button.ui
+    choose_button.ui \
+    root_window.ui \
 
 RESOURCES += \
     data.qrc

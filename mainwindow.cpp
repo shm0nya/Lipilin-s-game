@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QRegExp is_login_variable("[a-zA-Z0-9]{1,20}");
     ui->login_edit->setValidator(new QRegExpValidator(is_login_variable, this));
     connect(ui->login_edit,SIGNAL(textChanged(QString)),this,SLOT(ok_enabled()));
-
 }
 
 MainWindow::~MainWindow()
@@ -19,13 +18,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::ok_enabled()
+void MainWindow::rootwindow()
 {
-    ui->Login_button->setEnabled(ui->login_edit->hasAcceptableInput());
+    rootWnd = new root_window;
+    rootWnd->show();
+    this->close();
 }
 
-void MainWindow::on_Login_button_clicked()
+void MainWindow::playerwindow()
 {
     QString name_login = ui->login_edit->text();
 
@@ -45,6 +45,21 @@ void MainWindow::on_Login_button_clicked()
 
     hWnd->show();
     this->close();
+}
+
+
+
+void MainWindow::ok_enabled()
+{
+    ui->Login_button->setEnabled(ui->login_edit->hasAcceptableInput());
+}
+
+void MainWindow::on_Login_button_clicked()
+{   
+    if(ui->login_edit->text() == "root")
+        rootwindow();
+    else
+        playerwindow();
 }
 
 void MainWindow::home_wnd__sendmess_wnd()
@@ -104,3 +119,6 @@ void MainWindow::if_close_wnd()
     smWnd->setEnabled(true);
     smWnd->show();
 }
+
+
+

@@ -7,6 +7,7 @@
 #include "home_window.h"
 #include "send_messege.h"
 #include "choose_button.h"
+#include "root_window.h"
 
 extern QString name_login;
 
@@ -21,6 +22,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void rootwindow();
+    void playerwindow();
 
 private slots:
     void ok_enabled();
@@ -39,6 +42,7 @@ private:
     home_window *hWnd;
     send_messege *smWnd;
     choose_button *ch_bWnd;
+    root_window *rootWnd;
 };
 
 #endif // MAINWINDOW_H

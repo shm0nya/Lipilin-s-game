@@ -3,6 +3,7 @@
 
 #include <QPushButton>
 #include <QImage>
+#include <QString>
 
 class QPB_modify : public QPushButton
 {
@@ -14,6 +15,8 @@ public:
     int i; // Координата
     int j; // Координата j
     bool was_opening; // Флаг: открыто или нет
+    QString str;
+
 };
 
 #endif // QPB_MODIFY_H
