@@ -124,7 +124,6 @@ void home_window::StatusOnline()
     }
 }
 
-
 vector <vector<QImage>> cut_image(QImage &image, int n, int m)
 {
     vector<vector<QImage>> cut;

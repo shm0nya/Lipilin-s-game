@@ -1,3 +1,8 @@
+/* Mode = player
+ * Данный объект унаследован от от QPushButton
+ * Предназначен для того, чтобы хранить свою позицию в QGridLayout и другую информацию
+*/
+
 #ifndef QPB_MODIFY_H
 #define QPB_MODIFY_H
 

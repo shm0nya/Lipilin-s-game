@@ -98,7 +98,6 @@ void MainWindow::create_pb(int i, int j)
             emit ch_bWnd->i_choose_img(pb->reverse_img);
     });
 
-
     ch_bWnd->set_button(pb, i, j);
 }
 
