@@ -28,7 +28,6 @@ private:
 
 signals:
     void i_choose_img(QImage);
-    void close_wnd();
 
 private slots:
     void on_button_cancel_clicked();

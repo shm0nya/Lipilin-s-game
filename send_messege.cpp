@@ -28,6 +28,7 @@ send_messege::send_messege(QWidget *parent) :
 
     connect(ui->button_send_messege, SIGNAL(clicked()), this, SIGNAL(change_wnd_to_homewnd()));
     connect(ui->button_choose_img, SIGNAL(clicked()), this, SIGNAL(show_ch_buttons_sign()));
+    connect(ui->button_make_img, SIGNAL(clicked()), this, SIGNAL(show_make_img_wnd()));
 }
 
 send_messege::~send_messege()

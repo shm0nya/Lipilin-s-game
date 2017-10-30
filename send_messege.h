@@ -31,8 +31,10 @@ public:
     ~send_messege();
 
 signals:
-    void change_wnd_to_homewnd();
-    void show_ch_buttons_sign();
+                    // Все сигналы ловит mainwindow //
+    void change_wnd_to_homewnd(); /* Сигнал для смены окна на homewindow */
+    void show_ch_buttons_sign(); /* Сигнал для показа окна choose_img */
+    void show_make_img_wnd();/* Сигнал для показа окна make img*/
 
 private slots:
     void on_button_load_img_clicked(); /* Позволяет пользователю загрузить своё изображение (подробнее см в send_messege.cpp) */

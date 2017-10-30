@@ -21,7 +21,6 @@ public:
     int j; // Координата j
     bool was_opening; // Флаг: открыто или нет
     QString str;
-
 };
 
 #endif // QPB_MODIFY_H

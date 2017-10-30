@@ -48,6 +48,6 @@ void choose_button::open_button(QImage img, int i, int j)
 
 void choose_button::on_button_cancel_clicked()
 {
-    emit close_wnd();
+    emit this->reject();
     this->close();
 }

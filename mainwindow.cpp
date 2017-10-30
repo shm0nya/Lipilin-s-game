@@ -32,16 +32,20 @@ void MainWindow::playerwindow()
     hWnd = new home_window(name_login);
     smWnd = new send_messege;
     ch_bWnd = new choose_button;
+    make_wnd = new make_img_window;
 
-    connect(smWnd, SIGNAL(show_ch_buttons_sign()), this, SLOT(show_ch_wnd()));
     connect(smWnd, SIGNAL(change_wnd_to_homewnd()), this, SLOT(sendmess_wnd__home_wnd()));
     connect(hWnd, SIGNAL(change_wnd_to_swnd()),this ,SLOT(home_wnd__sendmess_wnd()));
 
     connect(hWnd, SIGNAL(do_it(int, int)), this, SLOT(create_pb(int, int)));
     connect(hWnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
-    connect(ch_bWnd, SIGNAL(close_wnd()), this, SLOT(if_close_wnd()));
+    connect(smWnd, SIGNAL(show_ch_buttons_sign()), this, SLOT(show_ch_wnd()));
     connect(ch_bWnd, SIGNAL(i_choose_img(QImage)),this ,SLOT(then_choosen_img(QImage)));
     connect(ch_bWnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
+
+    connect(smWnd, SIGNAL(show_make_img_wnd()),this, SLOT(show_make_wnd()));
+    connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
+    connect(make_wnd, SIGNAL(i_make_img(QImage)), this, SLOT(then_choosen_img(QImage)));
 
     hWnd->show();
     this->close();
@@ -119,33 +123,10 @@ void MainWindow::if_close_wnd()
     smWnd->show();
 }
 
-vector<QRgb> PaintPicture (vector<QRgb> &data, QRgb &color)
-//позаимствовала и видоизменила функцию шифрования
-//пусть будет просто цвет, а в вызове функции укажем, какой именно элемент массива цветов надо брать
+void MainWindow::show_make_wnd()
 {
-        //выпиливаем изначально нужный цвет
-        QColor paint=QColor(color);
-        int red=paint.red;
-        int green=paint.green;
-        int blue=paint.blue;
-
-        for (int i = 0; i < data.size(); i++)
-        {
-            // Способ работы с пикселем - QColor
-            QColor temp = QColor(data[i]);
-
-            //исключаем белый цвет (фон букв)
-
-            if (!(temp.red = 255 && temp.green = 255 && temp.blue = 255))
-            {
-                temp.red=red;
-                temp.green=green;
-                temp.blue=blue;
-            }
-
-            data[i] = temp.rgb();
-
-        }
+    smWnd->setEnabled(false);
+    make_wnd->show();
 }
 
 

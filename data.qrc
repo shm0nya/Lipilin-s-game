@@ -9,18 +9,18 @@
         <file>runes/c.png</file>
         <file>runes/d.png</file>
         <file>runes/e.png</file>
-        <file>runes/f.png</file>
-        <file>runes/g.png</file>
         <file>runes/h.png</file>
         <file>runes/i.png</file>
-        <file>runes/j.png</file>
         <file>runes/k.png</file>
         <file>runes/l.png</file>
         <file>runes/m.png</file>
         <file>runes/n.png</file>
         <file>runes/o.png</file>
         <file>runes/p.png</file>
-        <file>runes/q.png</file>
         <file>runes/r.png</file>
+        <file>runes/ch.png</file>
+        <file>runes/t.png</file>
+        <file>runes/u.png</file>
+        <file>runes/v.png</file>
     </qresource>
 </RCC>

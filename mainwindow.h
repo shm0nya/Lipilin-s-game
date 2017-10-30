@@ -16,6 +16,7 @@
 #include "send_messege.h"
 #include "choose_button.h"
 #include "root_window.h"
+#include "make_img_window.h"
 
 extern QString name_login;
 
@@ -69,13 +70,21 @@ private slots:
                           * Активирует окно send_messege */
     void then_choosen_img(QImage img); /* Mode = player
                                         * Ловит сигнал choose_buttons::i_choose_img(QImage)
+                                        *              make_img_window::i_make_img(QImage)
+                                        * действия - одинаковые
                                         * Данный слот устанавливает в send_messege то изображение, которое выбрал пользователь в качестве рабочкго */
+
+    void show_make_wnd();/* Mode = player;
+                          * Слот, замораживающий окно send_messege и открывающий окно make_image_window */
+
 
 private:
     Ui::MainWindow *ui;
     home_window *hWnd;
     send_messege *smWnd;
     choose_button *ch_bWnd;
+    make_img_window *make_wnd;
+
     root_window *rootWnd;
 };
 
