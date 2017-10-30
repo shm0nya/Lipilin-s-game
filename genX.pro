@@ -33,6 +33,7 @@ SOURCES += \
     fun.cpp \
     choose_button.cpp \
     root_window.cpp \
+    make_img_window.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,6 +43,7 @@ HEADERS += \
     fun.h \
     choose_button.h \
     root_window.h \
+    make_img_window.h
 
 FORMS += \
         mainwindow.ui \
@@ -49,6 +51,7 @@ FORMS += \
     send_messege.ui \
     choose_button.ui \
     root_window.ui \
+    make_img_window.ui
 
 RESOURCES += \
     data.qrc

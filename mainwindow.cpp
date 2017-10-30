@@ -119,20 +119,12 @@ void MainWindow::if_close_wnd()
     smWnd->show();
 }
 
-vector<QRgb> PaintPicture (vector<QRgb> &data, vector<QRgb> &color)
+vector<QRgb> PaintPicture (vector<QRgb> &data, QRgb &color)
 //позаимствовала и видоизменила функцию шифрования
+//пусть будет просто цвет, а в вызове функции укажем, какой именно элемент массива цветов надо брать
 {
-    /*тут есть 2 варианта:
-     * 1) однотонная картинка
-     * 2) разноцветная картинка, которую мы будет "накладывать" на исходник
-     * запилю оба варианта, какой понравится, такой и оставим
-     */
-
-    //1 вариант
-    {
         //выпиливаем изначально нужный цвет
-        QColor paint=Qcolour(color[1]);
-
+        QColor paint=QColor(color);
         int red=paint.red;
         int green=paint.green;
         int blue=paint.blue;
@@ -142,7 +134,7 @@ vector<QRgb> PaintPicture (vector<QRgb> &data, vector<QRgb> &color)
             // Способ работы с пикселем - QColor
             QColor temp = QColor(data[i]);
 
-            //исключаем белый увет (фон букв)
+            //исключаем белый цвет (фон букв)
 
             if (!(temp.red = 255 && temp.green = 255 && temp.blue = 255))
             {
@@ -153,34 +145,7 @@ vector<QRgb> PaintPicture (vector<QRgb> &data, vector<QRgb> &color)
 
             data[i] = temp.rgb();
 
-            //warning: если в шаблоне будет белый цвет, буква может слиться с фоном
         }
-    }
-
-    /*
-
-    //2 вариант
-    for (int i = 0; i < data.size(); i++)
-    {
-        // Способ работы с пикселем - QColor
-        QColor temp = QColor(data[i]);
-        QColor paint=Qcolour(color[i]);
-
-        //тупо берем цвета из второй картинки
-        //исключаем белый увет (фон букв)
-
-        if (!(temp.red = 255 && temp.green = 255 && temp.blue = 255))
-        {
-            temp.red=paint.red;
-            temp.green=paint.green;
-            temp.blue=paint.blue;
-        }
-
-        data[i] = temp.rgb();
-
-        //warning: если в шаблоне будет белый цвет, буква может слиться с фоном
-    }
-    */
 }
 
 
