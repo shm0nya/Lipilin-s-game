@@ -18,8 +18,6 @@
 #include "root_window.h"
 #include "make_img_window.h"
 
-extern QString name_login;
-
 namespace Ui {
 class MainWindow;
 }
@@ -77,6 +75,15 @@ private slots:
     void show_make_wnd();/* Mode = player;
                           * Слот, замораживающий окно send_messege и открывающий окно make_image_window */
 
+    void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()*/
+
+    void show_make_wnd_to_root(QImage img, int i, int j);
+
+    void if_close_wnd_fo_root();
+
+    void new_rune_created_root(QImage img ,int i, int j);
+
+
 
 private:
     Ui::MainWindow *ui;
@@ -84,7 +91,6 @@ private:
     send_messege *smWnd;
     choose_button *ch_bWnd;
     make_img_window *make_wnd;
-
     root_window *rootWnd;
 };
 

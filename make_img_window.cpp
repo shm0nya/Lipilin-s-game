@@ -1,6 +1,9 @@
 #include "make_img_window.h"
 #include "ui_make_img_window.h"
 
+extern std::vector<QRgb> colors;
+extern std::vector<QImage> runes;
+
 make_img_window::make_img_window(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::make_img_window)
@@ -78,11 +81,15 @@ void make_img_window::on_button_cancel_clicked()
 
 void make_img_window::on_button_ok_clicked()
 {
-    emit this->i_make_img(ui->lbl_created_img->pixmap()->toImage());
+    if (flag_is_it_root)
+        emit this->root_make_new_img(ui->lbl_created_img->pixmap()->toImage(), root_i, root_j);
+    else
+        emit this->i_make_img(ui->lbl_created_img->pixmap()->toImage());
+
     this->close();
 }
 
-QImage paint_picture (QImage data, QRgb color)
+QImage make_img_window::paint_picture (QImage data, QRgb color)
 //позаимствовала и видоизменила функцию шифрования
 //пусть будет просто цвет, а в вызове функции укажем, какой именно элемент массива цветов надо брать
 {
@@ -112,4 +119,13 @@ QImage paint_picture (QImage data, QRgb color)
     }
 
     return data;
+}
+
+void make_img_window::set_rune(QImage img, int i, int j)
+{
+    ui->lbl_created_img->setPixmap(QPixmap::fromImage(img).scaled(ui->lbl_created_img->size()));
+    root_i = i;
+    root_j = j;
+    flag_is_it_root = true;
+    flag_img_choosen = true;
 }

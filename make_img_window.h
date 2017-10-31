@@ -31,17 +31,24 @@ public:
     void set_colors(); /* Ставит pushbuttons с икноками всех возможных цветов (vector<QRGB> colors) */
     void set_runes();
 
+    QImage get_rune(int i) {return runes[i%runes.size()];}
+    QRgb get_color(int i) {return colors[i%colors.size()];}
+    QImage paint_picture (QImage data, QRgb color); /* Окрашивает руну из data в цвет color */
+    void set_rune(QImage img, int i, int j);
+
 private slots:
     void on_button_cancel_clicked();
     void on_button_ok_clicked();
 
 signals:
     void i_make_img(QImage);/* Вызывается, как пользователь закончил создавать изображение, передает созданное изображение */
+    void root_make_new_img(QImage, int, int);
 
 private:
     Ui::make_img_window *ui;
 
     bool flag_img_choosen;
+    bool flag_is_it_root = false;
 
     //хранилище цветов
     std::vector<QRgb> colors =
@@ -75,8 +82,9 @@ private:
         QImage(":/runes/u.png"),
         QImage(":/runes/v.png"),
     };
-};
 
-QImage paint_picture (QImage data, QRgb color); /* Окрашивает руну из data в цвет color */
+    int root_i;
+    int root_j;
+};
 
 #endif // MAKE_IMG_WINDOW_H

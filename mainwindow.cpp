@@ -22,6 +22,12 @@ void MainWindow::rootwindow()
 {
     rootWnd = new root_window;
     make_wnd = new make_img_window;
+
+    connect(rootWnd, SIGNAL(show_make_img_with_my_img(QImage, int, int)), this, SLOT(show_make_wnd_to_root(QImage, int, int)));
+    connect(rootWnd, SIGNAL(get_rune(int)), this, SLOT(set_rune(int)));
+    connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd_fo_root()));
+    connect(make_wnd, SIGNAL(root_make_new_img(QImage,int,int)), this, SLOT(new_rune_created_root(QImage,int,int)));
+
     rootWnd->show();
     this->close();
 }
@@ -129,6 +135,49 @@ void MainWindow::show_make_wnd()
 {
     smWnd->setEnabled(false);
     make_wnd->show();
+}
+
+void MainWindow::set_rune(int i)
+{
+    rootWnd->set_temp_rune(make_wnd->paint_picture(make_wnd->get_rune(i),
+                                                   make_wnd->get_color(i)));
+}
+
+void MainWindow::show_make_wnd_to_root(QImage img, int i, int j)
+{
+    rootWnd->setEnabled(false);
+    make_wnd->set_rune(img, i, j);
+    make_wnd->show();
+}
+
+void MainWindow::if_close_wnd_fo_root()
+{
+    rootWnd->setEnabled(true);
+}
+
+void MainWindow::new_rune_created_root(QImage img ,int i, int j)
+{
+    QPB_modify *pb = new QPB_modify;
+
+    pb->i = i;
+    pb->j = j;
+    if (rootWnd->get_default_flag())
+        pb->str = rootWnd->get_messege_at_position(i, j);
+
+    pb->reverse_img = img;
+    QSize button_size(50,50);
+    pb->setMaximumSize(button_size);
+    pb->setMinimumSize(button_size);
+
+    pb->setIcon(QIcon(QPixmap::fromImage(img)));
+    QSize icon_size(pb->size());
+    pb->setIconSize(icon_size);
+
+    connect(pb, &QPushButton::clicked, [this, pb](){
+        emit rootWnd->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j);
+    });
+
+    rootWnd->set_rune_at_GL(pb, i, j);
 }
 
 
