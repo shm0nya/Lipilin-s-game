@@ -11,6 +11,8 @@ make_img_window::make_img_window(QWidget *parent) :
     ui->setupUi(this);
     set_colors();
     set_runes();
+    ui->edit_root_messege->setVisible(false);
+    ui->lbl_root_show_messege->setVisible(false);
 }
 
 make_img_window::~make_img_window()
@@ -82,7 +84,7 @@ void make_img_window::on_button_cancel_clicked()
 void make_img_window::on_button_ok_clicked()
 {
     if (flag_is_it_root)
-        emit this->root_make_new_img(ui->lbl_created_img->pixmap()->toImage(), root_i, root_j);
+        emit this->root_make_new_img(ui->lbl_created_img->pixmap()->toImage(), root_i, root_j, ui->edit_root_messege->text());
     else
         emit this->i_make_img(ui->lbl_created_img->pixmap()->toImage());
 
@@ -121,11 +123,15 @@ QImage make_img_window::paint_picture (QImage data, QRgb color)
     return data;
 }
 
-void make_img_window::set_rune(QImage img, int i, int j)
+void make_img_window::set_rune(QImage img, int i, int j, QString str)
 {
     ui->lbl_created_img->setPixmap(QPixmap::fromImage(img).scaled(ui->lbl_created_img->size()));
     root_i = i;
     root_j = j;
     flag_is_it_root = true;
     flag_img_choosen = true;
+    ui->edit_root_messege->setText(str);
+
+    ui->edit_root_messege->setVisible(true);
+    ui->lbl_root_show_messege->setVisible(true);
 }

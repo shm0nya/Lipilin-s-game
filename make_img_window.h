@@ -34,7 +34,7 @@ public:
     QImage get_rune(int i) {return runes[i%runes.size()];}
     QRgb get_color(int i) {return colors[i%colors.size()];}
     QImage paint_picture (QImage data, QRgb color); /* Окрашивает руну из data в цвет color */
-    void set_rune(QImage img, int i, int j);
+    void set_rune(QImage img, int i, int j, QString str);
 
 private slots:
     void on_button_cancel_clicked();
@@ -42,7 +42,7 @@ private slots:
 
 signals:
     void i_make_img(QImage);/* Вызывается, как пользователь закончил создавать изображение, передает созданное изображение */
-    void root_make_new_img(QImage, int, int);
+    void root_make_new_img(QImage, int, int, QString);
 
 private:
     Ui::make_img_window *ui;

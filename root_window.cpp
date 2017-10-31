@@ -11,7 +11,7 @@ root_window::root_window(QWidget *parent) :
     ui->edit_n->setValidator(new QRegExpValidator(is_int, this));
     ui->edit_m->setValidator(new QRegExpValidator(is_int, this));
 
-    this->on_button_default_clicked();
+    create_images();
 }
 
 root_window::~root_window()
@@ -65,7 +65,7 @@ void root_window::create_images()
             pb->setIconSize(icon_size);
 
             connect(pb, &QPushButton::clicked, [this, pb](){
-                emit this->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j);
+                emit this->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
             });
             ui->componate_alphabet_buttons->addWidget(pb, i, j);
         }

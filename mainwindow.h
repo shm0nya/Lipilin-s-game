@@ -4,6 +4,8 @@
  * Существует два варианта работы MainWindow: для root и для player
  * В начале комментария к любым атрибутам, методам, сигналам и слотам MainWindow
  * указано, к какому режиму относится данный объект
+ *
+ * П.С. поскольку у нас говнокод, а кодить меня никто не учил, часть вещей, которые для рута - скрыты
 */
 
 #ifndef MAINWINDOW_H
@@ -77,11 +79,11 @@ private slots:
 
     void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()*/
 
-    void show_make_wnd_to_root(QImage img, int i, int j);
+    void show_make_wnd_to_root(QImage img, int i, int j, QString str);
 
     void if_close_wnd_fo_root();
 
-    void new_rune_created_root(QImage img ,int i, int j);
+    void new_rune_created_root(QImage img ,int i, int j, QString str);
 
 
 

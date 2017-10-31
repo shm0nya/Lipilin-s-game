@@ -146,6 +146,32 @@
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="lbl_root_show_messege">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>510</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Значение руны:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_root_messege">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>510</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="maxLength">
+    <number>20</number>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

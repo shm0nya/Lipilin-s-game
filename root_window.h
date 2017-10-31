@@ -38,7 +38,7 @@ private slots:
 
 signals:
     void get_rune(int);
-    void show_make_img_with_my_img(QImage, int, int);
+    void show_make_img_with_my_img(QImage, int, int, QString);
 
 private:
     Ui::root_window *ui;
