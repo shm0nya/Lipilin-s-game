@@ -37,7 +37,7 @@ void choose_button::open_button(QImage img, int i, int j)
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
         {
-            emit i_choose_img(pb->reverse_img);
+            emit i_choose_img(pb->reverse_img, pb->i, pb->j);
             this->close();
         }
     });

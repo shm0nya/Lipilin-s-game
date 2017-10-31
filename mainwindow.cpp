@@ -21,6 +21,7 @@ MainWindow::~MainWindow()
 void MainWindow::rootwindow()
 {
     rootWnd = new root_window;
+    make_wnd = new make_img_window;
     rootWnd->show();
     this->close();
 }
@@ -40,7 +41,7 @@ void MainWindow::playerwindow()
     connect(hWnd, SIGNAL(do_it(int, int)), this, SLOT(create_pb(int, int)));
     connect(hWnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
     connect(smWnd, SIGNAL(show_ch_buttons_sign()), this, SLOT(show_ch_wnd()));
-    connect(ch_bWnd, SIGNAL(i_choose_img(QImage)),this ,SLOT(then_choosen_img(QImage)));
+    connect(ch_bWnd, SIGNAL(i_choose_img(QImage, int, int)),this ,SLOT(then_choosen_img(QImage, int, int)));
     connect(ch_bWnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
 
     connect(smWnd, SIGNAL(show_make_img_wnd()),this, SLOT(show_make_wnd()));
@@ -99,15 +100,16 @@ void MainWindow::create_pb(int i, int j)
         if (pb->reverse_img.isNull())
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
-            emit ch_bWnd->i_choose_img(pb->reverse_img);
+            emit ch_bWnd->i_choose_img(pb->reverse_img, pb->i, pb->j);
     });
 
     ch_bWnd->set_button(pb, i, j);
 }
 
-void MainWindow::then_choosen_img(QImage img)
+void MainWindow::then_choosen_img(QImage img, int i, int j)
 {
-    smWnd->user_choose_img(img);
+    smWnd->user_choose_img(img, i, j);
+
     smWnd->setEnabled(true);
     smWnd->show();
 }

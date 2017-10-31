@@ -27,7 +27,7 @@ class send_messege : public QDialog
 
 public:
     explicit send_messege(QWidget *parent = 0);
-    void user_choose_img(QImage img); /**/
+    void user_choose_img(QImage img, int i, int j); /* Выбранное пользователем изображение с его координатами устанавливается как активное */
     ~send_messege();
 
 signals:

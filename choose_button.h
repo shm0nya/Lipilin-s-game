@@ -27,7 +27,7 @@ private:
     Ui::choose_button *ui;
 
 signals:
-    void i_choose_img(QImage);
+    void i_choose_img(QImage, int, int);
 
 private slots:
     void on_button_cancel_clicked();

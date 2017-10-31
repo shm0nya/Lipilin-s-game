@@ -68,7 +68,7 @@ private slots:
     void if_close_wnd(); /* Mode = player;
                           * Слот срабатывает при закрытии окна choose_button
                           * Активирует окно send_messege */
-    void then_choosen_img(QImage img); /* Mode = player
+    void then_choosen_img(QImage img, int i, int j); /* Mode = player
                                         * Ловит сигнал choose_buttons::i_choose_img(QImage)
                                         *              make_img_window::i_make_img(QImage)
                                         * действия - одинаковые

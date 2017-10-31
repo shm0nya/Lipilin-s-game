@@ -434,7 +434,7 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
     return encrypted_image;
 }
 
-void send_messege::user_choose_img(QImage img)
+void send_messege::user_choose_img(QImage img, int i, int j)
 {
     Loaded_image= img;
     flag_new_image = true;
@@ -446,4 +446,7 @@ void send_messege::user_choose_img(QImage img)
     int widch = ui->img_changed->width();
     int heich = ui->img_changed->height();
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
+
+    ui->edit_coordinate_i->setText(QString::number(i+1)); // +1, чтобы пользователю было удобнее считать
+    ui->edit_coordinate_j->setText(QString::number(j+1));
 }
