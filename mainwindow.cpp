@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     socket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
     connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udp дейтаграммы и анализируем
 
-    //user_list["rr"] = "rr"; // Для проверки работы "уникальности имени"
+    //user_list["rr"] = "rr"; // Для проверки работы "уникальности имени" Не работает, если тестировать одновременно с void MainWindow::NET_a_new_player_come(QString new_player_login)
 }
 
 MainWindow::~MainWindow()
@@ -26,15 +26,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::rootwindow()
 {
-    rootWnd = new root_window;
+    root_wnd = new root_window;
     make_wnd = new make_img_window;
 
-    connect(rootWnd, SIGNAL(show_make_img_with_my_img(QImage, int, int, QString)), this, SLOT(show_make_wnd_to_root(QImage, int, int, QString)));
-    connect(rootWnd, SIGNAL(get_rune(int)), this, SLOT(set_rune(int)));
+    connect(root_wnd, SIGNAL(show_make_img_with_my_img(QImage, int, int, QString)), this, SLOT(show_make_wnd_to_root(QImage, int, int, QString)));
+    connect(root_wnd, SIGNAL(get_rune(int)), this, SLOT(set_rune(int)));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd_fo_root()));
     connect(make_wnd, SIGNAL(root_make_new_img(QImage, int, int, QString)), this, SLOT(new_rune_created_root(QImage, int, int, QString)));
 
-    rootWnd->show();
+    root_wnd->show();
     this->close();
 }
 
@@ -42,25 +42,25 @@ void MainWindow::playerwindow()
 {
     QString name_login = ui->login_edit->text();
 
-    hWnd = new home_window(name_login);
-    smWnd = new send_messege;
-    ch_bWnd = new choose_button;
+    home_wnd = new home_window(name_login);
+    send_messege_wnd = new send_messege;
+    choose_button_wnd = new choose_button;
     make_wnd = new make_img_window;
 
-    connect(smWnd, SIGNAL(change_wnd_to_homewnd()), this, SLOT(sendmess_wnd__home_wnd()));
-    connect(hWnd, SIGNAL(change_wnd_to_swnd()),this ,SLOT(home_wnd__sendmess_wnd()));
+    connect(send_messege_wnd, SIGNAL(change_wnd_to_homewnd()), this, SLOT(sendmess_wnd__home_wnd()));
+    connect(home_wnd, SIGNAL(change_wnd_to_swnd()),this ,SLOT(home_wnd__sendmess_wnd()));
 
-    connect(hWnd, SIGNAL(do_it(int, int)), this, SLOT(create_pb(int, int)));
-    connect(hWnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
-    connect(smWnd, SIGNAL(show_ch_buttons_sign()), this, SLOT(show_ch_wnd()));
-    connect(ch_bWnd, SIGNAL(i_choose_img(QImage, int, int)),this ,SLOT(then_choosen_img(QImage, int, int)));
-    connect(ch_bWnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
+    connect(home_wnd, SIGNAL(do_it(int, int)), this, SLOT(create_pb(int, int)));
+    connect(home_wnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
+    connect(send_messege_wnd, SIGNAL(show_ch_buttons_sign()), this, SLOT(show_ch_wnd()));
+    connect(choose_button_wnd, SIGNAL(i_choose_img(QImage, int, int)),this ,SLOT(then_choosen_img(QImage, int, int)));
+    connect(choose_button_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
 
-    connect(smWnd, SIGNAL(show_make_img_wnd()),this, SLOT(show_make_wnd()));
+    connect(send_messege_wnd, SIGNAL(show_make_img_wnd()),this, SLOT(show_make_wnd()));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
     connect(make_wnd, SIGNAL(i_make_img(QImage)), this, SLOT(then_made_img(QImage)));
 
-    hWnd->show();
+    home_wnd->show();
     this->close();
 }
 
@@ -84,20 +84,20 @@ void MainWindow::on_Login_button_clicked()
 
 void MainWindow::home_wnd__sendmess_wnd()
 {
-    hWnd->close();
-    smWnd->show();
+    home_wnd->close();
+    send_messege_wnd->show();
 }
 
 void MainWindow::sendmess_wnd__home_wnd()
 {
-    smWnd->close();
-    hWnd->show();
+    send_messege_wnd->close();
+    home_wnd->show();
 }
 
 void MainWindow::show_ch_wnd()
 {
-    smWnd->setEnabled(false);
-    ch_bWnd->show();
+    send_messege_wnd->setEnabled(false);
+    choose_button_wnd->show();
 }
 
 void MainWindow::create_pb(int i, int j)
@@ -115,54 +115,54 @@ void MainWindow::create_pb(int i, int j)
         if (pb->reverse_img.isNull())
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
-            emit ch_bWnd->i_choose_img(pb->reverse_img, pb->i, pb->j);
+            emit choose_button_wnd->i_choose_img(pb->reverse_img, pb->i, pb->j);
     });
 
-    ch_bWnd->set_button(pb, i, j);
+    choose_button_wnd->set_button(pb, i, j);
 }
 
 void MainWindow::then_choosen_img(QImage img, int i, int j)
 {
-    smWnd->user_choose_img(img);
-    smWnd->set_position_of_img(i, j);
+    send_messege_wnd->user_choose_img(img);
+    send_messege_wnd->set_position_of_img(i, j);
 
-    smWnd->setEnabled(true);
-    smWnd->show();
+    send_messege_wnd->setEnabled(true);
+    send_messege_wnd->show();
 }
 
 void MainWindow::then_opend_img(QImage img, int i, int j)
 {
-    ch_bWnd->open_button(img, i, j);
+    choose_button_wnd->open_button(img, i, j);
 }
 
 void MainWindow::if_close_wnd()
 {
-    smWnd->setEnabled(true);
-    smWnd->show();
+    send_messege_wnd->setEnabled(true);
+    send_messege_wnd->show();
 }
 
 void MainWindow::show_make_wnd()
 {
-    smWnd->setEnabled(false);
+    send_messege_wnd->setEnabled(false);
     make_wnd->show();
 }
 
 void MainWindow::set_rune(int i)
 {
-    rootWnd->set_temp_rune(make_wnd->paint_picture(make_wnd->get_rune(i),
+    root_wnd->set_temp_rune(make_wnd->paint_picture(make_wnd->get_rune(i),
                                                    make_wnd->get_color(i)));
 }
 
 void MainWindow::show_make_wnd_to_root(QImage img, int i, int j, QString str)
 {
-    rootWnd->setEnabled(false);
+    root_wnd->setEnabled(false);
     make_wnd->set_rune(img, i, j, str);
     make_wnd->show();
 }
 
 void MainWindow::if_close_wnd_fo_root()
 {
-    rootWnd->setEnabled(true);
+    root_wnd->setEnabled(true);
 }
 
 void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str)
@@ -183,18 +183,18 @@ void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str)
     pb->setIconSize(icon_size);
 
     connect(pb, &QPushButton::clicked, [this, pb](){
-        emit rootWnd->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
+        emit root_wnd->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
     });
 
-    rootWnd->set_rune_at_GL(pb, i, j);
+    root_wnd->set_rune_at_GL(pb, i, j);
 }
 
 void MainWindow::then_made_img(QImage img)
 {
-    smWnd->user_choose_img(img);
+    send_messege_wnd->user_choose_img(img);
 
-    smWnd->setEnabled(true);
-    smWnd->show();
+    send_messege_wnd->setEnabled(true);
+    send_messege_wnd->show();
 }
 
 void MainWindow::NET_datagramm_analysis()
@@ -278,5 +278,5 @@ void MainWindow::NET_a_new_player_come(QString new_player_login)
 
 void MainWindow::NET_add_new_player (QString login)
 {
-    hWnd->add_new_player(login);
+    home_wnd->add_new_player(login);
 }

@@ -134,11 +134,11 @@ private:
     QString root_address = "192.168.1.173"; // Меняется в зависиости от сети! Менять ручками в исходном коде
     QMap<QString, QString> user_list;
 
-    home_window *hWnd;
-    send_messege *smWnd;
-    choose_button *ch_bWnd;
+    home_window *home_wnd;
+    send_messege *send_messege_wnd;
+    choose_button *choose_button_wnd;
     make_img_window *make_wnd;
-    root_window *rootWnd;
+    root_window *root_wnd;
 
     void NET_registration_for_root(QString login, QHostAddress sender); /* mode = root
                                                                          * проверка уникальности имени пользователя
