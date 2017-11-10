@@ -8,11 +8,40 @@
  * П.С. поскольку у нас говнокод, а кодить меня никто не учил, часть вещей, которые для рута - скрыты
 */
 
+/* Протокол работы с сетью.
+ * Любое сообщение представляет собой следующий вид:
+ * |-----------------------------------
+ * |char who | char action | data ...
+ * |-----------------------------------
+ * | 1 byte  | 1 byte      | ...
+ * |-----------------------------------
+ *
+ * I (поле who)
+ *      1) who = 0 - любой игрок, в дальнейшем player
+ *      2) who = 1 - штаб, в дальнейшем root
+ *      В данный момент поле who содержит избыточность, которая внесена для возможного добавления других действующих лиц (не баг, а фича)
+ *
+ * II (поле action)
+ *      1) action = r - регистрация игроков
+ *         data = QString login (в случае если who = 0, т.е. отправляет пользователь)
+ *         data = QString verdict (в случае, если who = 1, т.е. отправляет root)
+ *
+ *      2) action = n
+ *         data = QString new_player_login
+ *
+ * III (примечания)
+ * Задействован QUdpSocket, следовательно, общаются UDP пакетами
+ * При получении сигнала "readyRead" сокет вызывает слот void NET_datagramm_analysis(), который анализирует полученный пакет
+ * Все, что связано с сетью имеет префикс NET_
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QGridLayout>
+#include <QUdpSocket>
+#include <QMap>
 
 #include "home_window.h"
 #include "send_messege.h"
@@ -70,8 +99,6 @@ private slots:
                           * Активирует окно send_messege */
     void then_choosen_img(QImage img, int i, int j); /* Mode = player
                                         * Ловит сигнал choose_buttons::i_choose_img(QImage)
-                                        *              make_img_window::i_make_img(QImage)
-                                        * действия - одинаковые
                                         * Данный слот устанавливает в send_messege то изображение, которое выбрал пользователь в качестве рабочкго */
 
     void show_make_wnd();/* Mode = player;
@@ -79,21 +106,59 @@ private slots:
 
     void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()*/
 
-    void show_make_wnd_to_root(QImage img, int i, int j, QString str);
+    void show_make_wnd_to_root(QImage img, int i, int j, QString str); /* mode = root
+                                                                        * Вызывает для root make_img_window.set_rune(img, i, j, str);
+                                                                        * Данный метод ставит активным изображение, которое выбрал root + указывает позицию изображения
+                                                                        */
 
-    void if_close_wnd_fo_root();
+    void if_close_wnd_fo_root(); /* Защита от неожиданного и санкционированного закрытия окна */
 
-    void new_rune_created_root(QImage img ,int i, int j, QString str);
+    void then_made_img(QImage img); /* mode = player
+                                     * слот, который ловит сигнал от make_img_window, после того, как пользователь создал изображения для brute_forse
+                                     */
+
+    void new_rune_created_root(QImage img ,int i, int j, QString str); /* mode = player
+                                                                        * в случае, если преподаватель хочет создать свою руну, то он жмет на изображение, открывается make_img_window
+                                                                        * После этого, преподаватель создает руну, жмет "ок". "ок" возвращает руну, строчку, которая закодированна таким способом
+                                                                        * и позицию в сетке рун
+                                                                        */
+    void NET_datagramm_analysis(); /* mode = all
+                                    * Данный слот анализирует датаграмму из сокета. Подробнее см. протокол + "внутренности" метода
+                                    */
 
 
 
 private:
     Ui::MainWindow *ui;
+    QUdpSocket *socket;
+    QString root_address = "192.168.1.173"; // Меняется в зависиости от сети! Менять ручками в исходном коде
+    QMap<QString, QString> user_list;
+
     home_window *hWnd;
     send_messege *smWnd;
     choose_button *ch_bWnd;
     make_img_window *make_wnd;
     root_window *rootWnd;
+
+    void NET_registration_for_root(QString login, QHostAddress sender); /* mode = root
+                                                                         * проверка уникальности имени пользователя
+                                                                         * занесение в БД пользователей в случае успеха
+                                                                         * генерация ответа (verdict)
+                                                                         */
+    void NET_registration_for_player(QString verdict); /* mode = player
+                                                        * пользователь анализирует ответ рута (уникальный логин или очередной плагиат)
+                                                        * П.С. socket отправляется при нажатии кноппки ok, SLOT on_Login_button_clicked()
+                                                        */
+
+    void NET_a_new_player_come(QString new_player_login); /* mode = root
+                                                           * оповещение других пользователей о том, что появился новый игрок
+                                                           */
+
+    void NET_add_new_player (QString login); /* mode = player
+                                              * В случае появления нового пользователя, root шлет всем пользователям сообщение,
+                                              * которое содержит action = n, data = login
+                                              * Данный метод добавляет нового пользователя
+                                              */
 };
 
 #endif // MAINWINDOW_H

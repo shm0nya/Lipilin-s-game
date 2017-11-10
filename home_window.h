@@ -17,8 +17,6 @@
 #include <QPushButton>
 #include <QPixmap>
 #include <QImage>
-#include <QUdpSocket>
-#include <QMap>
 
 #include <vector>
 
@@ -43,9 +41,8 @@ public:
                                                                          * После генерации каждой кнопки шлет сигнал home_window::do_it() в Main_window
                                                                          * для того, чтобы создать идентичную кнопку в окне choose_button
                                                                          */
-    QMap<QString,QString> config();
-    void StatusOnline();
-    QString takeLogin() const { return login_name; }
+
+    void add_new_player(QString new_player_login); // Добавляет нового пользователя в список пользователей (ui->list_users)
 
 signals:
     void change_wnd_to_swnd(); /* Сигнал для переключения с home_window на send_messege */
@@ -54,18 +51,11 @@ signals:
 
 private slots:
     void on_pushButton_clicked(); /* Заменяет сигнал Старт от рута */
-    void ready();
 
 private:
     Ui::home_window *ui;
     QImage original_img;
-    QString login_name; // логин
-    QString key; // ключ
-    QString level;
-    QString iOverhear; // кого пользователь прослушивает
-    QList <QString> meOverhear; // кто пользователя прослушивает
-    QUdpSocket *soket; //сокет
-    QMap<QString,QString> UserList;
+    QString login_name;
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m); /* Функция, которая разрезает исходное изображение на n*m частей.

@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     socket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
     connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udp дейтаграммы и анализируем
 
-    //user_list["rr"] = "rr"; // Для проверки работы "уникальности имени"
+    //user_list["rr"] = "rr"; // Для проверки работы "уникальности имени" Не работает, если тестир
 }
 
 MainWindow::~MainWindow()
