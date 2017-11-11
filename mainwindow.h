@@ -36,6 +36,9 @@
  *         data = "i_j_"QImage - содержит i_j_ два числа, записанных через пробел, указывающих на позицию в сетке
  *                               и сам QImage
  *
+ *         action = g - root завершил передачу исходных данных всем пользователям, game_must_go_on!
+ *                      запускает старт игры
+ *
  *
  *
  * III (примечания)
@@ -74,6 +77,9 @@ public:
 
     void playerwindow();/* Mode = player;
                          * Функция, формирующая окно player и connect для него */
+
+signals:
+    void game_must_go_on();
 
 private slots:
     void ok_enabled(); /* Mode = any;
@@ -146,7 +152,8 @@ private:
     Ui::MainWindow *ui;
     QUdpSocket *socket;
     QString root_address = "192.168.1.173"; // Меняется в зависиости от сети! Менять ручками в исходном коде
-    QMap<QString, QString> user_list;
+    QMap<QString, QString> user_list;       // Список пользователей
+    vector<vector<QImage>> source_img;      // Исходные изображения, которые прислыает root
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;
@@ -175,11 +182,16 @@ private:
                                               */
 
     vector<vector<QString>> NET_start_messeges_phase_1(QString messeges); /* mode = player
-                                                * Первая фаза передачи информации необходимой для старта
-                                                * Анализирует все слова и составляет массив vector<vector> messeges из строки
-                                                */
+                                                                           * Первая фаза передачи информации необходимой для старта
+                                                                           * Анализирует все слова и составляет массив vector<vector> messeges из строки
+                                                                           * делает resize source_img!!!
+                                                                           */
+    \
+    void NET_start_messeges_phase_2(QString data);
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */
+
+QString cut_string_befor_simbol(QString &str, char befor); /* Вырезает из строки кусок, который идет до символа befor. Символ befor удаляет */
 
 #endif // MAINWINDOW_H

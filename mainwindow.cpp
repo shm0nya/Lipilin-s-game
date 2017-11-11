@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     socket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
     connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udp дейтаграммы и анализируем
 
-    //user_list["rr"] = "rr"; // Для проверки работы "уникальности имени" Не работает, если тестировать одновременно с void MainWindow::NET_a_new_player_come(QString new_player_login)
+    user_list["rr"] = "192.168.1.1"; // Для проверки работы "уникальности имени" Не работает, если тестировать одновременно с void MainWindow::NET_a_new_player_come(QString new_player_login)
 }
 
 MainWindow::~MainWindow()
@@ -217,15 +217,26 @@ void MainWindow::NET_datagramm_analysis()
     switch (action) {
     case 'r':
         if (who == '0') // Отправитель player
-            NET_registration_for_root(data ,sender);
+            NET_registration_for_root(data ,sender); 
         else
             NET_registration_for_player(data);
+        break;
 
     case 'n':
         NET_add_new_player(data);
+        break;
 
     case 'S':
         NET_start_messeges_phase_1(data);
+        break;
+
+    case 's':
+        NET_start_messeges_phase_2(data);
+        break;
+
+    case 'g':
+        emit game_must_go_on();
+        break;
     }
 }
 
@@ -339,27 +350,35 @@ void MainWindow::NET_send_info_for_start()
             socket->writeDatagram(datagramms[i], temp_addres, 65201);
     }
 
+    /* Посылаем сигнал старта игры */
+    for (it = user_list.begin(); it!=user_list.end(); it++)
+    {
+        QHostAddress temp_addres(it.value());
+
+        QByteArray Data;
+        Data.append("1g");
+        socket->writeDatagram(Data, temp_addres, 65201);
+    }
+
 }
 
 vector<vector<QString>> MainWindow::NET_start_messeges_phase_1(QString messeges)
 {
     vector<vector<QString>> code_messege;
-    int temp;
     QString temp_str;
 
     /* Вытаскиваем n */
-    temp_str = "";
-    temp = count_simbols_befor(messeges, ' ');
-    temp_str.replace(0, temp, messeges);
-    messeges.remove(0, temp+1); // Компенсация пробела
+    temp_str = cut_string_befor_simbol(messeges, ' ');
     int n = temp_str.toInt();
 
     /* Вытаскиваем m */
-    temp_str = "";
-    temp = count_simbols_befor(messeges, ' ');
-    temp_str.replace(0, temp, messeges);
-    messeges.remove(0, temp+1); // Компенсация пробела
+    temp_str = cut_string_befor_simbol(messeges, ' ');
     int m = temp_str.toInt();
+
+    /* Подготовка хранилища векторов */
+    source_img.resize(n);
+    for (int i =0; i<n; i++)
+        source_img.resize(m);
 
     /* Вытаскиваем всё остальное */
     for (int i = 0; i < n; i++)
@@ -367,17 +386,32 @@ vector<vector<QString>> MainWindow::NET_start_messeges_phase_1(QString messeges)
         vector<QString> temp_vec;
         for (int j = 0; j < m; j++)
         {
-            temp_str = "";
-            temp = count_simbols_befor(messeges, ' ');
-            temp_str.replace(0, temp, messeges);
-            messeges.remove(0, temp+1); // Компенсация пробела
-
+            temp_str = cut_string_befor_simbol(messeges, ' ');
             temp_vec.push_back(temp_str);
         }
         code_messege.push_back(temp_vec);
     }
 
     return code_messege;
+}
+
+void MainWindow::NET_start_messeges_phase_2(QString data)
+{
+    QString temp_str;
+    int i;
+    int j;
+
+    temp_str = cut_string_befor_simbol(data, ' ');
+    i = temp_str.toInt();
+
+    temp_str = cut_string_befor_simbol(data, ' ');
+    j = temp_str.toInt();
+
+    QImage img;
+    QByteArray data_for_img; // Костыльно, но это С++, где всё привязно к типам данных. А вот в python... (дальше срач)
+    data_for_img.append(data);
+    img.loadFromData(data_for_img);
+    source_img[i][j] = img;
 }
 
 int count_simbols_befor(QString data, char befor)
@@ -396,7 +430,18 @@ int count_simbols_befor(QString data, char befor)
     return i;
 }
 
+QString cut_string_befor_simbol(QString &str, char befor)
+{
+    int temp;
+    QString temp_str;
 
+    temp_str = "";
+    temp = count_simbols_befor(str, befor);
+    temp_str.replace(0, temp, str);
+    str.remove(0, temp+1); // Компенсация пробела
+
+    return temp_str;
+}
 
 
 

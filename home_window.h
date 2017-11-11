@@ -46,16 +46,24 @@ public:
 
 signals:
     void change_wnd_to_swnd(); /* Сигнал для переключения с home_window на send_messege */
-    void do_it(int, int); /* Сигнал для создания кнопок в choose_button */
+    void do_it(int, int); /* Сигнал для создания кнопок в окне choose_button */
     void i_opend(QImage, int, int); /* Сигнал, который шлет созданная кнопка в home_window в main_window для того, чтобы сообщить о том, что кнопка выбрана пользователем */
+    void get_source_image(int, int); /* Сигнал, который окно шлет в main_window, для того, чтобы оно ему вернуло source_image (присланное root) с индексом i, j  */
+    void get_n(); // Запрашивает у main_window n
+    void get_m(); // Запрашивает у main_window m
 
 private slots:
     void on_pushButton_clicked(); /* Заменяет сигнал Старт от рута */
+    QImage i_get_source_img_for_u(QImage img){return img;}
+    int i_get_n_for_u(int n){return n;}
+    int i_get_m_for_u(int m){return m;}
 
 private:
     Ui::home_window *ui;
     QImage original_img;
     QString login_name;
+
+    vector<vector<QImage>> get_source_images();
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m); /* Функция, которая разрезает исходное изображение на n*m частей.
