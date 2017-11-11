@@ -29,6 +29,15 @@
  *      2) action = n
  *         data = QString new_player_login
  *
+ *      3) action = S (S заглавная)
+ *         data = n, m записанные через пробел в string, после чего n*m слов, записанных через пробел
+ *
+ *         action = s (прописная) - шлется n*m сообщений с QImage
+ *         data = "i_j_"QImage - содержит i_j_ два числа, записанных через пробел, указывающих на позицию в сетке
+ *                               и сам QImage
+ *
+ *
+ *
  * III (примечания)
  * Задействован QUdpSocket, следовательно, общаются UDP пакетами
  * При получении сигнала "readyRead" сокет вызывает слот void NET_datagramm_analysis(), который анализирует полученный пакет
@@ -104,7 +113,10 @@ private slots:
     void show_make_wnd();/* Mode = player;
                           * Слот, замораживающий окно send_messege и открывающий окно make_image_window */
 
-    void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()*/
+    void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()
+                             * Это связано с тем, что все возможные руны и цвета хранятся в make_wnd
+                             * Выковыривает от туда руну и цвет и устанавливает в temp_rune в root (необходимо для default)
+                             */
 
     void show_make_wnd_to_root(QImage img, int i, int j, QString str); /* mode = root
                                                                         * Вызывает для root make_img_window.set_rune(img, i, j, str);
@@ -125,6 +137,8 @@ private slots:
     void NET_datagramm_analysis(); /* mode = all
                                     * Данный слот анализирует датаграмму из сокета. Подробнее см. протокол + "внутренности" метода
                                     */
+
+    void NET_send_info_for_start();
 
 
 
@@ -159,6 +173,13 @@ private:
                                               * которое содержит action = n, data = login
                                               * Данный метод добавляет нового пользователя
                                               */
+
+    vector<vector<QString>> NET_start_messeges_phase_1(QString messeges); /* mode = player
+                                                * Первая фаза передачи информации необходимой для старта
+                                                * Анализирует все слова и составляет массив vector<vector> messeges из строки
+                                                */
 };
+
+int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */
 
 #endif // MAINWINDOW_H

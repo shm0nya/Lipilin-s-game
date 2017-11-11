@@ -25,9 +25,13 @@ public:
     ~root_window();
     void create_images();
     void set_temp_rune(QImage img) {temp_rune = img;}
-    void set_rune_at_GL(QPB_modify *pb, int i, int j);
+    void set_rune_at_GL(QPB_modify *pb, int i, int j); // Установка руны в сетке рун, после её создания
     bool get_default_flag() {return flag_default;}
-    QString get_messege_at_position(int i, int j) {return messege[i*n + j];}
+    QString get_messege_at_position(int i, int j); // Получение сообщения, соответствующего позиции
+
+    QImage get_rune_at_position(int i, int j); // Возвращает руну на определенной позиции
+    int get_n() {return n;}
+    int get_m() {return m;}
 
 private slots:
     void on_button_apply_clicked();
@@ -39,6 +43,7 @@ private slots:
 signals:
     void get_rune(int);
     void show_make_img_with_my_img(QImage, int, int, QString);
+    void start();
 
 private:
     Ui::root_window *ui;
@@ -55,6 +60,7 @@ private:
 
     std::vector<QString> messege = default_text; // Сообщение, которое закодировано рунами (изначально равно default_text)
     QImage temp_rune;
+    std::vector<std::vector<QPB_modify*>> pb_runes;
 };
 
 #endif // ROOT_WINDOW_H

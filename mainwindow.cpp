@@ -33,6 +33,7 @@ void MainWindow::rootwindow()
     connect(root_wnd, SIGNAL(get_rune(int)), this, SLOT(set_rune(int)));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd_fo_root()));
     connect(make_wnd, SIGNAL(root_make_new_img(QImage, int, int, QString)), this, SLOT(new_rune_created_root(QImage, int, int, QString)));
+    connect(root_wnd, SIGNAL(start()), this, SLOT(NET_send_info_for_start()));
 
     root_wnd->show();
     this->close();
@@ -219,8 +220,12 @@ void MainWindow::NET_datagramm_analysis()
             NET_registration_for_root(data ,sender);
         else
             NET_registration_for_player(data);
+
     case 'n':
         NET_add_new_player(data);
+
+    case 'S':
+        NET_start_messeges_phase_1(data);
     }
 }
 
@@ -280,3 +285,127 @@ void MainWindow::NET_add_new_player (QString login)
 {
     home_wnd->add_new_player(login);
 }
+
+void MainWindow::NET_send_info_for_start()
+{
+    QMap<QString, QString>::iterator it;
+    int n = root_wnd->get_n();
+    int m = root_wnd->get_m();
+    QString messege = "";
+    vector<QByteArray> datagramms;
+
+    /* В начале получаем сообщение со строчками следующего вида:
+     * "первое_слово второе_слово третье_слово ..."
+     */
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            QString temp = root_wnd->get_messege_at_position(i, j);
+            messege = messege + temp + ' ';
+        }
+
+    if (messege.size() > 65000)
+    {
+        QMessageBox::information(this, "error" ,"Слишком большие кодовые слова");
+        return;
+    }
+
+    /* Формируем дейтаграммы */
+    QByteArray first_data;
+    first_data.append("1S");
+    first_data.append(messege);
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            QImage temp_img = root_wnd->get_rune_at_position(i, j);
+            QByteArray Data;
+            QString temp = "1s " + QString::number(i) + ' ' + QString::number(j) + ' ';
+            Data.append(temp);
+            Data.append((char *)temp_img.bits(),temp_img.byteCount()); // Хз как работает. На чистой магии. Лишь бы скомпилировалось
+            datagramms.push_back(Data);
+        }
+
+    /* Послыаем пользователям информацию */
+
+    for (it = user_list.begin(); it!=user_list.end(); it++)
+    {
+        QHostAddress temp_addres(it.value());
+
+        socket->writeDatagram(first_data, temp_addres, 65201);
+
+        for (int i = 0; i < datagramms.size(); i++)
+            socket->writeDatagram(datagramms[i], temp_addres, 65201);
+    }
+
+}
+
+vector<vector<QString>> MainWindow::NET_start_messeges_phase_1(QString messeges)
+{
+    vector<vector<QString>> code_messege;
+    int temp;
+    QString temp_str;
+
+    /* Вытаскиваем n */
+    temp_str = "";
+    temp = count_simbols_befor(messeges, ' ');
+    temp_str.replace(0, temp, messeges);
+    messeges.remove(0, temp+1); // Компенсация пробела
+    int n = temp_str.toInt();
+
+    /* Вытаскиваем m */
+    temp_str = "";
+    temp = count_simbols_befor(messeges, ' ');
+    temp_str.replace(0, temp, messeges);
+    messeges.remove(0, temp+1); // Компенсация пробела
+    int m = temp_str.toInt();
+
+    /* Вытаскиваем всё остальное */
+    for (int i = 0; i < n; i++)
+    {
+        vector<QString> temp_vec;
+        for (int j = 0; j < m; j++)
+        {
+            temp_str = "";
+            temp = count_simbols_befor(messeges, ' ');
+            temp_str.replace(0, temp, messeges);
+            messeges.remove(0, temp+1); // Компенсация пробела
+
+            temp_vec.push_back(temp_str);
+        }
+        code_messege.push_back(temp_vec);
+    }
+
+    return code_messege;
+}
+
+int count_simbols_befor(QString data, char befor)
+{
+    bool do_it = true;
+    int i = 0;
+
+    while (do_it)
+    {
+        if (QCharRef(data[i]).toLatin1() != befor)
+            i++;
+        else
+            do_it = !do_it;
+    }
+
+    return i;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

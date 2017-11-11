@@ -44,7 +44,10 @@ void root_window::on_button_apply_clicked()
 
 void root_window::create_images()
 {
+    pb_runes.clear();
     for (int i = 0; i < m; i++)
+    {
+        std::vector<QPB_modify*> temp_vec;
         for (int j = 0; j < n; j++)
         {
             emit this->get_rune(j + i*n);
@@ -68,7 +71,10 @@ void root_window::create_images()
                 emit this->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
             });
             ui->componate_alphabet_buttons->addWidget(pb, i, j);
+            temp_vec.push_back(pb);
         }
+        pb_runes.push_back(temp_vec);
+    }
 }
 
 void root_window::on_button_default_clicked()
@@ -82,13 +88,28 @@ void root_window::on_button_default_clicked()
     ui->edit_n->setText("5");
 }
 
-
 void root_window::on_pushButton_clicked()
 {
-    QMessageBox::information(this, "", "запускает старт игры + работу с сетью, которую я прокрастинирую");
+    emit this->start();
 }
 
 void root_window::set_rune_at_GL(QPB_modify *pb, int i, int j)
 {
     ui->componate_alphabet_buttons->addWidget(pb, i, j);
+    pb_runes[i][j] = pb;
+}
+
+QImage root_window::get_rune_at_position(int i, int j)
+{
+   QImage img;
+   img = pb_runes[i][j]->icon().pixmap(100,100).toImage();
+   return img;
+}
+
+QString root_window::get_messege_at_position(int i, int j)
+{
+    if (int(messege.size()) > i*n +j)
+        return messege[i*n + j];
+    else
+        return "";
 }
