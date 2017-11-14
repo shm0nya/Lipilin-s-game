@@ -78,9 +78,6 @@ public:
     void playerwindow();/* Mode = player;
                          * Функция, формирующая окно player и connect для него */
 
-signals:
-    void game_must_go_on();
-
 private slots:
     void ok_enabled(); /* Mode = any;
                         * Слот, который проверяет, ввёл ли пользователь верное значение в поле "логин" */
@@ -148,12 +145,17 @@ private slots:
 
 
 
+
+    void on_edit_ip_root_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     QUdpSocket *socket;
     QString root_address = "192.168.1.173"; // Меняется в зависиости от сети! Менять ручками в исходном коде
     QMap<QString, QString> user_list;       // Список пользователей
     vector<vector<QImage>> source_img;      // Исходные изображения, которые прислыает root
+    vector<vector<QString>> code_messege;   // Строки, которые кодируются рунами
+    int img_count_n, img_count_m;
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;
@@ -181,7 +183,7 @@ private:
                                               * Данный метод добавляет нового пользователя
                                               */
 
-    vector<vector<QString>> NET_start_messeges_phase_1(QString messeges); /* mode = player
+    void NET_start_messeges_phase_1(QString messeges); /* mode = player
                                                                            * Первая фаза передачи информации необходимой для старта
                                                                            * Анализирует все слова и составляет массив vector<vector> messeges из строки
                                                                            * делает resize source_img!!!

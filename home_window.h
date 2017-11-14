@@ -43,6 +43,8 @@ public:
                                                                          */
 
     void add_new_player(QString new_player_login); // Добавляет нового пользователя в список пользователей (ui->list_users)
+    vector<vector<QString>> set_messeges (vector<vector<QString>> msg){return msg;}
+    vector<vector<QImage>> set_runes(vector<vector<QImage>> runes) {return runes;}
 
 signals:
     void change_wnd_to_swnd(); /* Сигнал для переключения с home_window на send_messege */
@@ -62,8 +64,6 @@ private:
     Ui::home_window *ui;
     QImage original_img;
     QString login_name;
-
-    vector<vector<QImage>> get_source_images();
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m); /* Функция, которая разрезает исходное изображение на n*m частей.

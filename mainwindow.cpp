@@ -235,7 +235,7 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 'g':
-        emit game_must_go_on();
+        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m);
         break;
     }
 }
@@ -305,6 +305,11 @@ void MainWindow::NET_send_info_for_start()
     QString messege = "";
     vector<QByteArray> datagramms;
 
+    /* В сообщение добавляем n, m*/
+
+    messege = messege + QString::number(n) + ' ';
+    messege = messege + QString::number(m) + ' ';
+
     /* В начале получаем сообщение со строчками следующего вида:
      * "первое_слово второе_слово третье_слово ..."
      */
@@ -362,37 +367,34 @@ void MainWindow::NET_send_info_for_start()
 
 }
 
-vector<vector<QString>> MainWindow::NET_start_messeges_phase_1(QString messeges)
+void MainWindow::NET_start_messeges_phase_1(QString messeges)
 {
-    vector<vector<QString>> code_messege;
     QString temp_str;
 
     /* Вытаскиваем n */
     temp_str = cut_string_befor_simbol(messeges, ' ');
-    int n = temp_str.toInt();
+    img_count_n = temp_str.toInt();
 
     /* Вытаскиваем m */
     temp_str = cut_string_befor_simbol(messeges, ' ');
-    int m = temp_str.toInt();
+    img_count_m = temp_str.toInt();
 
     /* Подготовка хранилища векторов */
-    source_img.resize(n);
-    for (int i =0; i<n; i++)
-        source_img.resize(m);
+    source_img.resize(img_count_n);
+    for (int i =0; i<img_count_n; i++)
+        source_img.resize(img_count_m);
 
     /* Вытаскиваем всё остальное */
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < img_count_n; i++)
     {
         vector<QString> temp_vec;
-        for (int j = 0; j < m; j++)
+        for (int j = 0; j < img_count_m; j++)
         {
             temp_str = cut_string_befor_simbol(messeges, ' ');
             temp_vec.push_back(temp_str);
         }
         code_messege.push_back(temp_vec);
     }
-
-    return code_messege;
 }
 
 void MainWindow::NET_start_messeges_phase_2(QString data)
@@ -443,14 +445,8 @@ QString cut_string_befor_simbol(QString &str, char befor)
     return temp_str;
 }
 
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_edit_ip_root_editingFinished()
+{
+    root_address = ui->edit_ip_root->text();
+    ui->lbl_now_use_ip_root->setText(ui->edit_ip_root->text());
+}

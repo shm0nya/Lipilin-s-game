@@ -89,8 +89,3 @@ void home_window::add_new_player(QString new_player_login)
 {
     //ui->list_users->addItem(new_player_login);
 }
-
-vector<vector<QImage>> home_window::get_source_images()
-{
-
-}
