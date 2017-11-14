@@ -163,3 +163,31 @@ vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> 
     return data;
 }
 
+int count_simbols_befor(QString data, char befor)
+{
+    bool do_it = true;
+    int i = 0;
+
+    while (do_it)
+    {
+        if (QCharRef(data[i]).toLatin1() != befor)
+            i++;
+        else
+            do_it = !do_it;
+    }
+
+    return i;
+}
+
+QString cut_string_befor_simbol(QString &str, char befor)
+{
+    int temp;
+    QString temp_str;
+
+    temp_str = "";
+    temp = count_simbols_befor(str, befor);
+    temp_str.replace(0, temp, str);
+    str.remove(0, temp+1); // Компенсация пробела
+
+    return temp_str;
+}

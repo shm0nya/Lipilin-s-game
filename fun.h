@@ -13,4 +13,8 @@ vector<int> pblok_key_revers(vector<int> &pblok_key);
 vector<vector<int>> sblok_like_vigener_key(int count, int start);
 vector<QRgb> sblok_like_vigener_use(vector<QRgb> &data, vector<vector<int>> &key);
 vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> &key);
+
+int count_simbols_befor(QString data, char befor);
+QString cut_string_befor_simbol(QString &str, char befor);
+
 #endif
