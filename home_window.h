@@ -17,14 +17,11 @@
 #include <QPushButton>
 #include <QPixmap>
 #include <QImage>
-#include <QUdpSocket>
-#include <QMessageBox>
 
 #include <vector>
 
 #include "qpb_modify.h"
 #include "send_messege.h"
-#include "fun.h"
 
 using namespace std;
 
@@ -48,28 +45,25 @@ public:
     void add_new_player(QString new_player_login); // Добавляет нового пользователя в список пользователей (ui->list_users)
 
 signals:
-    void change_wnd_to_swnd();          /* Сигнал для переключения с home_window на send_messege */
-    void do_it(int, int);               /* Сигнал для создания кнопок в окне choose_button */
-    void i_opend(QImage, int, int);     /* Сигнал, который шлет созданная кнопка в home_window в main_window для того, чтобы сообщить о том, что кнопка выбрана пользователем */
-
+    void change_wnd_to_swnd(); /* Сигнал для переключения с home_window на send_messege */
+    void do_it(int, int); /* Сигнал для создания кнопок в окне choose_button */
+    void i_opend(QImage, int, int); /* Сигнал, который шлет созданная кнопка в home_window в main_window для того, чтобы сообщить о том, что кнопка выбрана пользователем */
+    void get_source_image(int, int); /* Сигнал, который окно шлет в main_window, для того, чтобы оно ему вернуло source_image (присланное root) с индексом i, j  */
+    void get_n(); // Запрашивает у main_window n
+    void get_m(); // Запрашивает у main_window m
 
 private slots:
-    void on_pushButton_clicked();       /* Заменяет сигнал Старт от рута */
-    void NET_datagramm_analysis();
+    void on_pushButton_clicked(); /* Заменяет сигнал Старт от рута */
+    QImage i_get_source_img_for_u(QImage img){return img;}
+    int i_get_n_for_u(int n){return n;}
+    int i_get_m_for_u(int m){return m;}
 
 private:
     Ui::home_window *ui;
+    QImage original_img;
     QString login_name;
-    QImage original_img;                  // Изображение, которое пользователь в данный момент кодирует или декодирует
-    vector<vector<QImage>> source_img;    // Исходные изображения, которые прислыает root
-    vector<vector<QString>> code_messege; // Закодированные сообщения в картинке. По индексу совпадают с source_img
-    int n, m;                             // Размеры сетки картинок
 
-    QUdpSocket *socket;
-
-    void NET_start_messeges_phase_1(QString messeges); // Фаза 1 анализа данных от root (подробнее см протокол в mainwindow)
-    void NET_start_messeges_phase_2(QString data);                        // Фаза 2 анализа данных от root
-    void game_must_go_on();                                               // Фаза 3 - игру можно начинать
+    vector<vector<QImage>> get_source_images();
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m); /* Функция, которая разрезает исходное изображение на n*m частей.

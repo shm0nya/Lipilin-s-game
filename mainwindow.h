@@ -78,6 +78,8 @@ public:
     void playerwindow();/* Mode = player;
                          * Функция, формирующая окно player и connect для него */
 
+signals:
+    void game_must_go_on();
 
 private slots:
     void ok_enabled(); /* Mode = any;
@@ -142,10 +144,7 @@ private slots:
                                     * Данный слот анализирует датаграмму из сокета. Подробнее см. протокол + "внутренности" метода
                                     */
 
-    void NET_send_info_for_start();/* mode = root
-                                    * После того, как был пойман сигнал от окна root_window, о том, что root нажал кнопку "старт"
-                                    * Запрашивает данные и отсылает всем игрокам в сети
-                                    */
+    void NET_send_info_for_start();
 
 
 
@@ -154,6 +153,7 @@ private:
     QUdpSocket *socket;
     QString root_address = "192.168.1.173"; // Меняется в зависиости от сети! Менять ручками в исходном коде
     QMap<QString, QString> user_list;       // Список пользователей
+    vector<vector<QImage>> source_img;      // Исходные изображения, которые прислыает root
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;
@@ -180,6 +180,14 @@ private:
                                               * которое содержит action = n, data = login
                                               * Данный метод добавляет нового пользователя
                                               */
+
+    vector<vector<QString>> NET_start_messeges_phase_1(QString messeges); /* mode = player
+                                                                           * Первая фаза передачи информации необходимой для старта
+                                                                           * Анализирует все слова и составляет массив vector<vector> messeges из строки
+                                                                           * делает resize source_img!!!
+                                                                           */
+    \
+    void NET_start_messeges_phase_2(QString data);
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */
