@@ -225,6 +225,18 @@ void MainWindow::NET_datagramm_analysis()
     case 'n':
         NET_add_new_player(data);
         break;
+
+    case 'S':
+        NET_start_messeges_phase_1(data);
+        break;
+
+    case 's':
+        NET_start_messeges_phase_2(data);
+        break;
+
+    case 'g':
+        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m);
+        break;
     }
 }
 
@@ -293,6 +305,11 @@ void MainWindow::NET_send_info_for_start()
     QString messege = "";
     vector<QByteArray> datagramms;
 
+    /* В сообщение добавляем n, m*/
+
+    messege = messege + QString::number(n) + ' ';
+    messege = messege + QString::number(m) + ' ';
+
     /* В начале получаем сообщение со строчками следующего вида:
      * "первое_слово второе_слово третье_слово ..."
      */
@@ -350,13 +367,86 @@ void MainWindow::NET_send_info_for_start()
 
 }
 
+void MainWindow::NET_start_messeges_phase_1(QString messeges)
+{
+    QString temp_str;
 
+    /* Вытаскиваем n */
+    temp_str = cut_string_befor_simbol(messeges, ' ');
+    img_count_n = temp_str.toInt();
 
+    /* Вытаскиваем m */
+    temp_str = cut_string_befor_simbol(messeges, ' ');
+    img_count_m = temp_str.toInt();
 
+    /* Подготовка хранилища векторов */
+    source_img.resize(img_count_n);
+    for (int i =0; i<img_count_n; i++)
+        source_img.resize(img_count_m);
 
+    /* Вытаскиваем всё остальное */
+    for (int i = 0; i < img_count_n; i++)
+    {
+        vector<QString> temp_vec;
+        for (int j = 0; j < img_count_m; j++)
+        {
+            temp_str = cut_string_befor_simbol(messeges, ' ');
+            temp_vec.push_back(temp_str);
+        }
+        code_messege.push_back(temp_vec);
+    }
+}
 
+void MainWindow::NET_start_messeges_phase_2(QString data)
+{
+    QString temp_str;
+    int i;
+    int j;
 
+    temp_str = cut_string_befor_simbol(data, ' ');
+    i = temp_str.toInt();
 
+    temp_str = cut_string_befor_simbol(data, ' ');
+    j = temp_str.toInt();
 
+    QImage img;
+    QByteArray data_for_img; // Костыльно, но это С++, где всё привязно к типам данных. А вот в python... (дальше срач)
+    data_for_img.append(data);
+    img.loadFromData(data_for_img);
+    source_img[i][j] = img;
+}
 
+int count_simbols_befor(QString data, char befor)
+{
+    bool do_it = true;
+    int i = 0;
 
+    while (do_it)
+    {
+        if (QCharRef(data[i]).toLatin1() != befor)
+            i++;
+        else
+            do_it = !do_it;
+    }
+
+    return i;
+}
+
+QString cut_string_befor_simbol(QString &str, char befor)
+{
+    int temp;
+    QString temp_str;
+
+    temp_str = "";
+    temp = count_simbols_befor(str, befor);
+    temp_str.replace(0, temp, str);
+    str.remove(0, temp+1); // Компенсация пробела
+
+    return temp_str;
+}
+
+void MainWindow::on_edit_ip_root_editingFinished()
+{
+    root_address = ui->edit_ip_root->text();
+    ui->lbl_now_use_ip_root->setText(ui->edit_ip_root->text());
+}

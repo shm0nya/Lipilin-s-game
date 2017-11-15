@@ -1,6 +1,8 @@
 #include "home_window.h"
 #include "ui_home_window.h"
 
+#include <QMessageBox>
+
 home_window::home_window(QString login, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::home_window)
@@ -12,10 +14,6 @@ home_window::home_window(QString login, QWidget *parent) :
     ui->lbl_login_value->setText(login_name);
     ui->lbl_level_value->setText("FiRsT Leeeeevel!!!!!!");
     ui->list_users->addItem(login_name);
-
-    socket = new QUdpSocket;
-    socket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
-    connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udp дейтаграммы и анализируем
 }
 
 home_window::~home_window()
@@ -89,91 +87,5 @@ void home_window::on_pushButton_clicked()
 
 void home_window::add_new_player(QString new_player_login)
 {
-    ui->list_users->addItem(new_player_login);
-}
-
-void home_window::NET_datagramm_analysis()
-{
-    QByteArray buffer; //Дейтаграмма
-    buffer.resize(socket->pendingDatagramSize());
-
-    QHostAddress sender; // IP отправителя
-    quint16 senderPort; // Port
-
-    socket->readDatagram(buffer.data(), buffer.size(),&sender, &senderPort);
-    QString data(buffer);
-
-    char who = QCharRef(data[0]).toLatin1();
-    char action = QCharRef(data[1]).toLatin1();
-    data.remove(0, 2); // Удаляются первые 2 символа т.к. они уже записаны в who, data
-
-    //анализируем дейтаграмму
-    switch (action) {
-     case 'S':
-        NET_start_messeges_phase_1(data);
-        break;
-
-    case 's':
-        NET_start_messeges_phase_2(data);
-        break;
-
-    case 'g':
-        game_must_go_on();
-        break;
-    }
-}
-
-void home_window::NET_start_messeges_phase_1(QString messeges)
-{
-    QString temp_str;
-
-    /* Вытаскиваем n */
-    temp_str = cut_string_befor_simbol(messeges, ' ');
-    n = temp_str.toInt();
-
-    /* Вытаскиваем m */
-    temp_str = cut_string_befor_simbol(messeges, ' ');
-    m = temp_str.toInt();
-
-    /* Подготовка хранилища векторов */
-    source_img.resize(n);
-    for (int i =0; i<n; i++)
-        source_img.resize(m);
-
-    /* Вытаскиваем всё остальное */
-    for (int i = 0; i < n; i++)
-    {
-        vector<QString> temp_vec;
-        for (int j = 0; j < m; j++)
-        {
-            temp_str = cut_string_befor_simbol(messeges, ' ');
-            temp_vec.push_back(temp_str);
-        }
-        code_messege.push_back(temp_vec);
-    }
-
-}
-
-void home_window::NET_start_messeges_phase_2(QString data)
-{
-    QString temp_str;
-    int i;
-    int j;
-
-    temp_str = cut_string_befor_simbol(data, ' ');
-    i = temp_str.toInt();
-
-    temp_str = cut_string_befor_simbol(data, ' ');
-    j = temp_str.toInt();
-
-    QImage img;
-    QByteArray data_for_img; // Костыльно, но это С++, где всё привязно к типам данных. А вот в python... (дальше срач)
-    data_for_img.append(data);
-    img.loadFromData(data_for_img);
-    source_img[i][j] = img;
-}
-
-void home_window::game_must_go_on()
-{
-    create_img_buttons(source_img, n, m);
+    //ui->list_users->addItem(new_player_login);
 }
