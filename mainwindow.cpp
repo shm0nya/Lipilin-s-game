@@ -341,7 +341,9 @@ void MainWindow::NET_send_info_for_start()
             QString temp = "1s " + QString::number(i) + ' ' + QString::number(j) + ' ';
             Data.append(temp);
 
-            Data.append((char *)temp_img.bits(),temp_img.byteCount()); // Хз как работает. На чистой магии. Лишь бы скомпилировалось
+            QBuffer buffer(&Data);
+            buffer.open(QIODevice::WriteOnly);
+            temp_img.save(&buffer, "PNG");
 
             datagramms.push_back(Data);
         }
@@ -422,7 +424,8 @@ void MainWindow::NET_start_messeges_phase_2(QString data)
     QByteArray ba;
     ba.append(temp_str);
 
-    QImage image((uchar *)ba.data(),100,100,QImage::Format_RGB32);
+    QImage image;
+    image.loadFromData(ba, "PNG");
     source_img[i][j] = image;
 }
 

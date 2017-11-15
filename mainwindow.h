@@ -54,6 +54,8 @@
 #include <QGridLayout>
 #include <QUdpSocket>
 #include <QMap>
+#include <QTime>
+#include <QBuffer>
 
 #include "home_window.h"
 #include "send_messege.h"
