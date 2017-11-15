@@ -217,7 +217,7 @@ void MainWindow::NET_datagramm_analysis()
     switch (action) {
     case 'r':
         if (who == '0') // Отправитель player
-            NET_registration_for_root(data ,sender); 
+            NET_registration_for_root(data ,sender);
         else
             NET_registration_for_player(data);
         break;
@@ -337,9 +337,12 @@ void MainWindow::NET_send_info_for_start()
         {
             QImage temp_img = root_wnd->get_rune_at_position(i, j);
             QByteArray Data;
+
             QString temp = "1s " + QString::number(i) + ' ' + QString::number(j) + ' ';
             Data.append(temp);
+
             Data.append((char *)temp_img.bits(),temp_img.byteCount()); // Хз как работает. На чистой магии. Лишь бы скомпилировалось
+
             datagramms.push_back(Data);
         }
 
@@ -350,9 +353,13 @@ void MainWindow::NET_send_info_for_start()
         QHostAddress temp_addres(it.value());
 
         socket->writeDatagram(first_data, temp_addres, 65201);
+        sleep(1000);
 
         for (int i = 0; i < datagramms.size(); i++)
+        {
             socket->writeDatagram(datagramms[i], temp_addres, 65201);
+            sleep(1000);
+        }
     }
 
     /* Посылаем сигнал старта игры */
@@ -380,9 +387,12 @@ void MainWindow::NET_start_messeges_phase_1(QString messeges)
     img_count_m = temp_str.toInt();
 
     /* Подготовка хранилища векторов */
-    source_img.resize(img_count_n);
     for (int i =0; i<img_count_n; i++)
-        source_img.resize(img_count_m);
+    {
+        vector<QImage> tt_vec(img_count_m);
+        source_img.push_back(tt_vec);
+
+    }
 
     /* Вытаскиваем всё остальное */
     for (int i = 0; i < img_count_n; i++)
@@ -409,11 +419,11 @@ void MainWindow::NET_start_messeges_phase_2(QString data)
     temp_str = cut_string_befor_simbol(data, ' ');
     j = temp_str.toInt();
 
-    QImage img;
-    QByteArray data_for_img; // Костыльно, но это С++, где всё привязно к типам данных. А вот в python... (дальше срач)
-    data_for_img.append(data);
-    img.loadFromData(data_for_img);
-    source_img[i][j] = img;
+    QByteArray ba;
+    ba.append(temp_str);
+
+    QImage image((uchar *)ba.data(),100,100,QImage::Format_RGB32);
+    source_img[i][j] = image;
 }
 
 int count_simbols_befor(QString data, char befor)
@@ -439,7 +449,7 @@ QString cut_string_befor_simbol(QString &str, char befor)
 
     temp_str = "";
     temp = count_simbols_befor(str, befor);
-    temp_str.replace(0, temp, str);
+    temp_str = simbols_in_str_at_positions(str, 0, temp);
     str.remove(0, temp+1); // Компенсация пробела
 
     return temp_str;
@@ -449,4 +459,25 @@ void MainWindow::on_edit_ip_root_editingFinished()
 {
     root_address = ui->edit_ip_root->text();
     ui->lbl_now_use_ip_root->setText(ui->edit_ip_root->text());
+}
+
+QString simbols_in_str_at_positions(QString data, int position, int count)
+{
+    QString unswer = "";
+    for (int i = position; i < position + count; i++)
+    {
+        unswer = unswer + data[i];
+    }
+
+    return unswer;
+}
+
+void sleep(int t)
+{
+    QTime time;
+    time.start();
+    for(;time.elapsed() < t;)
+    {
+        1+1;
+    }
 }

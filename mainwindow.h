@@ -196,4 +196,8 @@ int count_simbols_befor(QString data, char befor); /* Находит колич�
 
 QString cut_string_befor_simbol(QString &str, char befor); /* Вырезает из строки кусок, который идет до символа befor. Символ befor удаляет */
 
+QString simbols_in_str_at_positions(QString data, int position, int count);
+
+void sleep(int t);
+
 #endif // MAINWINDOW_H
