@@ -26,7 +26,7 @@ send_messege::send_messege(QWidget *parent) :
     ui->p_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
     ui->s_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
 
-    connect(ui->button_send_messege, SIGNAL(clicked()), this, SIGNAL(change_wnd_to_homewnd()));
+    //connect(ui->button_send_messege, SIGNAL(clicked()), this, SIGNAL(change_wnd_to_homewnd()));яяя
     connect(ui->button_choose_img, SIGNAL(clicked()), this, SIGNAL(show_ch_buttons_sign()));
     connect(ui->button_make_img, SIGNAL(clicked()), this, SIGNAL(show_make_img_wnd()));
 }
@@ -109,7 +109,7 @@ void send_messege::on_button_p_key_generate_clicked()
     /* Инициирование стартового значения генератора */
     string value_key = ui->p_key_edit->text().toStdString();
     int generator_start = 0;
-    for (int i = 0; i < value_key.size(); i++)
+    for (int i = 0; i < int(value_key.size()); i++)
         generator_start = generator_start + value_key[i];
 
 
@@ -170,7 +170,7 @@ void send_messege::on_button_s_key_generate_clicked()
     /* Инициирование стартового значения генератора */
     string value_key = ui->s_key_edit->text().toStdString();
     int generator_start = 0;
-    for (int i = 0; i < value_key.size(); i++)
+    for (int i = 0; i < int(value_key.size()); i++)
         generator_start = generator_start + value_key[i];
 
 
@@ -355,9 +355,9 @@ QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
             temp.push_back(t);
             i++;
         }
-
-        // Шифроание и запись зашифрованных пикселей
-        if (temp.size()==p_size)
+        
+        // Шифрование и запись зашифрованных пикселей
+        if (int(temp.size())==p_size)
         {
             temp = pblok_use(temp, pb_key);
             for (int j = 0; j<p_size;j++)
@@ -372,9 +372,10 @@ QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
 
 QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
 {
+    // Существует out of range of image Хз как фиксить
     int wid = encrypted_image.width();
     int hei = encrypted_image.height();
-    int blok_size = sb_key.size();
+    int blok_size = sb_key[0].size() * 3;
 
     // Считывание
     for (int i = 0; i < hei*wid;)
@@ -389,7 +390,7 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
         }
 
         // Шифроание и запись зашифрованных пикселей
-        if (temp.size()==blok_size)
+        if (int(temp.size())==blok_size)
         {
             temp = sblok_like_vigener_use(temp, sb_key);
             for (int j = 0; j<blok_size;j++)
@@ -406,7 +407,7 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
 {
     int wid = encrypted_image.width();
     int hei = encrypted_image.height();
-    int blok_size = sb_key.size();
+    int blok_size = sb_key[0].size()*3;
 
     // Считывание
     for (int i = 0; i < hei*wid;)
@@ -420,8 +421,8 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
             i++;
         }
 
-        // Шифроание и запись зашифрованных пикселей
-        if (temp.size()==blok_size)
+        // Шифроание и за,пись зашифрованных пикселей
+        if (int(temp.size())==blok_size)
         {
             temp = sblok_like_vigener_reverse(temp, sb_key);
             for (int j = 0; j<blok_size;j++)
@@ -448,9 +449,40 @@ void send_messege::user_choose_img(QImage img)
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
 }
 
-
 void send_messege::set_position_of_img(int i, int j)
 {
     ui->edit_coordinate_i->setText(QString::number(i+1)); // +1, чтобы пользователю было удобнее считать
     ui->edit_coordinate_j->setText(QString::number(j+1));
+}
+
+void send_messege::on_button_send_messege_clicked()
+{
+    QImage img = Loaded_image;
+
+    int i = ui->edit_coordinate_i->text().toInt();
+    int j = ui->edit_coordinate_j->text().toInt();
+
+    QString p_key_str = ui->lbl_p_key_value->text();
+    int p_key_size = ui->lbl_p_key_size->text().toInt();
+
+    QString s_key_str = ui->lbl_s_key_value->text();
+    int s_key_size = ui->lbl_s_key_size->text().toInt();
+
+    emit this->player_send_messege(img, p_key_str, p_key_size, s_key_str, s_key_size, i, j);
+}
+
+void send_messege::players_img_verdict(bool verdict)
+{
+    if (verdict == false)
+        QMessageBox::information(this, "Марио, твоя принцесса в другом замке", "Это неверное изображение");
+    else
+    {
+        QMessageBox::information(this, "Nice", "Это верное изображение");
+        /* Здесь код, который запускает функцию, говорящую, что все хорошо*/
+    }
+}
+
+void send_messege::on_button_back_clicked()
+{
+   emit this->change_wnd_to_homewnd();
 }

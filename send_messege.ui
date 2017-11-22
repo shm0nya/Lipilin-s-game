@@ -587,7 +587,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -685,6 +685,19 @@
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="button_back">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>640</y>
+     <width>131</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>назад</string>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -23,7 +23,7 @@ make_img_window::~make_img_window()
 void make_img_window::set_colors()
 {
     QHBoxLayout *hbox = new QHBoxLayout(this);
-    for (int i = 0; i < colors.size(); i++)
+    for (int i = 0; i < int(colors.size()); i++)
     {
         QPushButton *pb = new QPushButton;
         QImage temp(100, 100, QImage::Format_RGB32);
@@ -54,7 +54,7 @@ void make_img_window::set_colors()
 void make_img_window::set_runes()
 {
     QVBoxLayout *vbox = new QVBoxLayout(this);
-    for (int i = 0; i < runes.size(); i++)
+    for (int i = 0; i < int(runes.size()); i++)
     {
         QPushButton *pb = new QPushButton;
 
@@ -83,41 +83,34 @@ void make_img_window::on_button_cancel_clicked()
 
 void make_img_window::on_button_ok_clicked()
 {
+    QImage img = ui->lbl_created_img->pixmap()->toImage().scaled(100, 100);
     if (flag_is_it_root)
-        emit this->root_make_new_img(ui->lbl_created_img->pixmap()->toImage(), root_i, root_j, ui->edit_root_messege->text());
+    {
+        emit this->root_make_new_img(img, root_i, root_j, ui->edit_root_messege->text());
+    }
     else
-        emit this->i_make_img(ui->lbl_created_img->pixmap()->toImage());
+        emit this->i_make_img(img);
 
     this->close();
 }
 
-QImage make_img_window::paint_picture (QImage data, QRgb color)
+QImage make_img_window::paint_picture (QImage img, QRgb color)
 //позаимствовала и видоизменила функцию шифрования
 //пусть будет просто цвет, а в вызове функции укажем, какой именно элемент массива цветов надо брать
 {
     //выпиливаем изначально нужный цвет
-    QColor *paint = new QColor(color);
-    int red = paint->red();
-    int green = paint->green();
-    int blue = paint->blue();
+    QImage data = img;
+    QRgb white = qRgb(255,255,255);
 
     int wid = data.width();
     int hei = data.height();
 
     for (int i = 0; i < wid*hei; i++)
     {
-        // Способ работы с пикселем - QColor
-        QColor *temp = new QColor(data.pixel(i%wid, i/wid));
+        QRgb temp = data.pixel(i%wid, i/wid);
 
-        //исключаем белый цвет (фон букв)
-        if (!(temp->red() == 255 && temp->green() == 255 && temp->blue() == 255))
-        {
-            temp->setRed(red);
-            temp->setGreen(green);
-            temp->setBlue(blue);
-        }
-
-        data.setPixel(i%wid, i/wid, temp->rgb());
+        if (temp!=white) //исключаем белый цвет (фон букв)
+            data.setPixel(i%wid, i/wid, color);
     }
 
     return data;

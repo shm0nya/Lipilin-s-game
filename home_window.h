@@ -46,6 +46,9 @@ public:
     vector<vector<QString>> set_messeges (vector<vector<QString>> msg){return msg;}
     vector<vector<QImage>> set_runes(vector<vector<QImage>> runes) {return runes;}
 
+
+    QImage get_cut_img(int i, int j){return cut[i][j];}// В realese версии удалить
+
 signals:
     void change_wnd_to_swnd(); /* Сигнал для переключения с home_window на send_messege */
     void do_it(int, int); /* Сигнал для создания кнопок в окне choose_button */
@@ -64,6 +67,7 @@ private:
     Ui::home_window *ui;
     QImage original_img;
     QString login_name;
+    vector<vector<QImage>> cut; // В realese версии удалить
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m); /* Функция, которая разрезает исходное изображение на n*m частей.

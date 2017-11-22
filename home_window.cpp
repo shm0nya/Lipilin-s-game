@@ -81,7 +81,7 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m)
 void home_window::on_pushButton_clicked()
 {
     original_img.load(":/images/work image.png");
-    vector<vector<QImage>> cut = cut_image(original_img,5,5);
+    cut = cut_image(original_img,5,5);
     create_img_buttons(cut, 5,5);
 }
 

@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     socket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
     connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udp дейтаграммы и анализируем
 
-    user_list["rr"] = "192.168.1.1"; // Для проверки работы "уникальности имени" Не работает, если тестировать одновременно с void MainWindow::NET_a_new_player_come(QString new_player_login)
+    ui->edit_ip_root->setText(root_address);
+    ui->lbl_now_use_ip_root->setText(root_address);
 }
 
 MainWindow::~MainWindow()
@@ -60,6 +61,9 @@ void MainWindow::playerwindow()
     connect(send_messege_wnd, SIGNAL(show_make_img_wnd()),this, SLOT(show_make_wnd()));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
     connect(make_wnd, SIGNAL(i_make_img(QImage)), this, SLOT(then_made_img(QImage)));
+
+    connect(send_messege_wnd, SIGNAL(player_send_messege(QImage,QString,int,QString,int,int,int)),
+            this, SLOT(test_player_image(QImage,QString,int,QString,int,int,int)));
 
     home_wnd->show();
     this->close();
@@ -231,7 +235,7 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 's':
-        NET_start_messeges_phase_2(data);
+        NET_start_messeges_phase_2(data, buffer);
         break;
 
     case 'g':
@@ -335,15 +339,17 @@ void MainWindow::NET_send_info_for_start()
     for (int i = 0; i < n; i++)
         for (int j = 0; j < m; j++)
         {
-            QImage temp_img = root_wnd->get_rune_at_position(i, j);
             QByteArray Data;
 
-            QString temp = "1s " + QString::number(i) + ' ' + QString::number(j) + ' ';
+            QString temp = "1s" + QString::number(i) + ' ' + QString::number(j) + ' ';
             Data.append(temp);
 
-            QBuffer buffer(&Data);
-            buffer.open(QIODevice::WriteOnly);
-            temp_img.save(&buffer, "PNG");
+            QImage temp_img = root_wnd->get_rune_at_position(i, j);
+            QByteArray ba;
+            QBuffer buffer(&ba);
+            temp_img.save(&buffer,"PNG");
+
+            Data = Data + ba;
 
             datagramms.push_back(Data);
         }
@@ -357,7 +363,7 @@ void MainWindow::NET_send_info_for_start()
         socket->writeDatagram(first_data, temp_addres, 65201);
         sleep(1000);
 
-        for (int i = 0; i < datagramms.size(); i++)
+        for (int i = 0; i < int(datagramms.size()); i++)
         {
             socket->writeDatagram(datagramms[i], temp_addres, 65201);
             sleep(1000);
@@ -409,11 +415,10 @@ void MainWindow::NET_start_messeges_phase_1(QString messeges)
     }
 }
 
-void MainWindow::NET_start_messeges_phase_2(QString data)
+void MainWindow::NET_start_messeges_phase_2(QString data, QByteArray buffer)
 {
     QString temp_str;
-    int i;
-    int j;
+    int i, j;
 
     temp_str = cut_string_befor_simbol(data, ' ');
     i = temp_str.toInt();
@@ -421,11 +426,9 @@ void MainWindow::NET_start_messeges_phase_2(QString data)
     temp_str = cut_string_befor_simbol(data, ' ');
     j = temp_str.toInt();
 
-    QByteArray ba;
-    ba.append(temp_str);
-
+    buffer.remove(0, 6);
     QImage image;
-    image.loadFromData(ba, "PNG");
+    image.loadFromData(buffer);
     source_img[i][j] = image;
 }
 
@@ -481,6 +484,48 @@ void sleep(int t)
     time.start();
     for(;time.elapsed() < t;)
     {
-        1+1;
+
     }
 }
+
+
+void MainWindow::test_player_image(QImage img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j)
+{
+    if (root_address == "127.0.0.1")
+        send_messege_wnd->players_img_verdict(img == home_wnd->get_cut_img(i-1, j-1));
+    else
+        send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

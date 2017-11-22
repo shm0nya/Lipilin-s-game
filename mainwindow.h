@@ -145,6 +145,8 @@ private slots:
 
     void NET_send_info_for_start();
 
+    void test_player_image(QImage img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j);
+
 
 
 
@@ -153,7 +155,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QUdpSocket *socket;
-    QString root_address = "192.168.1.173"; // Меняется в зависиости от сети! Менять ручками в исходном коде
+    QString root_address = "127.0.0.1"; // Меняется в зависиости от сети! Менять ручками в исходном коде
     QMap<QString, QString> user_list;       // Список пользователей
     vector<vector<QImage>> source_img;      // Исходные изображения, которые прислыает root
     vector<vector<QString>> code_messege;   // Строки, которые кодируются рунами
@@ -190,8 +192,8 @@ private:
                                                                            * Анализирует все слова и составляет массив vector<vector> messeges из строки
                                                                            * делает resize source_img!!!
                                                                            */
-    \
-    void NET_start_messeges_phase_2(QString data);
+
+    void NET_start_messeges_phase_2(QString data, QByteArray buffer);
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */

@@ -29,6 +29,7 @@ public:
     explicit send_messege(QWidget *parent = 0);
     void user_choose_img(QImage img); /* Выбранное пользователем изображение с его координатами устанавливается как активное */
     void set_position_of_img(int i, int j);
+    void players_img_verdict(bool verdict);
     ~send_messege();
 
 signals:
@@ -36,6 +37,16 @@ signals:
     void change_wnd_to_homewnd(); /* Сигнал для смены окна на homewindow */
     void show_ch_buttons_sign(); /* Сигнал для показа окна choose_img */
     void show_make_img_wnd();/* Сигнал для показа окна make img*/
+
+    void player_send_messege(QImage, QString, int, QString, int, int, int);/* Передает в mainwindow следующие данные:
+                                                                            * 1) Qimage Изображение
+                                                                            * 2) QString P_key, int длина ключа P
+                                                                            * 3) QString s_key, int длина ключа S
+                                                                            * 4) int i, int j координаты в сетке
+                                                                            *
+                                                                            * в mainwindow сравнивается с исходным.
+                                                                            * Если нас прослушивают отправляет тому, кто прослушивает
+                                                                            */
 
 private slots:
     void on_button_load_img_clicked(); /* Позволяет пользователю загрузить своё изображение (подробнее см в send_messege.cpp) */
@@ -46,6 +57,10 @@ private slots:
     void on_button_algoritm_crypto_clicked();/* Шифрует по алгоритму (подробнее см в send_messege.cpp) */
     void on_button_crypto_cansel_clicked();/* Расшифровывает последний шифр (подробнее см в send_messege.cpp) */
     void on_button_algoritm_crypto_delete_clicked(); /* Сбрасыывает алгоритм (подробнее см в send_messege.cpp) */
+
+    void on_button_send_messege_clicked();
+
+    void on_button_back_clicked();
 
 private:
     Ui::send_messege *ui;
