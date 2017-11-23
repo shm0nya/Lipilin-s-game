@@ -6,67 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1042</width>
+    <width>950</width>
     <height>635</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1042</width>
-    <height>635</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1042</width>
-    <height>635</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>620</x>
-     <y>20</y>
-     <width>385</width>
-     <height>541</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="componate_overhear">
-    <item>
-     <widget class="QListWidget" name="list_users"/>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="componate_overhear_choice">
-      <item>
-       <widget class="QLabel" name="lbl_overhear_choice_show">
-        <property name="text">
-         <string>Выберите, кого будете прослушивать</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="overhear_choice_edit"/>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
@@ -252,6 +210,48 @@
    <property name="text">
     <string>Кнопка, для игры в соло. Заменяет сигнал старт</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>20</y>
+     <width>269</width>
+     <height>591</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="componate_overhear">
+    <item>
+     <widget class="QListWidget" name="user_list"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="componate_overhear_edit">
+      <item>
+       <widget class="QLabel" name="lbl_overhere_text">
+        <property name="text">
+         <string>Перезватывать</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="edit_overhere"/>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

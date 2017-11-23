@@ -48,6 +48,7 @@ void MainWindow::playerwindow()
     send_messege_wnd = new send_messege;
     choose_button_wnd = new choose_button;
     make_wnd = new make_img_window;
+    intercept_wnd = new interception;
 
     connect(send_messege_wnd, SIGNAL(change_wnd_to_homewnd()), this, SLOT(sendmess_wnd__home_wnd()));
     connect(home_wnd, SIGNAL(change_wnd_to_swnd()),this ,SLOT(home_wnd__sendmess_wnd()));
@@ -65,8 +66,12 @@ void MainWindow::playerwindow()
     connect(send_messege_wnd, SIGNAL(player_send_messege(QImage,QString,int,QString,int,int,int)),
             this, SLOT(test_player_image(QImage,QString,int,QString,int,int,int)));
 
+    connect(home_wnd, SIGNAL(show_intercept_wnd_please()), this, SLOT(show_intercept_window()));
+    connect(intercept_wnd, SIGNAL(homecomig()), this, SLOT(back__homecoming()));
+
     home_wnd->show();
     this->close();
+
 }
 
 void MainWindow::ok_enabled()
@@ -355,7 +360,6 @@ void MainWindow::NET_send_info_for_start()
         }
 
     /* Послыаем пользователям информацию */
-
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
         QHostAddress temp_addres(it.value());
@@ -488,18 +492,42 @@ void sleep(int t)
     }
 }
 
-
 void MainWindow::test_player_image(QImage img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j)
 {
+    if ((i<0) || (j<0) || (i > img_count_n) || (j > img_count_m))
+    {
+        QMessageBox::information(this, "error", "Неправильыне координаты");
+        return;
+    }
+
+    // В зависимости игра оффлайн или онлайн
     if (root_address == "127.0.0.1")
         send_messege_wnd->players_img_verdict(img == home_wnd->get_cut_img(i-1, j-1));
     else
         send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
 }
 
+void MainWindow::NET_players_in_game(QString data)
+{
+    while (data!= "")
+    {
+        QString temp;
+        temp = cut_string_befor_simbol(data, ' ');
+        home_wnd->add_new_player(temp);
+    }
+}
 
+void MainWindow::show_intercept_window()
+{
+    home_wnd->close();
+    intercept_wnd->show();
+}
 
-
+void MainWindow::back__homecoming()
+{
+    intercept_wnd->close();
+    home_wnd->show();
+}
 
 
 

@@ -13,7 +13,7 @@ home_window::home_window(QString login, QWidget *parent) :
     login_name = login;
     ui->lbl_login_value->setText(login_name);
     ui->lbl_level_value->setText("FiRsT Leeeeevel!!!!!!");
-    ui->list_users->addItem(login_name);
+    add_new_player(login_name);
 }
 
 home_window::~home_window()
@@ -87,5 +87,26 @@ void home_window::on_pushButton_clicked()
 
 void home_window::add_new_player(QString new_player_login)
 {
-    //ui->list_users->addItem(new_player_login);
+    players.push_back(new_player_login);
+    ui->user_list->addItem(new_player_login);
+}
+
+void home_window::on_edit_overhere_editingFinished()
+{
+    QString intercepting_player;
+    intercepting_player = ui->edit_overhere->text();
+
+    for (int i = 0; i < int(players.size()); i++)
+        if (intercepting_player == players[i])
+        {
+            ui->lbl_overhere_value->setText(intercepting_player);
+            return;
+        }
+
+    QMessageBox::information(this, "error", "Такого игрока нет");
+}
+
+void home_window::on_button_overhear_messege_clicked()
+{
+    emit this->show_intercept_wnd_please();
 }

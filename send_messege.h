@@ -48,6 +48,9 @@ signals:
                                                                             * Если нас прослушивают отправляет тому, кто прослушивает
                                                                             */
 
+    void give_me_n();
+    void give_me_m();
+
 private slots:
     void on_button_load_img_clicked(); /* Позволяет пользователю загрузить своё изображение (подробнее см в send_messege.cpp) */
     void on_button_p_key_generate_clicked();/* Генерирует ключ P (подробнее см в send_messege.cpp) */

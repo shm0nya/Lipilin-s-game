@@ -26,7 +26,10 @@ send_messege::send_messege(QWidget *parent) :
     ui->p_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
     ui->s_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
 
-    //connect(ui->button_send_messege, SIGNAL(clicked()), this, SIGNAL(change_wnd_to_homewnd()));яяя
+    QRegExp is_coordinate_variable("[0-9]{0,5}");
+    ui->edit_coordinate_i->setValidator((new QRegExpValidator(is_coordinate_variable, this)));
+    ui->edit_coordinate_j->setValidator((new QRegExpValidator(is_coordinate_variable, this)));
+
     connect(ui->button_choose_img, SIGNAL(clicked()), this, SIGNAL(show_ch_buttons_sign()));
     connect(ui->button_make_img, SIGNAL(clicked()), this, SIGNAL(show_make_img_wnd()));
 }

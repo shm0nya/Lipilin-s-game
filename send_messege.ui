@@ -701,5 +701,70 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>p_key_size_edit_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>p_key_size_edit_spbox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>168</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>208</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p_key_size_edit_spbox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>p_key_size_edit_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>216</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>69</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>s_key_size_edit_spbox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>s_key_size_edit_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>494</x>
+     <y>64</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>s_key_size_edit_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>s_key_size_edit_spbox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>505</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>544</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

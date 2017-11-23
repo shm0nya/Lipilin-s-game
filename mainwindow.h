@@ -62,6 +62,7 @@
 #include "choose_button.h"
 #include "root_window.h"
 #include "make_img_window.h"
+#include "interception.h"
 
 namespace Ui {
 class MainWindow;
@@ -143,14 +144,22 @@ private slots:
                                     * Данный слот анализирует датаграмму из сокета. Подробнее см. протокол + "внутренности" метода
                                     */
 
-    void NET_send_info_for_start();
+    void NET_send_info_for_start(); /* mode = root
+                                     * Шлет всем пользователям информацию о старте
+                                     * Переделать чтобы для одного пользователя!!!!
+                                     */
 
-    void test_player_image(QImage img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j);
-
-
-
+    void test_player_image(QImage img,                      // mode = player
+                           QString p_key, int p_key_size,   // отсылает изображение, ключи P
+                           QString s_key, int s_key_size,   // S (для перехвата)
+                           int i, int j);                   // позицию в сетке изображений
+                                                            // Проверят соотвествует ли присланное изображение родному
+                                                            // Если пользователя перехватывают, то отсылает информацию
 
     void on_edit_ip_root_editingFinished();
+
+    void show_intercept_window(); // Открытие окна intercept
+    void back__homecoming();      // Из окна перехвата обратно в домашнее
 
 private:
     Ui::MainWindow *ui;
@@ -159,13 +168,15 @@ private:
     QMap<QString, QString> user_list;       // Список пользователей
     vector<vector<QImage>> source_img;      // Исходные изображения, которые прислыает root
     vector<vector<QString>> code_messege;   // Строки, которые кодируются рунами
-    int img_count_n, img_count_m;
+    int img_count_n = 5; // Дефолтное значение
+    int img_count_m = 5; // Дефолтное значение
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;
     choose_button *choose_button_wnd;
     make_img_window *make_wnd;
     root_window *root_wnd;
+    interception *intercept_wnd;
 
     void NET_registration_for_root(QString login, QHostAddress sender); /* mode = root
                                                                          * проверка уникальности имени пользователя
@@ -194,6 +205,8 @@ private:
                                                                            */
 
     void NET_start_messeges_phase_2(QString data, QByteArray buffer);
+
+    void NET_players_in_game(QString data);
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */
