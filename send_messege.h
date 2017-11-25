@@ -27,16 +27,16 @@ class send_messege : public QDialog
 
 public:
     explicit send_messege(QWidget *parent = 0);
-    void user_choose_img(QImage img); /* Выбранное пользователем изображение с его координатами устанавливается как активное */
-    void set_position_of_img(int i, int j);
-    void players_img_verdict(bool verdict);
+
+    void user_choose_img(QImage img);       /* Выбранное пользователем изображение с его координатами устанавливается как активное */
+    void set_position_of_img(int i, int j); // Установка позици изображения (в choose_button используется через mainwindow)
+    void players_img_verdict(bool verdict); // Проверка правильности изображения
     ~send_messege();
 
 signals:
-                    // Все сигналы ловит mainwindow //
     void change_wnd_to_homewnd(); /* Сигнал для смены окна на homewindow */
-    void show_ch_buttons_sign(); /* Сигнал для показа окна choose_img */
-    void show_make_img_wnd();/* Сигнал для показа окна make img*/
+    void show_ch_buttons_sign();  /* Сигнал для показа окна choose_img */
+    void show_make_img_wnd();     /* Сигнал для показа окна make img*/
 
     void player_send_messege(QImage, QString, int, QString, int, int, int);/* Передает в mainwindow следующие данные:
                                                                             * 1) Qimage Изображение
@@ -48,8 +48,6 @@ signals:
                                                                             * Если нас прослушивают отправляет тому, кто прослушивает
                                                                             */
 
-    void give_me_n();
-    void give_me_m();
 
 private slots:
     void on_button_load_img_clicked(); /* Позволяет пользователю загрузить своё изображение (подробнее см в send_messege.cpp) */
@@ -67,8 +65,8 @@ private slots:
 
 private:
     Ui::send_messege *ui;
-    std::vector<int> p_key;
-    std::vector<vector<int>> s_key;
+    std::vector<int> p_key;                 // Ключ Р
+    std::vector<vector<int>> s_key;         // Ключ S
     QImage Loaded_image;                    // Загруженное изображение
     QImage Encrypted_image;                 // Зашифрованное изображение
     bool flag_new_image;                    /* В случае, когда пользователь составил алгоритм, загрузил изображение и жмет на кнопку P или S,

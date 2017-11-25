@@ -97,7 +97,7 @@ void home_window::on_button_overhear_messege_clicked()
 }
 
 void home_window::on_button_inercept_clicked()
-{
+{   
     QString intercepting_player;
     intercepting_player = ui->edit_overhere->text();
 

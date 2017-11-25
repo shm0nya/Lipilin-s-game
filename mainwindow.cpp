@@ -68,6 +68,7 @@ void MainWindow::playerwindow()
 
     connect(home_wnd, SIGNAL(show_intercept_wnd_please()), this, SLOT(show_intercept_window()));
     connect(intercept_wnd, SIGNAL(homecomig()), this, SLOT(back__homecoming()));
+    connect(home_wnd, SIGNAL(i_want_intercept(QString)), this, SLOT(NET_send_players_inercept_login(QString));
 
     home_wnd->show();
     this->close();
@@ -246,6 +247,13 @@ void MainWindow::NET_datagramm_analysis()
     case 'g':
         home_wnd->create_img_buttons(source_img, img_count_n, img_count_m);
         break;
+
+    case 'i':
+        if (who == '0')
+            NET_players_intercept_for_root(data, sender);
+        else
+            NET_players_intercept_for_player(data);
+
     }
 }
 
@@ -502,19 +510,17 @@ void MainWindow::test_player_image(QImage img, QString p_key, int p_key_size, QS
 
     // В зависимости игра оффлайн или онлайн
     if (root_address == "127.0.0.1")
-        send_messege_wnd->players_img_verdict(img == home_wnd->get_cut_img(i-1, j-1));
-    else
-        send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
-}
-
-void MainWindow::NET_players_in_game(QString data)
-{
-    while (data!= "")
     {
-        QString temp;
-        temp = cut_string_befor_simbol(data, ' ');
-        home_wnd->add_new_player(temp);
+        send_messege_wnd->players_img_verdict(img == home_wnd->get_cut_img(i-1, j-1));
+        return;
     }
+
+    send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
+
+    for (int i = 0; i < int(me_overhere_addres_list.size()); i++)
+        NET_send_intercepted_messege_for_player(me_overhere_addres_list[i],
+                                                img, p_key, p_key_size,
+                                                s_key, s_key_size, i, j);
 }
 
 void MainWindow::show_intercept_window()
@@ -529,12 +535,72 @@ void MainWindow::back__homecoming()
     home_wnd->show();
 }
 
+void MainWindow::NET_send_players_inercept_login(QString login)
+{
+    if (i_overhear_login != "")
+        NET_no_overhere_for_root(login);
 
+    QByteArray Data;
+    Data.append("0iyes ");
+    Data.append(login);
+    socket->writeDatagram(Data, QHostAddress(root_address), 65201);
+}
 
+void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sender)
+{
+    QHostAddress addres (user_list[data]);
 
+    QByteArray Data;
+    Data.append("1i");
 
+    QString action = cut_string_befor_simbol(data, ' ');
+    Data.append(action);
 
+    Data.append(sender.toString());
+    socket->writeDatagram(Data, addres, 65201);
+}
 
+void MainWindow::NET_players_intercept_for_player(QString data)
+{
+    QString action = cut_string_befor_simbol(data, ' '); // Поиск да или нет
+    if (action == "yes")
+        me_overhere_addres_list.push_back(data);
+    else
+        me_overhere_addres_list.erase( remove( me_overhere_addres_list.begin(), me_overhere_addres_list.end(), data ), me_overhere_addres_list.end()); // Магическая конструкция, взятая из интернета
+                                                                                                                                                       // Должна удалять элемент из вектора
+}
+
+void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QImage img,                  
+                                             QString p_key, int p_key_size,   
+                                             QString s_key, int s_key_size, 
+                                             int i, int j)
+{
+    QByteArray Data;
+    Data.append("1I");
+    QString messege = "";
+
+    messege = messege + p_key + ' ' + QString::number(p_key_size) + ' '
+                      + s_key + ' ' + QString::number(s_key_size) + ' '
+                      + QString::number(i) + ' ' + QString::number(j) + ' ';
+
+    Data.append(messege);
+
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    img.save(&buffer,"PNG");
+
+    Data = Data + ba;
+
+    socket->writeDatagram(Data, QHostAddress(addres), 65201);
+}
+
+void MainWindow::NET_no_overhere_for_root (QString login)
+{
+    QByteArray Data;
+    Data.append("0ino ");
+    Data.append(login);
+    socket->writeDatagram(Data, QHostAddress(root_address), 65201);
+}
 
 
 

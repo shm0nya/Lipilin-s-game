@@ -23,27 +23,34 @@ class root_window : public QDialog
 public:
     explicit root_window(QWidget *parent = 0);
     ~root_window();
-    void create_images();
-    void set_temp_rune(QImage img) {temp_rune = img;}
-    void set_rune_at_GL(QPB_modify *pb, int i, int j); // Установка руны в сетке рун, после её создания
-    bool get_default_flag() {return flag_default;}
-    QString get_messege_at_position(int i, int j); // Получение сообщения, соответствующего позиции
 
-    QImage get_rune_at_position(int i, int j); // Возвращает руну на определенной позиции
-    int get_n() {return n;}
-    int get_m() {return m;}
+    void create_images();                               // Создает кнопки в окне
+
+    void set_temp_rune(QImage img) {temp_rune = img;}   // Костыль. Ставит руну созданную в make_rune
+
+    void set_rune_at_GL(QPB_modify *pb, int i, int j);  // Установка руны в сетке рун, после её создания в mainwindow
+
+    bool get_default_flag() {return flag_default;}      // Запрос флага (поумолчанию или нет?) - вдруг кто-то сам решит задать
+
+    QString get_messege_at_position(int i, int j);      // Получение сообщения, соответствующего позиции в mainwindow
+
+    QImage get_rune_at_position(int i, int j);          // Передает руну на определенной позиции в mainwindow
+
+    int get_n() {return n;}                             // Передает n в mainwindow
+
+    int get_m() {return m;}                             // Передает m в mainwindow
 
 private slots:
-    void on_button_apply_clicked();
+    void on_button_apply_clicked();                     // Изменение n, m рутом (пересчет сетки)
 
-    void on_button_default_clicked();
+    void on_button_default_clicked();                   // Возврат к дефолтным настройкам
 
-    void on_pushButton_clicked();
+    void on_button_start_clicked();                       //
 
 signals:
-    void get_rune(int);
-    void show_make_img_with_my_img(QImage, int, int, QString);
-    void start();
+    void get_rune(int);                                         // Сигнал "дай мне руну" (шлется в make_img), там есть vector с рунами
+    void show_make_img_with_my_img(QImage, int, int, QString);  // Смена окон
+    void start();                                               // Старт игры
 
 private:
     Ui::root_window *ui;
@@ -56,11 +63,12 @@ private:
                         "Берляндский", "Аэропорт", "десять", "часов", "пятнадцать",
                         "минут", "день", "икс", "парад", "с",
                         "флагами", "на", "площади", "близ", "фонтана"};
+
     bool flag_default = true;
 
-    std::vector<QString> messege = default_text; // Сообщение, которое закодировано рунами (изначально равно default_text)
-    QImage temp_rune;
-    std::vector<std::vector<QPB_modify*>> pb_runes;
+    std::vector<QString> messege = default_text;    // Сообщение, которое закодировано рунами (изначально равно default_text)
+    QImage temp_rune;                               // Костыль
+    std::vector<std::vector<QPB_modify*>> pb_runes; // Массив с указателями на руны (сразу надо было делать везде)
 };
 
 #endif // ROOT_WINDOW_H

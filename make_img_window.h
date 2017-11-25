@@ -29,28 +29,33 @@ public:
     ~make_img_window();
 
     void set_colors(); /* Ставит pushbuttons с икноками всех возможных цветов (vector<QRGB> colors) */
-    void set_runes();
+    void set_runes();  /* Ставит pushbuttons с икноками всех возможных рун (vector<QImage> runes)   */
 
-    QImage get_rune(int i) {return runes[i%runes.size()];}
-    QRgb get_color(int i) {return colors[i%colors.size()];}
-    QImage paint_picture (QImage data, QRgb color); /* Окрашивает руну из data в цвет color */
-    void set_rune(QImage img, int i, int j, QString str);
+    QImage get_rune(int i) {return runes[i%runes.size()];}  //
+    QRgb get_color(int i) {return colors[i%colors.size()];} //
+    QImage paint_picture (QImage data, QRgb color);         // Окрашивает руну из data в цвет color
+    void set_rune(QImage img, int i, int j, QString str);   //
 
 private slots:
-    void on_button_cancel_clicked();
+    void on_button_cancel_clicked();                        // Слот для возвращенияч к окну send_messege или root_window
     void on_button_ok_clicked();
 
 signals:
-    void i_make_img(QImage);/* Вызывается, как пользователь закончил создавать изображение, передает созданное изображение */
-    void root_make_new_img(QImage, int, int, QString);
+    void i_make_img(QImage);                            /* Вызывается, как пользователь закончил создавать изображение,
+                                                         * передает созданное изображение в send_messege. Без координат (брут форс)
+                                                         */
+
+    void root_make_new_img(QImage, int, int, QString);  /* Вызывается, как пользователь закончил создавать изображение,
+                                                         * передает созданное изображение и его коррдинаты в root_window
+                                                         */
 
 private:
     Ui::make_img_window *ui;
 
-    bool flag_img_choosen;
-    bool flag_is_it_root = false;
+    bool flag_img_choosen;          // Флаг - изображение выбрано или нет
+    bool flag_is_it_root = false;   // Флаг, для определения того, кто ползуется окном
 
-    //хранилище цветов
+    // Хранилище цветов
     // Цвета, где есть 0 и 255 являются вырожденными (см способ шифровния S) или делай свой
     std::vector<QRgb> colors =
     {
@@ -62,6 +67,7 @@ private:
         qRgb(15, 128, 128), //морская волна
     };
 
+    // Хранилище рун
     std::vector<QImage> runes =
     {
         QImage(":/runes/a.png"),
@@ -84,8 +90,8 @@ private:
         QImage(":/runes/v.png"),
     };
 
-    int root_i;
-    int root_j;
+    int root_i; // Координата i, для рута
+    int root_j; // Координата j, для рута
 };
 
 #endif // MAKE_IMG_WINDOW_H

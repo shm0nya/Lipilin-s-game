@@ -19,7 +19,7 @@ public:
     ~interception();
 
 private slots:
-    void on_pushButton_2_clicked();
+    void on_pushButton_2_clicked();             // Возврат в окно home_windows
 
 private:
     Ui::interception *ui;

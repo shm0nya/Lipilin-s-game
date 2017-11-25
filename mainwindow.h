@@ -39,6 +39,12 @@
  *         action = g - root завершил передачу исходных данных всем пользователям, game_must_go_on!
  *                      запускает старт игры
  *
+ *      4) action = i - intercept (перехват)
+ *         data = yes/no + QString login (в случае если who = 0, т.е. отправляет пользователь)
+ *         data = yes/no + QString intercept_addr (в случае, если who = 1, т.е. отправляет root)
+ *
+ *         action = I - уже перехваченное сообщение
+ *
  *
  *
  * III (примечания)
@@ -75,101 +81,196 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void rootwindow(); /* Mode = root;
-                        * Функция, формирующая окно root и connect для него */
-
-    void playerwindow();/* Mode = player;
-                         * Функция, формирующая окно player и connect для него */
+/**********************************************************************************************/
+    void rootwindow();   /* Mode = root;                                                      //
+                          * Функция, формирующая окно root и connect для него                 //
+                          */                                                                  //
+                                                                                              //
+    void playerwindow(); /* Mode = player;                                                    //
+                          * Функция, формирующая окно player и connect для него               //
+                          */                                                                  //
+                                                                                              //
+/**********************************************************************************************/
 
 private slots:
-    void ok_enabled(); /* Mode = any;
-                        * Слот, который проверяет, ввёл ли пользователь верное значение в поле "логин" */
+/************************* Слоты для анализа введенного в окне регистрации (mainwindow) ***************************************/
+    void ok_enabled();                      /* Mode = any;                                                                    //
+                                             * Слот, который проверяет, ввёл ли пользователь верное значение в поле "логин"   //
+                                             */                                                                               //
+                                                                                                                              //
+    void on_Login_button_clicked();         /* Mode = any;                                                                    //
+                                             * Слот, анализирующий "логин" и выполняющий дальнейшие действия                  //
+                                             */                                                                               //
+                                                                                                                              //
+    void on_edit_ip_root_editingFinished(); /* Mode = player;                                                                 //
+                                             * Смена IP root с локального на сетевой                                          //
+                                             */                                                                               //
+                                                                                                                              //
+/**************************************************************************************************************************** */
 
-    void on_Login_button_clicked(); /* Mode = any;
-                                     * Слот, анализирующий "логин" и выполняющий дальнейшие действия */
 
-    void home_wnd__sendmess_wnd(); /* Mode = player;
-                                    * Слот, позволяющий переключиться между окном home_window и send_messege */
+/****************************************************** Cлоты для переключения между окнами *********************************************** */
+    void home_wnd__sendmess_wnd(); /* Mode = player;                                                                                        //
+                                    * Слот, позволяющий переключиться между окном home_window и send_messege                                //
+                                    */                                                                                                      //
+                                                                                                                                            //
+    void sendmess_wnd__home_wnd();/* Mode = player;                                                                                         //
+                                   * Слот, позволяющий переключиться между окном send_messege и home_window                                 //
+                                   */                                                                                                       //
+                                                                                                                                            //
+    void show_ch_wnd();/* Mode = player;                                                                                                    //
+                        * Слот, замораживающий окно send_messege и открывающий окно choose_button                                           //
+                        */                                                                                                                  //
+                                                                                                                                            //
+    void if_close_wnd(); /* Mode = player;                                                                                                  //
+                          * Слот срабатывает при закрытии окна choose_button                                                                //
+                          * Активирует окно send_messege */                                                                                 //
+                                                                                                                                            //
+    void show_make_wnd();/* Mode = player;                                                                                                  //
+                          * Слот, замораживающий окно send_messege и открывающий окно make_image_window                                     //
+                          */                                                                                                                //
+                                                                                                                                            //
+    void show_intercept_window(); // mode = player Открытие окна intercept                                                                  //
+                                                                                                                                            //
+    void back__homecoming();      // mode = player Из окна перехвата обратно в домашнее                                                     //
+                                                                                                                                            //
+    void show_make_wnd_to_root(QImage img, int i, int j, QString str); /* mode = root                                                       //
+                                                                        * Вызывает для root make_img_window.set_rune(img, i, j, str);       //
+                                                                        * Данный метод ставит активным изображение,                         //
+                                                                        * которое выбрал root + указывает позицию изображения               //
+                                                                        */                                                                  //
+                                                                                                                                            //
+    void if_close_wnd_fo_root(); /* Защита от неожиданного и от санкционированного закрытия окна */                                         //
+                                                                                                                                            //
+/****************************************************************************************************************************************** */
 
-    void sendmess_wnd__home_wnd();/* Mode = player;
-                                   * Слот, позволяющий переключиться между окном send_messege и home_window */
 
-    void create_pb(int i, int j);/* Mode = player;
-                                  * Реагирует на сигнал от home_window::do_it(int, int)
-                                  * Слот, который создает в окне choose_button кнопку в соответствующей позиции i, j
-                                  * Для кнопки задается connect:
-                                  *                             в случае, если кнопка открыта - вызывает сигнал choose_button::i_choose_img(...)
-                                  *                             иначе вызывает QMessegeBox с информацией об ошибке
-                                  * Вызывает метод choose_button::set_image(QPB_modify *pb, int i, int j), который ставит кнопку в соответствующую позицию */
+/****************************************************** Служебные слоты, для работы программы ********************************************************* */
+                                                                                                                                                        //
+    void create_pb(int i, int j);/* Mode = player;                                                                                                      //
+                                  * Реагирует на сигнал от home_window::do_it(int, int)                                                                 //
+                                  * Слот, который создает в окне choose_button кнопку в соответствующей позиции i, j                                    //
+                                  * Для кнопки задается connect:                                                                                        //
+                                  *                             в случае, если кнопка открыта - вызывает сигнал choose_button::i_choose_img(...)        //
+                                  *                             иначе вызывает QMessegeBox с информацией об ошибке                                      //
+                                  * Вызывает метод choose_button::set_image(QPB_modify *pb, int i, int j),                                              //
+                                  * который ставит кнопку в соответствующую позицию                                                                     //
+                                  */                                                                                                                    //
+                                                                                                                                                        //
+                                                                                                                                                        //
+    void then_opend_img(QImage img, int i, int j); /* Mode = player;                                                                                    //
+                                                    * Слот срабатывает на сигнал home_window::i_opend(QImage, int, int)                                 //
+                                                    * Слот, который вызывает метод choose_button::open_button(QImage img, int i, int j)                 //
+                                                    * Данный метод создает новую кнопку, устанавливает на неё икноку (reverse), делает кнопку активной  //
+                                                    */                                                                                                  //
+                                                                                                                                                        //
+    void then_choosen_img(QImage img, int i, int j); /* Mode = player                                                                                   //
+                                        * Ловит сигнал choose_buttons::i_choose_img(QImage)                                                             //
+                                        * Данный слот устанавливает в send_messege то изображение, которое выбрал пользователь в качестве рабочкго      //
+                                        */                                                                                                              //
+                                                                                                                                                        //
+                                                                                                                                                        //
+    void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()  Внимание, внимание, костыль!                                //
+                             * Это связано с тем, что все возможные руны и цвета хранятся в make_wnd                                                    //
+                             * Выковыривает от туда руну и цвет и устанавливает в temp_rune в root (необходимо для default)                             //
+                             */                                                                                                                         //
+                                                                                                                                                        //
+    void then_made_img(QImage img); /* mode = player                                                                                                    //
+                                     * слот, который ловит сигнал от make_img_window, после того, как пользователь создал изображения для brute_forse   //
+                                     */                                                                                                                 //
+                                                                                                                                                        //
+    void new_rune_created_root(QImage img ,int i, int j, QString str); /* mode = root                                                                   //
+                                                                        * в случае, если преподаватель хочет создать свою руну,                         //
+                                                                        * то он жмет на изображение, открывается make_img_window                        //
+                                                                        * После этого, преподаватель создает руну, жмет "ок". "ок" возвращает руну,     //
+                                                                        * строчку, которая закодированна таким способом + позицию в сетке рун           //
+                                                                        */                                                                              //
+                                                                                                                                                        //
+    void test_player_image(QImage img,                      // mode = player                                                                            //
+                           QString p_key, int p_key_size,   // отсылает изображение, ключи P                                                            //
+                           QString s_key, int s_key_size,   // S (для перехвата)                                                                        //
+                           int i, int j);                   // позицию в сетке изображений                                                              //
+                                                            // Проверят соотвествует ли присланное изображение родному                                  //
+                                                            // Если пользователя перехватывают, то отсылает информацию                                  //
+                                                                                                                                                        //
+    /************************************************************************************************************************************************** */
 
-    void show_ch_wnd();/* Mode = player;
-                        * Слот, замораживающий окно send_messege и открывающий окно choose_button */
 
-    void then_opend_img(QImage img, int i, int j); /* Mode = player;
-                                                    * Слот срабатывает на сигнал home_window::i_opend(QImage, int, int)
-                                                    * Слот, который вызывает метод choose_button::open_button(QImage img, int i, int j)
-                                                    * Данный метод создает новую кнопку, устанавливает на неё икноку (reverse), делает кнопку активной */
-    void if_close_wnd(); /* Mode = player;
-                          * Слот срабатывает при закрытии окна choose_button
-                          * Активирует окно send_messege */
-    void then_choosen_img(QImage img, int i, int j); /* Mode = player
-                                        * Ловит сигнал choose_buttons::i_choose_img(QImage)
-                                        * Данный слот устанавливает в send_messege то изображение, которое выбрал пользователь в качестве рабочкго */
-
-    void show_make_wnd();/* Mode = player;
-                          * Слот, замораживающий окно send_messege и открывающий окно make_image_window */
-
-    void set_rune(int i);   /* Получают значение i, задают значения temp_... i%data.size()
-                             * Это связано с тем, что все возможные руны и цвета хранятся в make_wnd
-                             * Выковыривает от туда руну и цвет и устанавливает в temp_rune в root (необходимо для default)
-                             */
-
-    void show_make_wnd_to_root(QImage img, int i, int j, QString str); /* mode = root
-                                                                        * Вызывает для root make_img_window.set_rune(img, i, j, str);
-                                                                        * Данный метод ставит активным изображение, которое выбрал root + указывает позицию изображения
-                                                                        */
-
-    void if_close_wnd_fo_root(); /* Защита от неожиданного и санкционированного закрытия окна */
-
-    void then_made_img(QImage img); /* mode = player
-                                     * слот, который ловит сигнал от make_img_window, после того, как пользователь создал изображения для brute_forse
-                                     */
-
-    void new_rune_created_root(QImage img ,int i, int j, QString str); /* mode = player
-                                                                        * в случае, если преподаватель хочет создать свою руну, то он жмет на изображение, открывается make_img_window
-                                                                        * После этого, преподаватель создает руну, жмет "ок". "ок" возвращает руну, строчку, которая закодированна таким способом
-                                                                        * и позицию в сетке рун
-                                                                        */
-    void NET_datagramm_analysis(); /* mode = all
-                                    * Данный слот анализирует датаграмму из сокета. Подробнее см. протокол + "внутренности" метода
-                                    */
-
-    void NET_send_info_for_start(); /* mode = root
-                                     * Шлет всем пользователям информацию о старте
-                                     * Переделать чтобы для одного пользователя!!!!
-                                     */
-
-    void test_player_image(QImage img,                      // mode = player
-                           QString p_key, int p_key_size,   // отсылает изображение, ключи P
-                           QString s_key, int s_key_size,   // S (для перехвата)
-                           int i, int j);                   // позицию в сетке изображений
-                                                            // Проверят соотвествует ли присланное изображение родному
-                                                            // Если пользователя перехватывают, то отсылает информацию
-
-    void on_edit_ip_root_editingFinished();
-
-    void show_intercept_window(); // Открытие окна intercept
-    void back__homecoming();      // Из окна перехвата обратно в домашнее
+/****************************************************** Cлоты для работы с сетью ***************************************************************************** */
+                                                                                                                                                               //
+    // Самый главный слот для работы с сетью!                                                                                                                  //
+    //                                                                                                                                                         //
+    //                                                                                                                                                         //
+    void NET_datagramm_analysis(); /* mode = all                                                                                                               //
+                                    * Данный слот анализирует датаграмму из сокета. Подробнее см. протокол + "внутренности" метода                             //
+    //                              */                                                                                                                         //
+    //                                                                                                                                                         //
+    //                                                                                                                                                         //
+                                                                                                                                                               //
+                                                                                                                                                               //
+                                                                                                                                                               //
+    void NET_send_players_inercept_login(QString login); // mode = player отсылает руту логин того, кого хочет перехватывать                                   //
+                                                                                                                                                               //
+    void NET_registration_for_root(QString login, QHostAddress sender); /* mode = root                                                                         //
+                                                                         * проверка уникальности имени пользователя                                            //
+                                                                         * занесение в БД пользователей в случае успеха                                        //
+                                                                         * генерация ответа (verdict)                                                          //
+                                                                         */                                                                                    //
+    void NET_registration_for_player(QString verdict); /* mode = player                                                                                        //
+                                                        * пользователь анализирует ответ рута (уникальный логин или очередной плагиат)                         //
+                                                        * П.С. socket отправляется при нажатии кноппки ok, SLOT on_Login_button_clicked()                      //
+                                                        */                                                                                                     //
+                                                                                                                                                               //
+    void NET_a_new_player_come(QString new_player_login); /* mode = root                                                                                       //
+                                                           * оповещение других пользователей о том, что появился новый игрок                                   //
+                                                           */                                                                                                  //
+                                                                                                                                                               //
+    void NET_add_new_player (QString login); /* mode = player                                                                                                  //
+                                              * В случае появления нового пользователя, root шлет всем пользователям сообщение,                                //
+                                              * которое содержит action = n, data = login                                                                      //
+                                              * Данный метод добавляет нового пользователя                                                                     //
+                                              */                                                                                                               //
+                                                                                                                                                               //
+    void NET_send_info_for_start(); /* mode = root                                                                                                             //
+                                     * Шлет всем пользователям информацию о старте                                                                             //
+                                     * Переделать чтобы для одного пользователя!!!!                                                                            //
+                                     */                                                                                                                        //
+                                                                                                                                                               //
+    void NET_start_messeges_phase_1(QString messeges);                    /* mode = player                                                                     //
+                                                                           * Первая фаза передачи информации необходимой для старта                            //
+                                                                           * Анализирует все слова и составляет массив vector<vector> messeges из строки       //
+                                                                           * делает resize source_img!!!                                                   !!! //
+                                                                           */                                                                                  //
+                                                                                                                                                               //
+    void NET_start_messeges_phase_2(QString data, QByteArray buffer);  /* mode = player                                                                        //
+                                                                        * Вторая фаза передачи информации необходимой для старта                               //
+                                                                        * Принимает сообщение, в котором i, j, QImage                                          //
+                                                                        * Выкавыривает QImage, добавляет в source_img                                          //
+                                                                        */                                                                                     //
+                                                                                                                                                               //
+    void NET_players_intercept_for_root(QString data, QHostAddress sender);                                                                                    //
+    void NET_players_intercept_for_player(QString data);                                                                                                       //
+    void NET_send_intercepted_messege_for_player (QString addres, QImage img,     // адресс, изображение                                                       //
+                                                 QString p_key, int p_key_size,   // ключи P                                                                   //
+                                                 QString s_key, int s_key_size,   // S (для перехвата)                                                         //
+                                                 int i, int j);                                                                                                //
+                                                                                                                                                               //
+    void NET_no_overhere_for_root (QString login); /* В случае, если пользователь не хочет больше подслушивать этого человека           //
+                                                                           * шлет root информацию ою этом                                                      //
+                                                                           */                                                                                  //
+/************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:
     Ui::MainWindow *ui;
     QUdpSocket *socket;
-    QString root_address = "127.0.0.1"; // Меняется в зависиости от сети! Менять ручками в исходном коде
-    QMap<QString, QString> user_list;       // Список пользователей
-    vector<vector<QImage>> source_img;      // Исходные изображения, которые прислыает root
-    vector<vector<QString>> code_messege;   // Строки, которые кодируются рунами
-    int img_count_n = 5; // Дефолтное значение
-    int img_count_m = 5; // Дефолтное значение
+    QString root_address = "127.0.0.1";       // Меняется в зависиости от сети! Менять ручками в исходном коде
+    QMap<QString, QString> user_list;         // Список пользователей. Ключ - логин, value - адресс (IPv4)
+    vector<vector<QImage>> source_img;        // Исходные изображения, которые прислыает root
+    vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
+    int img_count_n = 5;                      // Дефолтное значение
+    int img_count_m = 5;                      // Дефолтное значение
+    vector <QString> me_overhere_addres_list; // Список людей, которые меня прослушивают
+    QString i_overhear_login = "";            // Логин того, кого я подслушиваю
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;
@@ -177,36 +278,6 @@ private:
     make_img_window *make_wnd;
     root_window *root_wnd;
     interception *intercept_wnd;
-
-    void NET_registration_for_root(QString login, QHostAddress sender); /* mode = root
-                                                                         * проверка уникальности имени пользователя
-                                                                         * занесение в БД пользователей в случае успеха
-                                                                         * генерация ответа (verdict)
-                                                                         */
-    void NET_registration_for_player(QString verdict); /* mode = player
-                                                        * пользователь анализирует ответ рута (уникальный логин или очередной плагиат)
-                                                        * П.С. socket отправляется при нажатии кноппки ok, SLOT on_Login_button_clicked()
-                                                        */
-
-    void NET_a_new_player_come(QString new_player_login); /* mode = root
-                                                           * оповещение других пользователей о том, что появился новый игрок
-                                                           */
-
-    void NET_add_new_player (QString login); /* mode = player
-                                              * В случае появления нового пользователя, root шлет всем пользователям сообщение,
-                                              * которое содержит action = n, data = login
-                                              * Данный метод добавляет нового пользователя
-                                              */
-
-    void NET_start_messeges_phase_1(QString messeges); /* mode = player
-                                                                           * Первая фаза передачи информации необходимой для старта
-                                                                           * Анализирует все слова и составляет массив vector<vector> messeges из строки
-                                                                           * делает resize source_img!!!
-                                                                           */
-
-    void NET_start_messeges_phase_2(QString data, QByteArray buffer);
-
-    void NET_players_in_game(QString data);
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */

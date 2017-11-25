@@ -88,7 +88,7 @@ void root_window::on_button_default_clicked()
     ui->edit_n->setText("5");
 }
 
-void root_window::on_pushButton_clicked()
+void root_window::on_button_start_clicked()
 {
     emit this->start();
 }
