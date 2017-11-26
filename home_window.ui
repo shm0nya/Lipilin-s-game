@@ -211,7 +211,7 @@
     <string>Кнопка, для игры в соло. Заменяет сигнал старт</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>650</x>
@@ -235,6 +235,13 @@
       </item>
       <item>
        <widget class="QLineEdit" name="edit_overhere"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="button_inercept">
+        <property name="text">
+         <string>Подтвердить</string>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_4">

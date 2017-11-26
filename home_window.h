@@ -75,9 +75,9 @@ private slots:
     int i_get_n_for_u(int n){return n;}                     //
     int i_get_m_for_u(int m){return m;}                     //
 
-    void on_edit_overhere_editingFinished();                // Если пользователь завершил ввод имени того, кого хочет перехватить
-
     void on_button_overhear_messege_clicked();              // Переход в окно overhere - intercept
+
+    void on_button_inercept_clicked();
 
 private:
     Ui::home_window *ui;
