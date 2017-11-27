@@ -462,14 +462,38 @@ void send_messege::on_button_send_messege_clicked()
 {
     QImage img = Loaded_image;
 
-    int i = ui->edit_coordinate_i->text().toInt();
-    int j = ui->edit_coordinate_j->text().toInt();
+    int i;
+    QString i_str = ui->edit_coordinate_i->text();
+    if (i_str == "")
+        i = -1;
+    else
+        i = ui->edit_coordinate_i->text().toInt();
+
+    int j;
+    QString j_str = ui->edit_coordinate_j->text();
+    if (j_str == "")
+        j = -1;
+    else
+        j = ui->edit_coordinate_j->text().toInt();
 
     QString p_key_str = ui->lbl_p_key_value->text();
-    int p_key_size = ui->lbl_p_key_size->text().toInt();
+
+    int p_key_size;
+    QString p_key_size_str = ui->lbl_p_key_size->text();
+    if (p_key_size_str == "none")
+        p_key_size = 0;
+    else
+        p_key_size = p_key_size_str.toInt();
 
     QString s_key_str = ui->lbl_s_key_value->text();
-    int s_key_size = ui->lbl_s_key_size->text().toInt();
+
+
+    int s_key_size;
+    QString s_key_size_str = ui->lbl_s_key_size->text();
+    if (s_key_size_str == "none")
+        s_key_size = 0;
+    else
+        s_key_size = s_key_size_str.toInt();
 
     emit this->player_send_messege(img, p_key_str, p_key_size, s_key_str, s_key_size, i, j);
 }

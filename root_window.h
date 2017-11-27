@@ -40,6 +40,8 @@ public:
 
     int get_m() {return m;}                             // Передает m в mainwindow
 
+    void add_new_player(QString login);                 // Добавляет нового пользователя в список на ui
+
 private slots:
     void on_button_apply_clicked();                     // Изменение n, m рутом (пересчет сетки)
 

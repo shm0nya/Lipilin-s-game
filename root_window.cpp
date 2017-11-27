@@ -113,3 +113,8 @@ QString root_window::get_messege_at_position(int i, int j)
     else
         return "";
 }
+
+void root_window::add_new_player(QString login)
+{
+    ui->user_list->addItem(login);
+}

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>831</width>
+    <width>983</width>
     <height>532</height>
    </rect>
   </property>
@@ -56,7 +56,7 @@
   <widget class="QPushButton" name="button_start">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>790</x>
      <y>460</y>
      <width>161</width>
      <height>61</height>
@@ -172,6 +172,16 @@
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="QListWidget" name="user_list">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>10</y>
+     <width>256</width>
+     <height>431</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

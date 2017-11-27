@@ -66,6 +66,7 @@
 #include <QMap>
 #include <QTime>
 #include <QBuffer>
+#include <QVector>
 
 #include "home_window.h"
 #include "send_messege.h"
@@ -225,9 +226,9 @@ private slots:
                                                         * П.С. socket отправляется при нажатии кноппки ok, SLOT on_Login_button_clicked()                      //
                                                         */                                                                                                     //
                                                                                                                                                                //
-    void NET_a_new_player_come(QString new_player_login); /* mode = root                                                                                       //
-                                                           * оповещение других пользователей о том, что появился новый игрок                                   //
-                                                           */                                                                                                  //
+    void NET_a_new_player_come(QString new_player_login, QString sender); /* mode = root                                                                       //
+                                                                           * оповещение других пользователей о том, что появился новый игрок                   //
+                                                                           */                                                                                  //
                                                                                                                                                                //
     void NET_add_new_player (QString login); /* mode = player                                                                                                  //
                                               * В случае появления нового пользователя, root шлет всем пользователям сообщение,                                //
@@ -262,6 +263,8 @@ private slots:
     void NET_no_overhere_for_root (QString login); /* В случае, если пользователь не хочет больше подслушивать этого человека                                  //
                                                     * шлет root информацию ою этом                                                                             //
                                                     */                                                                                                         //
+
+    void NET_list_of_user_in_game(QString data);
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:
@@ -273,7 +276,7 @@ private:
     vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
     int img_count_n = 5;                      // Дефолтное значение
     int img_count_m = 5;                      // Дефолтное значение
-    vector <QString> me_overhere_addres_list; // Список людей, которые меня прослушивают
+    QVector <QString> me_overhere_addres_list; // Список людей, которые меня прослушивают
     QString i_overhear_login = "";            // Логин того, кого я подслушиваю
 
     home_window *home_wnd;

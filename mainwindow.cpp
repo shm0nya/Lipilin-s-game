@@ -18,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->edit_ip_root->setText(root_address);
     ui->lbl_now_use_ip_root->setText(root_address);
+    user_list["1"] = "192.168.0.11";
+    user_list["2"] = "192.168.0.12";
+    user_list["3"] = "192.168.0.13";
+
 }
 
 MainWindow::~MainWindow()
@@ -277,18 +281,22 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
         }
     }
 
-    /* В случае, если уникальный, занесение в БД и оповещение других пользователей */
-    if (verdict == "true")
-    {
-        NET_a_new_player_come(login);
-        user_list[login] = sender.toString();
-    }
-
-    /* Отправка ответа */
+    /* Отправка ответа. Идет в начале, т.к. NET_a_new_player_come отсылает созданному пользователю информацию
+     * Он должен быть создан перед тем, как ему отправится информация
+     */
     QByteArray Data;
     Data.append("1r");
     Data.append(verdict);
     socket->writeDatagram(Data, sender, 65201);
+
+    /* В случае, если уникальный, занесение в БД и оповещение других пользователей */
+    if (verdict == "true")
+    {
+        NET_a_new_player_come(login, sender.toString());
+        user_list[login] = sender.toString();
+    }
+
+    root_wnd->add_new_player(login);
 }
 
 void MainWindow::NET_registration_for_player(QString verdict)
@@ -299,14 +307,14 @@ void MainWindow::NET_registration_for_player(QString verdict)
         QMessageBox::information(this, "Oops", "Такой логин уже занят, попробуй другой");
 }
 
-void MainWindow::NET_a_new_player_come(QString new_player_login)
+void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
 {
     QMap<QString, QString>::iterator it;
     QString users = "1a";
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        users = users + it.key();
+        users = users + it.key() + ' ';
 
         QHostAddress temp_addres(it.value());
         QByteArray Data;
@@ -315,6 +323,9 @@ void MainWindow::NET_a_new_player_come(QString new_player_login)
         socket->writeDatagram(Data, temp_addres, 65201);
     }
 
+    QByteArray Data;
+    Data.append(users);
+    socket->writeDatagram(Data, QHostAddress(sender), 65201);
 }
 
 void MainWindow::NET_add_new_player (QString login)
@@ -510,7 +521,7 @@ void sleep(int t)
 
 void MainWindow::test_player_image(QImage img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j)
 {
-    if ((i<0) || (j<0) || (i > img_count_n) || (j > img_count_m))
+    if ((i<=0) || (j<=0) || (i > img_count_n) || (j > img_count_m))
     {
         QMessageBox::information(this, "error", "Неправильыне координаты");
         return;
@@ -556,13 +567,14 @@ void MainWindow::NET_send_players_inercept_login(QString login)
 
 void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sender)
 {
-    QHostAddress addres (user_list[data]);
-
     QByteArray Data;
     Data.append("1i");
 
     QString action = cut_string_befor_simbol(data, ' ');
     Data.append(action);
+    Data.append(' ');
+
+    QHostAddress addres (user_list[data]);
 
     Data.append(sender.toString());
     socket->writeDatagram(Data, addres, 65201);
@@ -574,8 +586,10 @@ void MainWindow::NET_players_intercept_for_player(QString data)
     if (action == "yes")
         me_overhere_addres_list.push_back(data);
     else
-        me_overhere_addres_list.erase( remove( me_overhere_addres_list.begin(), me_overhere_addres_list.end(), data ), me_overhere_addres_list.end()); // Магическая конструкция, взятая из интернета
-                                                                                                                                                       // Должна удалять элемент из вектора
+    {
+        int i = me_overhere_addres_list.indexOf(data);
+        me_overhere_addres_list.remove(i);
+    }
 }
 
 void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QImage img,                  
