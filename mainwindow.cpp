@@ -68,7 +68,7 @@ void MainWindow::playerwindow()
 
     connect(home_wnd, SIGNAL(show_intercept_wnd_please()), this, SLOT(show_intercept_window()));
     connect(intercept_wnd, SIGNAL(homecomig()), this, SLOT(back__homecoming()));
-    connect(home_wnd, SIGNAL(i_want_intercept(QString)), this, SLOT(NET_send_players_inercept_login(QString));
+    connect(home_wnd, SIGNAL(i_want_intercept(QString)), this, SLOT(NET_send_players_inercept_login(QString)));
 
     home_wnd->show();
     this->close();
@@ -254,6 +254,11 @@ void MainWindow::NET_datagramm_analysis()
         else
             NET_players_intercept_for_player(data);
 
+        break;
+
+    case 'a':
+        NET_list_of_user_in_game(data);
+        break;
     }
 }
 
@@ -297,16 +302,19 @@ void MainWindow::NET_registration_for_player(QString verdict)
 void MainWindow::NET_a_new_player_come(QString new_player_login)
 {
     QMap<QString, QString>::iterator it;
+    QString users = "1a";
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        QHostAddress temp_addres(it.value());
+        users = users + it.key();
 
+        QHostAddress temp_addres(it.value());
         QByteArray Data;
         Data.append("1n");
         Data.append(new_player_login);
         socket->writeDatagram(Data, temp_addres, 65201);
     }
+
 }
 
 void MainWindow::NET_add_new_player (QString login)
@@ -600,6 +608,15 @@ void MainWindow::NET_no_overhere_for_root (QString login)
     Data.append("0ino ");
     Data.append(login);
     socket->writeDatagram(Data, QHostAddress(root_address), 65201);
+}
+
+void MainWindow::NET_list_of_user_in_game(QString data)
+{
+    while (data!="")
+    {
+        QString user = cut_string_befor_simbol(data, ' ');
+        NET_add_new_player(user);
+    }
 }
 
 
