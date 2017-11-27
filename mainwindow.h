@@ -47,6 +47,7 @@
  *
  *      5) action = a - add users
  *         Посылает вновь прибывшему пользователю информацию о всех игроках в сети
+ *         data = Qstring "..." через пробел логины пользователей: for example ("1auser1 user2 user3")
  *
  *
  *
@@ -265,6 +266,7 @@ private slots:
                                                     */                                                                                                         //
 
     void NET_list_of_user_in_game(QString data);
+    void NET_send_info_for_player(QString address, QString &messeges, vector<QByteArray> &datagramms);
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:
@@ -276,8 +278,12 @@ private:
     vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
     int img_count_n = 5;                      // Дефолтное значение
     int img_count_m = 5;                      // Дефолтное значение
-    QVector <QString> me_overhere_addres_list; // Список людей, которые меня прослушивают
+    QVector <QString> me_overhere_addres_list;// Список людей, которые меня прослушивают
     QString i_overhear_login = "";            // Логин того, кого я подслушиваю
+
+    // root тоже имеет право на свои переменные в mainwindow
+    QString messeges;                         // Строка из закодированных рунами строк (через пробел)
+    vector<QByteArray> datagramms;            // Датаграммы с картинками
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;

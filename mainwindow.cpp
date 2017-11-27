@@ -18,10 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->edit_ip_root->setText(root_address);
     ui->lbl_now_use_ip_root->setText(root_address);
-    user_list["1"] = "192.168.0.11";
-    user_list["2"] = "192.168.0.12";
-    user_list["3"] = "192.168.0.13";
-
 }
 
 MainWindow::~MainWindow()
@@ -297,6 +293,9 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     }
 
     root_wnd->add_new_player(login);
+
+    if (root_wnd->get_flag_game_on())
+        NET_send_info_for_player(sender.toString(), messeges, datagramms);
 }
 
 void MainWindow::NET_registration_for_player(QString verdict)
@@ -338,13 +337,12 @@ void MainWindow::NET_send_info_for_start()
     QMap<QString, QString>::iterator it;
     int n = root_wnd->get_n();
     int m = root_wnd->get_m();
-    QString messege = "";
-    vector<QByteArray> datagramms;
+    messeges = "";
 
     /* В сообщение добавляем n, m*/
 
-    messege = messege + QString::number(n) + ' ';
-    messege = messege + QString::number(m) + ' ';
+    messeges = messeges + QString::number(n) + ' ';
+    messeges = messeges + QString::number(m) + ' ';
 
     /* В начале получаем сообщение со строчками следующего вида:
      * "первое_слово второе_слово третье_слово ..."
@@ -354,20 +352,16 @@ void MainWindow::NET_send_info_for_start()
         for (int j = 0; j < m; j++)
         {
             QString temp = root_wnd->get_messege_at_position(i, j);
-            messege = messege + temp + ' ';
+            messeges = messeges + temp + ' ';
         }
 
-    if (messege.size() > 65000)
+    if (messeges.size() > 65000)
     {
         QMessageBox::information(this, "error" ,"Слишком большие кодовые слова");
         return;
     }
 
     /* Формируем дейтаграммы */
-    QByteArray first_data;
-    first_data.append("1S");
-    first_data.append(messege);
-
     for (int i = 0; i < n; i++)
         for (int j = 0; j < m; j++)
         {
@@ -386,19 +380,10 @@ void MainWindow::NET_send_info_for_start()
             datagramms.push_back(Data);
         }
 
-    /* Послыаем пользователям информацию */
+    /* Шлем данные */
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        QHostAddress temp_addres(it.value());
-
-        socket->writeDatagram(first_data, temp_addres, 65201);
-        sleep(1000);
-
-        for (int i = 0; i < int(datagramms.size()); i++)
-        {
-            socket->writeDatagram(datagramms[i], temp_addres, 65201);
-            sleep(1000);
-        }
+        NET_send_info_for_player(it.value(), messeges, datagramms);
     }
 
     /* Посылаем сигнал старта игры */
@@ -633,7 +618,31 @@ void MainWindow::NET_list_of_user_in_game(QString data)
     }
 }
 
+void MainWindow::NET_send_info_for_player(QString address, QString &messeges, vector<QByteArray> &datagramms)
+{
+    QHostAddress temp_addres(address);
 
+    QByteArray first_data;
+    first_data.append("1S");
+    first_data.append(messeges);
+    socket->writeDatagram(first_data, temp_addres, 65201);
+    sleep(100);
+
+    for (int i = 0; i < int(datagramms.size()); i++)
+    {
+        socket->writeDatagram(datagramms[i], temp_addres, 65201);
+        sleep(1000);
+    }
+
+    // В случае, если игра началась, а пользователь опоздал - сразу шлется старт
+    if (root_wnd->get_flag_game_on())
+    {
+        QByteArray Data;
+        Data.append("1g");
+        socket->writeDatagram(Data, temp_addres, 65201);
+    }
+
+}
 
 
 

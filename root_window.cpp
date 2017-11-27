@@ -90,6 +90,7 @@ void root_window::on_button_default_clicked()
 
 void root_window::on_button_start_clicked()
 {
+    flag_gamego_on = true;
     emit this->start();
 }
 
