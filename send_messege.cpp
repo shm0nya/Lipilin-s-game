@@ -461,6 +461,7 @@ void send_messege::set_position_of_img(int i, int j)
 void send_messege::on_button_send_messege_clicked()
 {
     QImage img = Loaded_image;
+    QImage enc_img = Encrypted_image;
 
     int i;
     QString i_str = ui->edit_coordinate_i->text();
@@ -495,7 +496,9 @@ void send_messege::on_button_send_messege_clicked()
     else
         s_key_size = s_key_size_str.toInt();
 
-    emit this->player_send_messege(img, p_key_str, p_key_size, s_key_str, s_key_size, i, j);
+    QString algoritm = ui->lbl_algoritm_value->text();
+
+    emit this->player_send_messege(img, enc_img , p_key_str, p_key_size, s_key_str, s_key_size, i, j, algoritm);
 }
 
 void send_messege::players_img_verdict(bool verdict)
@@ -512,4 +515,39 @@ void send_messege::players_img_verdict(bool verdict)
 void send_messege::on_button_back_clicked()
 {
    emit this->change_wnd_to_homewnd();
+}
+
+void send_messege::set_intercept_info(QImage img,
+                        QString p_key, int p_key_size,
+                        QString s_key, int s_key_size,
+                        int i, int j, QString algoritm)
+{
+    this->user_choose_img(img);
+    flag_new_image = false;
+
+    ui->p_key_edit->setText(p_key);
+    ui->s_key_edit->setText(s_key);
+    ui->p_key_size_edit_slider->setValue(p_key_size);
+    ui->s_key_size_edit_slider->setValue(s_key_size);
+    ui->lbl_algoritm_value->setText(algoritm);
+
+    this->set_position_of_img(i, j);
+}
+
+void send_messege::on_button_swap_clicked()
+{
+    int lblwid = ui->img_changed->width();
+    int lblhei = ui->img_changed->height();
+
+    ui->img_changed->setPixmap(QPixmap::fromImage(Loaded_image).scaled(lblwid,lblhei));
+
+    int lblwid2 = ui->img_original->width();
+    int lblhei2 = ui->img_original->height();
+
+    ui->img_original->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid2,lblhei2));
+
+    // А в питоне так можно!!! Loaded_image, Encrypted_image = Encrypted_image, Loaded_image;
+    QImage temp = Loaded_image;
+    Loaded_image = Encrypted_image;
+    Encrypted_image = temp;
 }

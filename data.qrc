@@ -22,5 +22,6 @@
         <file>runes/t.png</file>
         <file>runes/u.png</file>
         <file>runes/v.png</file>
+        <file>images/new_messege.png</file>
     </qresource>
 </RCC>

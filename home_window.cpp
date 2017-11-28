@@ -14,6 +14,10 @@ home_window::home_window(QString login, QWidget *parent) :
     ui->lbl_login_value->setText(login_name);
     ui->lbl_level_value->setText("FiRsT Leeeeevel!!!!!!");
     add_new_player(login_name);
+
+    ui->lbl_new_intercepted_msg->setPixmap(QPixmap::fromImage(QImage(":/images/new_messege.png")).scaled(
+                                               ui->lbl_new_intercepted_msg->size()));
+    ui->lbl_new_intercepted_msg->setVisible(false);
 }
 
 home_window::~home_window()
@@ -93,6 +97,7 @@ void home_window::add_new_player(QString new_player_login)
 
 void home_window::on_button_overhear_messege_clicked()
 {
+    ui->lbl_new_intercepted_msg->setVisible(false);
     emit this->show_intercept_wnd_please();
 }
 
@@ -111,3 +116,12 @@ void home_window::on_button_inercept_clicked()
 
     QMessageBox::information(this, "error", "Такого игрока нет");
 }
+
+void home_window::set_visibale_new_messege(bool vis)
+{
+    ui->lbl_new_intercepted_msg->setVisible(vis);
+}
+
+
+
+

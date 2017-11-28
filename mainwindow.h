@@ -44,10 +44,12 @@
  *         data = yes/no + QString intercept_addr (в случае, если who = 1, т.е. отправляет root)
  *
  *         action = I - уже перехваченное сообщение
+ *         data = QString messege + QImage = concat(p_key || p_key_size || s_key || s_key_size || i || j) + QImage
  *
  *      5) action = a - add users
  *         Посылает вновь прибывшему пользователю информацию о всех игроках в сети
  *         data = Qstring "..." через пробел логины пользователей: for example ("1auser1 user2 user3")
+ *
  *
  *
  *
@@ -192,13 +194,19 @@ private slots:
                                                                         * строчку, которая закодированна таким способом + позицию в сетке рун           //
                                                                         */                                                                              //
                                                                                                                                                         //
-    void test_player_image(QImage img,                      // mode = player                                                                            //
+    void test_player_image(QImage img, QImage enc_img,      // mode = player                                                                            //
                            QString p_key, int p_key_size,   // отсылает изображение, ключи P                                                            //
                            QString s_key, int s_key_size,   // S (для перехвата)                                                                        //
-                           int i, int j);                   // позицию в сетке изображений                                                              //
+                           int i, int j,                    // позицию в сетке изображений                                                              //
+                           QString algoritm);               // алгоритм шифрования                                                                      //
                                                             // Проверят соотвествует ли присланное изображение родному                                  //
                                                             // Если пользователя перехватывают, то отсылает информацию                                  //
                                                                                                                                                         //
+    void send_messege_wnd_on_intercept_value(QImage img,                      // mode = player                                                          //
+                                             QString p_key, int p_key_size,   // отсылает изображение, ключи P                                          //
+                                             QString s_key, int s_key_size,   // S (для перехвата)                                                      //
+                                             int i, int j,                    // позицию в сетке изображений                                            //
+                                             QString algoritm);                                                                                         //
     /************************************************************************************************************************************************** */
 
 
@@ -259,14 +267,15 @@ private slots:
     void NET_send_intercepted_messege_for_player (QString addres, QImage img,     // адресс, изображение                                                       //
                                                  QString p_key, int p_key_size,   // ключи P                                                                   //
                                                  QString s_key, int s_key_size,   // S (для перехвата)                                                         //
-                                                 int i, int j);                                                                                                //
+                                                 int i, int j, QString algoritm);                                                                              //
                                                                                                                                                                //
     void NET_no_overhere_for_root (QString login); /* В случае, если пользователь не хочет больше подслушивать этого человека                                  //
                                                     * шлет root информацию ою этом                                                                             //
                                                     */                                                                                                         //
-
-    void NET_list_of_user_in_game(QString data);
-    void NET_send_info_for_player(QString address, QString &messeges, vector<QByteArray> &datagramms);
+                                                                                                                                                               //
+    void NET_list_of_user_in_game(QString data);                                                                                                               //
+    void NET_send_info_for_player(QString address, QString &messeges, vector<QByteArray> &datagramms);                                                         //
+    void NET_add_intercepted_messege(QString data, QByteArray buffer);                                                                                         //
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:

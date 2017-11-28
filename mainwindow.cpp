@@ -63,12 +63,15 @@ void MainWindow::playerwindow()
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
     connect(make_wnd, SIGNAL(i_make_img(QImage)), this, SLOT(then_made_img(QImage)));
 
-    connect(send_messege_wnd, SIGNAL(player_send_messege(QImage,QString,int,QString,int,int,int)),
-            this, SLOT(test_player_image(QImage,QString,int,QString,int,int,int)));
+    connect(send_messege_wnd, SIGNAL(player_send_messege(QImage,QImage,QString,int,QString,int,int,int, QString)),
+            this, SLOT(test_player_image(QImage,QImage,QString,int,QString,int,int,int, QString)));
 
     connect(home_wnd, SIGNAL(show_intercept_wnd_please()), this, SLOT(show_intercept_window()));
     connect(intercept_wnd, SIGNAL(homecomig()), this, SLOT(back__homecoming()));
     connect(home_wnd, SIGNAL(i_want_intercept(QString)), this, SLOT(NET_send_players_inercept_login(QString)));
+
+    connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,QString,int,int,int,QString)),
+            this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,QString,int,int,int,QString)));
 
     home_wnd->show();
     this->close();
@@ -259,6 +262,9 @@ void MainWindow::NET_datagramm_analysis()
     case 'a':
         NET_list_of_user_in_game(data);
         break;
+
+    case 'I':
+        NET_add_intercepted_messege(data, buffer);
     }
 }
 
@@ -292,10 +298,12 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
         user_list[login] = sender.toString();
     }
 
-    root_wnd->add_new_player(login);
-
-    if (root_wnd->get_flag_game_on())
-        NET_send_info_for_player(sender.toString(), messeges, datagramms);
+    if (root_address != "127.0.0.1")
+    {
+        root_wnd->add_new_player(login);
+        if (root_wnd->get_flag_game_on())
+            NET_send_info_for_player(sender.toString(), messeges, datagramms);
+    }
 }
 
 void MainWindow::NET_registration_for_player(QString verdict)
@@ -504,7 +512,7 @@ void sleep(int t)
     }
 }
 
-void MainWindow::test_player_image(QImage img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j)
+void MainWindow::test_player_image(QImage img, QImage enc_img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j, QString algoritm)
 {
     if ((i<=0) || (j<=0) || (i > img_count_n) || (j > img_count_m))
     {
@@ -514,17 +522,14 @@ void MainWindow::test_player_image(QImage img, QString p_key, int p_key_size, QS
 
     // В зависимости игра оффлайн или онлайн
     if (root_address == "127.0.0.1")
-    {
         send_messege_wnd->players_img_verdict(img == home_wnd->get_cut_img(i-1, j-1));
-        return;
-    }
+    else
+        send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
 
-    send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
-
-    for (int i = 0; i < int(me_overhere_addres_list.size()); i++)
-        NET_send_intercepted_messege_for_player(me_overhere_addres_list[i],
-                                                img, p_key, p_key_size,
-                                                s_key, s_key_size, i, j);
+    for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
+        NET_send_intercepted_messege_for_player(me_overhere_addres_list[k],
+                                                enc_img, p_key, p_key_size,
+                                                s_key, s_key_size, i, j, algoritm);
 }
 
 void MainWindow::show_intercept_window()
@@ -541,8 +546,10 @@ void MainWindow::back__homecoming()
 
 void MainWindow::NET_send_players_inercept_login(QString login)
 {
-    if (i_overhear_login != "")
+    if (intercept_wnd->get_login_of_intercept() != "")
         NET_no_overhere_for_root(login);
+
+    intercept_wnd->set_login_of_intercept(login);
 
     QByteArray Data;
     Data.append("0iyes ");
@@ -580,7 +587,7 @@ void MainWindow::NET_players_intercept_for_player(QString data)
 void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QImage img,                  
                                              QString p_key, int p_key_size,   
                                              QString s_key, int s_key_size, 
-                                             int i, int j)
+                                             int i, int j, QString algoritm)
 {
     QByteArray Data;
     Data.append("1I");
@@ -588,7 +595,7 @@ void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QImage
 
     messege = messege + p_key + ' ' + QString::number(p_key_size) + ' '
                       + s_key + ' ' + QString::number(s_key_size) + ' '
-                      + QString::number(i) + ' ' + QString::number(j) + ' ';
+                      + QString::number(i) + ' ' + QString::number(j) + ' ' + algoritm + ' ';
 
     Data.append(messege);
 
@@ -643,6 +650,47 @@ void MainWindow::NET_send_info_for_player(QString address, QString &messeges, ve
     }
 
 }
+
+void MainWindow::NET_add_intercepted_messege(QString data, QByteArray buffer)
+{
+    // Костыльненько, но должно работать
+    QString p_key           = cut_string_befor_simbol(data, ' ');
+    QString p_key_size_str  = cut_string_befor_simbol(data, ' ');
+    QString s_key           = cut_string_befor_simbol(data, ' ');
+    QString s_key_size_st   = cut_string_befor_simbol(data, ' ');
+    QString i_str           = cut_string_befor_simbol(data, ' ');
+    QString j_str           = cut_string_befor_simbol(data, ' ');
+    QString algoritm        = cut_string_befor_simbol(data, ' ');
+
+    int size_data = p_key.size() + p_key_size_str.size() +
+                    s_key.size() + s_key_size_st.size() +
+                    i_str.size() + j_str.size() +
+                    algoritm.size () + 7 + 2; // 7 пробелов 2 - служеюаня информация
+
+    int p_key_size = p_key_size_str.toInt();
+    int s_key_size = s_key_size_st.toInt();
+    int i = i_str.toInt();
+    int j = j_str.toInt();
+
+    buffer.remove(0, size_data);
+    QImage image;
+    image.loadFromData(buffer);
+
+    intercept_wnd->add_new_messege(image ,p_key,p_key_size,s_key,s_key_size,i, j, algoritm);
+    home_wnd->set_visibale_new_messege(true);
+}
+
+void MainWindow::send_messege_wnd_on_intercept_value(QImage img,
+                                         QString p_key, int p_key_size,
+                                         QString s_key, int s_key_size,
+                                         int i, int j,
+                                         QString algoritm)
+{
+    send_messege_wnd->set_intercept_info(img, p_key, p_key_size, s_key,s_key_size, i, j, algoritm);
+    intercept_wnd->close();
+    send_messege_wnd->show();
+}
+
 
 
 

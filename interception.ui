@@ -6,40 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>595</width>
+    <width>772</width>
     <height>467</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>410</y>
-     <width>90</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Криптография</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>410</y>
-     <width>90</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Назад</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -92,7 +66,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -147,55 +121,385 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget_5">
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>360</y>
-     <width>51</width>
-     <height>38</height>
+     <y>350</y>
+     <width>501</width>
+     <height>31</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="componate_key">
+   <layout class="QHBoxLayout" name="componate_algoritm">
     <item>
-     <layout class="QHBoxLayout" name="componate_p_key">
+     <widget class="QLabel" name="lbl_algoritm_show">
+      <property name="text">
+       <string>Алгоритм шифрования:</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="lbl_algoritm_value">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>218</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>11</y>
+     <width>225</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="componate_s_key_all">
       <item>
-       <widget class="QLabel" name="lbl_p_key_show">
-        <property name="text">
-         <string>Ключ Р:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lbl_p_key_value">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="componate_s_key">
+        <item>
+         <layout class="QVBoxLayout" name="componate_s_key_show">
+          <item>
+           <layout class="QHBoxLayout" name="componate_s_key_show_value">
+            <item>
+             <widget class="QLabel" name="s_key_show_value">
+              <property name="text">
+               <string>Ключ S</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="s_key_show_size">
+            <property name="text">
+             <string>Длина блока S</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="componate_s_key_edit">
+          <item>
+           <layout class="QHBoxLayout" name="componate_s_key_edit_value">
+            <item>
+             <widget class="QLineEdit" name="s_key_edit"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="componate_s_size_edit">
+            <item>
+             <widget class="QSlider" name="s_key_size_edit_slider">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="s_key_size_edit_spbox">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="singleStep">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="componate_s_key">
+     <layout class="QHBoxLayout" name="componate_p_key_all">
       <item>
-       <widget class="QLabel" name="lbl_s_key_show">
+       <layout class="QHBoxLayout" name="componate_p_key">
+        <item>
+         <layout class="QVBoxLayout" name="componate_p_key_show">
+          <item>
+           <layout class="QHBoxLayout" name="componate_p_key_show_value">
+            <item>
+             <widget class="QLabel" name="p_key_show_value">
+              <property name="text">
+               <string>Ключ Р</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="p_key_show_size">
+            <property name="text">
+             <string>Длина блока Р</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="componate_p_key_edit_2">
+          <item>
+           <layout class="QHBoxLayout" name="componate_p_key_edit_value">
+            <item>
+             <widget class="QLineEdit" name="p_key_edit"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="componate_p_size_edit">
+            <item>
+             <widget class="QSlider" name="p_key_size_edit_slider">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="p_key_size_edit_spbox">
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="singleStep">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="componate_coordinate">
+      <item>
+       <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Ключ S:</string>
+         <string>Картинка из позиции</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="lbl_s_key_value">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="componate_coordinat_i">
+        <item>
+         <widget class="QLabel" name="kbk_show_coordinate_i">
+          <property name="text">
+           <string>i = </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="edit_coordinate_i">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_coordinate_j">
+        <item>
+         <widget class="QLabel" name="lbl_show_coordinate_j">
+          <property name="text">
+           <string>j = </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="edit_coordinate_j">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_7">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>410</y>
+     <width>208</width>
+     <height>52</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="componate_buttons">
+    <item>
+     <widget class="QPushButton" name="button_to_send_messege">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Криптография</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="button_back">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Назад</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>s_key_size_edit_spbox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>s_key_size_edit_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>716</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>672</x>
+     <y>55</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>s_key_size_edit_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>s_key_size_edit_spbox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>619</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p_key_size_edit_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>p_key_size_edit_spbox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>679</x>
+     <y>116</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>705</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p_key_size_edit_spbox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>p_key_size_edit_slider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>710</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>658</x>
+     <y>121</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

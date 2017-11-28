@@ -31,6 +31,12 @@ public:
     void user_choose_img(QImage img);       /* Выбранное пользователем изображение с его координатами устанавливается как активное */
     void set_position_of_img(int i, int j); // Установка позици изображения (в choose_button используется через mainwindow)
     void players_img_verdict(bool verdict); // Проверка правильности изображения
+
+    void set_intercept_info(QImage img,
+                            QString p_key, int p_key_size,
+                            QString s_key, int s_key_size,
+                            int i, int j, QString algoritm);
+
     ~send_messege();
 
 signals:
@@ -38,15 +44,16 @@ signals:
     void show_ch_buttons_sign();  /* Сигнал для показа окна choose_img */
     void show_make_img_wnd();     /* Сигнал для показа окна make img*/
 
-    void player_send_messege(QImage, QString, int, QString, int, int, int);/* Передает в mainwindow следующие данные:
-                                                                            * 1) Qimage Изображение
-                                                                            * 2) QString P_key, int длина ключа P
-                                                                            * 3) QString s_key, int длина ключа S
-                                                                            * 4) int i, int j координаты в сетке
-                                                                            *
-                                                                            * в mainwindow сравнивается с исходным.
-                                                                            * Если нас прослушивают отправляет тому, кто прослушивает
-                                                                            */
+    void player_send_messege(QImage,QImage,QString,int,QString,int,int,int,QString);/* Передает в mainwindow следующие данные:
+                                                                                     * 1) Qimage Изображение исходное и зашифрованное
+                                                                                     * 2) QString P_key, int длина ключа P
+                                                                                     * 3) QString s_key, int длина ключа S
+                                                                                     * 4) int i, int j координаты в сетке
+                                                                                     * 5) Алгоритм
+                                                                                     *
+                                                                                     * в mainwindow сравнивается с исходным.
+                                                                                     * Если нас прослушивают отправляет тому, кто прослушивает
+                                                                                     */
 
 
 private slots:
@@ -62,6 +69,8 @@ private slots:
     void on_button_send_messege_clicked();
 
     void on_button_back_clicked();
+
+    void on_button_swap_clicked();
 
 private:
     Ui::send_messege *ui;
