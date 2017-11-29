@@ -18,6 +18,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QVBoxLayout>
+#include <QImage>
 
 #include <vector>
 
@@ -80,12 +81,25 @@ private slots:
 
     void on_button_inercept_clicked();
 
+    void on_automat_clicked();
+
+    void rand_image(int c);
+
 private:
     Ui::home_window *ui;
     QImage original_img;
     QString login_name;
     vector<vector<QImage>> cut;
     vector<QString> players;
+
+    std::vector<QImage> runes =
+    {
+        QImage(":/runes/a.png"),
+        QImage(":/runes/b.png"),
+        QImage(":/runes/c.png"),
+        QImage(":/runes/ch.png"),
+        QImage(":/runes/d.png")
+    };
 };
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m); /* Функция, которая разрезает исходное изображение на n*m частей.

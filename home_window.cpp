@@ -2,6 +2,8 @@
 #include "ui_home_window.h"
 
 #include <QMessageBox>
+#include <ctime>
+#include <cstdlib>
 
 home_window::home_window(QString login, QWidget *parent) :
     QWidget(parent),
@@ -9,6 +11,8 @@ home_window::home_window(QString login, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->button_send_messege,SIGNAL(clicked()),this, SIGNAL(change_wnd_to_swnd()));
+
+    srand(time(NULL));//это для случайных чисел
 
     login_name = login;
     ui->lbl_login_value->setText(login_name);
@@ -125,3 +129,111 @@ void home_window::set_visibale_new_messege(bool vis)
 
 
 
+
+void home_window::on_automat_clicked()
+{
+    int luck; //переменная, определяющая, откроется ли картинка
+
+    luck=rand()%10;
+
+    if (luck<6)
+    {
+        //3 случайные картинки, не совпадающие
+        rand_image(1);
+        QMessageBox::information(0,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
+    }
+    else if (luck<9)
+    {
+        rand_image(2);
+        //открыть 2 одинаковые
+        QMessageBox::information(0,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
+    }
+    else
+    {
+        rand_image(3);
+        //открыть 3 одинаковые
+        QMessageBox::information(0,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
+    }
+}
+
+void home_window::rand_image(int c)
+{
+    QImage img;
+    int image_num=5, image_num2=5, image_num3=5;
+
+    switch (c) {
+    case 3:
+        image_num = rand()%5;
+        img=runes[image_num];
+        ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
+        ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
+        ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
+        break;
+    case 2:
+        int place;
+        place = rand()%3;
+        image_num = rand()%5;
+        image_num2 = rand()%5;
+        while(image_num2==image_num)
+        {
+            image_num2 = rand()%5;
+        }
+        switch (place) {
+        case 0:
+            //натянуть на 2 и 3
+            img=runes[image_num];
+            ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
+            ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
+
+            img=runes[image_num2];
+            ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
+            break;
+        case 1:
+            //натянуть на 1 и 3
+            image_num = rand()%5;
+            img=runes[image_num];
+            ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
+            ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
+
+            img=runes[image_num2];
+            ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
+            break;
+        case 3:
+            //натянуть на 1 и 2
+            image_num = rand()%5;
+            img=runes[image_num];
+            ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
+            ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
+
+            img=runes[image_num2];
+            ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
+            break;
+        }
+
+
+        break;
+    default://должен срабатывать при с=1
+
+        image_num = rand()%5;
+        image_num2 = rand()%5;
+        while(image_num2==image_num)
+        {
+            image_num2 = rand()%5;
+        }
+        image_num3 = rand()%5;
+        while((image_num3==image_num)||(image_num3==image_num2))
+        {
+            image_num2 = rand()%5;
+        }
+        //сделать одно
+        img=runes[image_num];
+        ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
+        //второе
+        img=runes[image_num2];
+        ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
+        //третье
+        img=runes[image_num3];
+        ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
+        break;
+    }
+}
