@@ -25,6 +25,7 @@ public:
     int j;              // Координата j
     bool was_opening;   // Флаг: открыто или нет. Используется такж для определения, читалось сообщение или нет
     QString str;        // Закодированная строка
+    QString rune_code;   // Код руны
 };
 
 #endif // QPB_MODIFY_H

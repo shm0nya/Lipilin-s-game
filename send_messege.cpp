@@ -438,11 +438,13 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
     return encrypted_image;
 }
 
-void send_messege::user_choose_img(QImage img)
+void send_messege::user_choose_img(QImage img, QString code)
 {
     Loaded_image= img;
     flag_new_image = true;
     Encrypted_image = Loaded_image;
+    now_using_rune_code = code;
+
     int wid = ui->img_original->width();
     int hei = ui->img_original->height();
     ui->img_original->setPixmap(QPixmap::fromImage(Loaded_image.scaled(wid,hei)));
@@ -522,7 +524,7 @@ void send_messege::set_intercept_info(QImage img,
                         QString s_key, int s_key_size,
                         int i, int j, QString algoritm)
 {
-    this->user_choose_img(img);
+    this->user_choose_img(img, "");
     flag_new_image = false;
 
     ui->p_key_edit->setText(p_key);
@@ -531,7 +533,7 @@ void send_messege::set_intercept_info(QImage img,
     ui->s_key_size_edit_slider->setValue(s_key_size);
     ui->lbl_algoritm_value->setText(algoritm);
 
-    this->set_position_of_img(i, j);
+    this->set_position_of_img(i+1, j+1);
 }
 
 void send_messege::on_button_swap_clicked()

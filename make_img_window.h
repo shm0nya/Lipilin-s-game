@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+#include "qpb_modify.h"
+
 namespace Ui {
 class make_img_window;
 }
@@ -34,20 +36,23 @@ public:
     QImage get_rune(int i) {return runes[i%runes.size()];}  //
     QRgb get_color(int i) {return colors[i%colors.size()];} //
     QImage paint_picture (QImage data, QRgb color);         // Окрашивает руну из data в цвет color
+    QImage paint_picture_at_code (int rune_ind, int color_ind); // Окрашивает руну из data в цвет color
     void set_rune(QImage img, int i, int j, QString str);   //
+    int get_rune_bd_size(){return runes.size();}
+    int get_colors_bd_size(){return colors.size();}
 
 private slots:
     void on_button_cancel_clicked();                        // Слот для возвращенияч к окну send_messege или root_window
     void on_button_ok_clicked();
 
 signals:
-    void i_make_img(QImage);                            /* Вызывается, как пользователь закончил создавать изображение,
-                                                         * передает созданное изображение в send_messege. Без координат (брут форс)
-                                                         */
+    void i_make_img(QImage, QString);                            /* Вызывается, как пользователь закончил создавать изображение,
+                                                                  * передает созданное изображение в send_messege. Без координат (брут форс)
+                                                                  */
 
-    void root_make_new_img(QImage, int, int, QString);  /* Вызывается, как пользователь закончил создавать изображение,
-                                                         * передает созданное изображение и его коррдинаты в root_window
-                                                         */
+    void root_make_new_img(QImage, int, int, QString, QString);  /* Вызывается, как пользователь закончил создавать изображение,
+                                                                  * передает созданное изображение и его коррдинаты в root_window
+                                                                  */
 
 private:
     Ui::make_img_window *ui;
@@ -92,6 +97,8 @@ private:
 
     int root_i; // Координата i, для рута
     int root_j; // Координата j, для рута
+    int ic;
+    int ir;
 };
 
 #endif // MAKE_IMG_WINDOW_H

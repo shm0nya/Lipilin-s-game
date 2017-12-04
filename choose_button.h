@@ -24,14 +24,14 @@ class choose_button : public QDialog
 public:
     explicit choose_button(QWidget *parent = 0);
     ~choose_button();
-    void set_button (QPB_modify *pb, int i, int j);     // Устанавливает кнопку в позицию i, j на сетке
-    void open_button(QImage img, int i, int j);         // Это вызывается, когда создаётся сетка рун в home_windows (n*m) раз. Создает кнопки в этом окне
+    void set_button (QPB_modify *pb, int i, int j);                   // Устанавливает кнопку в позицию i, j на сетке
+    void open_button(QImage img, int i, int j, QString code);         // Это вызывается, когда создаётся сетка рун в home_windows (n*m) раз. Создает кнопки в этом окне
 
 private:
     Ui::choose_button *ui;
 
 signals:
-    void i_choose_img(QImage, int, int);                // Если руна открыта, то шлется этот сигнал (передает выбранное изображение и его позицию в send_messege)
+    void i_choose_img(QImage, int, int, QString);                // Если руна открыта, то шлется этот сигнал (передает выбранное изображение и его позицию в send_messege)
 
 private slots:
     void on_button_cancel_clicked();                    // Кнопка "назад", возвращает в send_messege

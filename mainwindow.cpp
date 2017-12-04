@@ -27,14 +27,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::rootwindow()
 {
+    flag_is_it_root = true;
+
     root_wnd = new root_window;
     make_wnd = new make_img_window;
 
     connect(root_wnd, SIGNAL(show_make_img_with_my_img(QImage, int, int, QString)), this, SLOT(show_make_wnd_to_root(QImage, int, int, QString)));
     connect(root_wnd, SIGNAL(get_rune(int)), this, SLOT(set_rune(int)));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd_fo_root()));
-    connect(make_wnd, SIGNAL(root_make_new_img(QImage, int, int, QString)), this, SLOT(new_rune_created_root(QImage, int, int, QString)));
+    connect(make_wnd, SIGNAL(root_make_new_img(QImage, int, int, QString, QString)), this, SLOT(new_rune_created_root(QImage, int, int, QString, QString)));
     connect(root_wnd, SIGNAL(start()), this, SLOT(NET_send_info_for_start()));
+
+    root_wnd->set_runes_bd_size(make_wnd->get_rune_bd_size());
+    root_wnd->set_colors_bd_size(make_wnd->get_colors_bd_size());
 
     root_wnd->show();
     this->close();
@@ -54,14 +59,14 @@ void MainWindow::playerwindow()
     connect(home_wnd, SIGNAL(change_wnd_to_swnd()),this ,SLOT(home_wnd__sendmess_wnd()));
 
     connect(home_wnd, SIGNAL(do_it(int, int)), this, SLOT(create_pb(int, int)));
-    connect(home_wnd, SIGNAL(i_opend(QImage, int, int)), this, SLOT(then_opend_img(QImage, int, int)));
+    connect(home_wnd, SIGNAL(i_opend(QImage, int, int,QString)), this, SLOT(then_opend_img(QImage, int, int, QString)));
     connect(send_messege_wnd, SIGNAL(show_ch_buttons_sign()), this, SLOT(show_ch_wnd()));
-    connect(choose_button_wnd, SIGNAL(i_choose_img(QImage, int, int)),this ,SLOT(then_choosen_img(QImage, int, int)));
+    connect(choose_button_wnd, SIGNAL(i_choose_img(QImage, int, int, QString)),this ,SLOT(then_choosen_img(QImage, int, int, QString)));
     connect(choose_button_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
 
     connect(send_messege_wnd, SIGNAL(show_make_img_wnd()),this, SLOT(show_make_wnd()));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
-    connect(make_wnd, SIGNAL(i_make_img(QImage)), this, SLOT(then_made_img(QImage)));
+    connect(make_wnd, SIGNAL(i_make_img(QImage, QString)), this, SLOT(then_made_img(QImage, QString)));
 
     connect(send_messege_wnd, SIGNAL(player_send_messege(QImage,QImage,QString,int,QString,int,int,int, QString)),
             this, SLOT(test_player_image(QImage,QImage,QString,int,QString,int,int,int, QString)));
@@ -125,28 +130,30 @@ void MainWindow::create_pb(int i, int j)
     QSize icon_size(40,40);
     pb->setIconSize(icon_size);
 
+    pb->rune_code = runes_code[i][j];
+
     connect(pb, &QPushButton::clicked, [this, pb](){
         if (pb->reverse_img.isNull())
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
-            emit choose_button_wnd->i_choose_img(pb->reverse_img, pb->i, pb->j);
+            emit choose_button_wnd->i_choose_img(pb->reverse_img, pb->i, pb->j, pb->rune_code);
     });
 
     choose_button_wnd->set_button(pb, i, j);
 }
 
-void MainWindow::then_choosen_img(QImage img, int i, int j)
+void MainWindow::then_choosen_img(QImage img, int i, int j, QString code)
 {
-    send_messege_wnd->user_choose_img(img);
+    send_messege_wnd->user_choose_img(img, code);
     send_messege_wnd->set_position_of_img(i, j);
 
     send_messege_wnd->setEnabled(true);
     send_messege_wnd->show();
 }
 
-void MainWindow::then_opend_img(QImage img, int i, int j)
+void MainWindow::then_opend_img(QImage img, int i, int j, QString code)
 {
-    choose_button_wnd->open_button(img, i, j);
+    choose_button_wnd->open_button(img, i, j, code);
 }
 
 void MainWindow::if_close_wnd()
@@ -179,13 +186,14 @@ void MainWindow::if_close_wnd_fo_root()
     root_wnd->setEnabled(true);
 }
 
-void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str)
+void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str, QString img_code)
 {
     QPB_modify *pb = new QPB_modify;
 
     pb->i = i;
     pb->j = j;
     pb->str = str;
+    pb->rune_code = img_code;
 
     pb->reverse_img = img;
     QSize button_size(50,50);
@@ -203,9 +211,9 @@ void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str)
     root_wnd->set_rune_at_GL(pb, i, j);
 }
 
-void MainWindow::then_made_img(QImage img)
+void MainWindow::then_made_img(QImage img, QString code)
 {
-    send_messege_wnd->user_choose_img(img);
+    send_messege_wnd->user_choose_img(img, code);
 
     send_messege_wnd->setEnabled(true);
     send_messege_wnd->show();
@@ -243,12 +251,8 @@ void MainWindow::NET_datagramm_analysis()
         NET_start_messeges_phase_1(data);
         break;
 
-    case 's':
-        NET_start_messeges_phase_2(data, buffer);
-        break;
-
     case 'g':
-        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m);
+        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code);
         break;
 
     case 'i':
@@ -298,11 +302,11 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
         user_list[login] = sender.toString();
     }
 
-    if (root_address != "127.0.0.1")
+    if (flag_is_it_root)
     {
         root_wnd->add_new_player(login);
         if (root_wnd->get_flag_game_on())
-            NET_send_info_for_player(sender.toString(), messeges, datagramms);
+            NET_send_info_for_player(sender.toString(), messeges, img_code);
     }
 }
 
@@ -346,6 +350,7 @@ void MainWindow::NET_send_info_for_start()
     int n = root_wnd->get_n();
     int m = root_wnd->get_m();
     messeges = "";
+    img_code = "";
 
     /* В сообщение добавляем n, m*/
 
@@ -363,35 +368,21 @@ void MainWindow::NET_send_info_for_start()
             messeges = messeges + temp + ' ';
         }
 
-    if (messeges.size() > 65000)
+    /* Форсмируется строка закодированных изображений */
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            img_code = img_code + root_wnd->get_rune_code_at_position(i, j) + ' ';
+
+    if (messeges.size() + img_code.size() > 65000)
     {
         QMessageBox::information(this, "error" ,"Слишком большие кодовые слова");
         return;
     }
 
-    /* Формируем дейтаграммы */
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < m; j++)
-        {
-            QByteArray Data;
-
-            QString temp = "1s" + QString::number(i) + ' ' + QString::number(j) + ' ';
-            Data.append(temp);
-
-            QImage temp_img = root_wnd->get_rune_at_position(i, j);
-            QByteArray ba;
-            QBuffer buffer(&ba);
-            temp_img.save(&buffer,"PNG");
-
-            Data = Data + ba;
-
-            datagramms.push_back(Data);
-        }
-
     /* Шлем данные */
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        NET_send_info_for_player(it.value(), messeges, datagramms);
+        NET_send_info_for_player(it.value(), messeges, img_code);
     }
 
     /* Посылаем сигнал старта игры */
@@ -418,15 +409,7 @@ void MainWindow::NET_start_messeges_phase_1(QString messeges)
     temp_str = cut_string_befor_simbol(messeges, ' ');
     img_count_m = temp_str.toInt();
 
-    /* Подготовка хранилища векторов */
-    for (int i =0; i<img_count_n; i++)
-    {
-        vector<QImage> tt_vec(img_count_m);
-        source_img.push_back(tt_vec);
-
-    }
-
-    /* Вытаскиваем всё остальное */
+    /* Вытаскиваем слова */
     for (int i = 0; i < img_count_n; i++)
     {
         vector<QString> temp_vec;
@@ -437,23 +420,25 @@ void MainWindow::NET_start_messeges_phase_1(QString messeges)
         }
         code_messege.push_back(temp_vec);
     }
-}
 
-void MainWindow::NET_start_messeges_phase_2(QString data, QByteArray buffer)
-{
-    QString temp_str;
-    int i, j;
-
-    temp_str = cut_string_befor_simbol(data, ' ');
-    i = temp_str.toInt();
-
-    temp_str = cut_string_befor_simbol(data, ' ');
-    j = temp_str.toInt();
-
-    buffer.remove(0, 6);
-    QImage image;
-    image.loadFromData(buffer);
-    source_img[i][j] = image;
+    /* Генерируем изображения */
+    for (int i = 0; i < img_count_n; i++)
+    {
+        vector<QImage> temp_vec;
+        vector<QString> temp_code_vec;
+        for (int j = 0; j < img_count_m; j++)
+        {
+            temp_str = cut_string_befor_simbol(messeges, ' ');
+            temp_code_vec.push_back(temp_str);
+            QImage temp_img;
+            int ic = cut_string_befor_simbol(temp_str, '_').toInt();
+            int jc = temp_str.toInt();
+            temp_img = make_wnd->paint_picture_at_code(ic, jc);
+            temp_vec.push_back(temp_img);
+        }
+        source_img.push_back(temp_vec);
+        runes_code.push_back(temp_code_vec);
+    }
 }
 
 int count_simbols_befor(QString data, char befor)
@@ -500,16 +485,6 @@ QString simbols_in_str_at_positions(QString data, int position, int count)
     }
 
     return unswer;
-}
-
-void sleep(int t)
-{
-    QTime time;
-    time.start();
-    for(;time.elapsed() < t;)
-    {
-
-    }
 }
 
 void MainWindow::test_player_image(QImage img, QImage enc_img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j, QString algoritm)
@@ -625,21 +600,16 @@ void MainWindow::NET_list_of_user_in_game(QString data)
     }
 }
 
-void MainWindow::NET_send_info_for_player(QString address, QString &messeges, vector<QByteArray> &datagramms)
+void MainWindow::NET_send_info_for_player(QString address, QString &messeges, QString &codes)
 {
     QHostAddress temp_addres(address);
 
+    QString datagramm = messeges + codes;
+
     QByteArray first_data;
     first_data.append("1S");
-    first_data.append(messeges);
+    first_data.append(datagramm);
     socket->writeDatagram(first_data, temp_addres, 65201);
-    sleep(100);
-
-    for (int i = 0; i < int(datagramms.size()); i++)
-    {
-        socket->writeDatagram(datagramms[i], temp_addres, 65201);
-        sleep(1000);
-    }
 
     // В случае, если игра началась, а пользователь опоздал - сразу шлется старт
     if (root_wnd->get_flag_game_on())
@@ -690,9 +660,6 @@ void MainWindow::send_messege_wnd_on_intercept_value(QImage img,
     intercept_wnd->close();
     send_messege_wnd->show();
 }
-
-
-
 
 
 

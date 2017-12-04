@@ -31,10 +31,10 @@
  *
  *      3) action = S (S заглавная)
  *         data = n, m записанные через пробел в string, после чего n*m слов, записанных через пробел
+ *                     через пробел далее идут коды изображений. Код имеет вид i_j,
+ *                                                               где i - номер руны
+ *                                                                   j - номер цвета
  *
- *         action = s (прописная) - шлется n*m сообщений с QImage
- *         data = "i_j_"QImage - содержит i_j_ два числа, записанных через пробел, указывающих на позицию в сетке
- *                               и сам QImage
  *
  *         action = g - root завершил передачу исходных данных всем пользователям, game_must_go_on!
  *                      запускает старт игры
@@ -166,13 +166,13 @@ private slots:
                                   */                                                                                                                    //
                                                                                                                                                         //
                                                                                                                                                         //
-    void then_opend_img(QImage img, int i, int j); /* Mode = player;                                                                                    //
-                                                    * Слот срабатывает на сигнал home_window::i_opend(QImage, int, int)                                 //
-                                                    * Слот, который вызывает метод choose_button::open_button(QImage img, int i, int j)                 //
-                                                    * Данный метод создает новую кнопку, устанавливает на неё икноку (reverse), делает кнопку активной  //
-                                                    */                                                                                                  //
+    void then_opend_img(QImage img, int i, int j, QString code); /* Mode = player;                                                                                    //
+                                                                  * Слот срабатывает на сигнал home_window::i_opend(QImage, int, int)                                 //
+                                                                  * Слот, который вызывает метод choose_button::open_button(QImage img, int i, int j)                 //
+                                                                  * Данный метод создает новую кнопку, устанавливает на неё икноку (reverse), делает кнопку активной  //
+                                                                  */                                                                                                  //
                                                                                                                                                         //
-    void then_choosen_img(QImage img, int i, int j); /* Mode = player                                                                                   //
+    void then_choosen_img(QImage img, int i, int j, QString code); /* Mode = player                                                                                   //
                                         * Ловит сигнал choose_buttons::i_choose_img(QImage)                                                             //
                                         * Данный слот устанавливает в send_messege то изображение, которое выбрал пользователь в качестве рабочкго      //
                                         */                                                                                                              //
@@ -183,11 +183,11 @@ private slots:
                              * Выковыривает от туда руну и цвет и устанавливает в temp_rune в root (необходимо для default)                             //
                              */                                                                                                                         //
                                                                                                                                                         //
-    void then_made_img(QImage img); /* mode = player                                                                                                    //
+    void then_made_img(QImage img, QString code); /* mode = player                                                                                                    //
                                      * слот, который ловит сигнал от make_img_window, после того, как пользователь создал изображения для brute_forse   //
                                      */                                                                                                                 //
                                                                                                                                                         //
-    void new_rune_created_root(QImage img ,int i, int j, QString str); /* mode = root                                                                   //
+    void new_rune_created_root(QImage img ,int i, int j, QString str, QString img_code); /* mode = root                                                                   //
                                                                         * в случае, если преподаватель хочет создать свою руну,                         //
                                                                         * то он жмет на изображение, открывается make_img_window                        //
                                                                         * После этого, преподаватель создает руну, жмет "ок". "ок" возвращает руну,     //
@@ -206,7 +206,8 @@ private slots:
                                              QString p_key, int p_key_size,   // отсылает изображение, ключи P                                          //
                                              QString s_key, int s_key_size,   // S (для перехвата)                                                      //
                                              int i, int j,                    // позицию в сетке изображений                                            //
-                                             QString algoritm);                                                                                         //
+                                             QString algoritm);
+                                                                                                                          //
     /************************************************************************************************************************************************** */
 
 
@@ -256,11 +257,7 @@ private slots:
                                                                            * делает resize source_img!!!                                                   !!! //
                                                                            */                                                                                  //
                                                                                                                                                                //
-    void NET_start_messeges_phase_2(QString data, QByteArray buffer);  /* mode = player                                                                        //
-                                                                        * Вторая фаза передачи информации необходимой для старта                               //
-                                                                        * Принимает сообщение, в котором i, j, QImage                                          //
-                                                                        * Выкавыривает QImage, добавляет в source_img                                          //
-                                                                        */                                                                                     //
+                                                                                                                                                               //
                                                                                                                                                                //
     void NET_players_intercept_for_root(QString data, QHostAddress sender);                                                                                    //
     void NET_players_intercept_for_player(QString data);                                                                                                       //
@@ -274,7 +271,7 @@ private slots:
                                                     */                                                                                                         //
                                                                                                                                                                //
     void NET_list_of_user_in_game(QString data);                                                                                                               //
-    void NET_send_info_for_player(QString address, QString &messeges, vector<QByteArray> &datagramms);                                                         //
+    void NET_send_info_for_player(QString address, QString &messeges, QString &codes);                                                                                         //
     void NET_add_intercepted_messege(QString data, QByteArray buffer);                                                                                         //
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
@@ -285,6 +282,7 @@ private:
     QMap<QString, QString> user_list;         // Список пользователей. Ключ - логин, value - адресс (IPv4)
     vector<vector<QImage>> source_img;        // Исходные изображения, которые прислыает root
     vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
+    vector<vector<QString>> runes_code;       // Коды source image
     int img_count_n = 5;                      // Дефолтное значение
     int img_count_m = 5;                      // Дефолтное значение
     QVector <QString> me_overhere_addres_list;// Список людей, которые меня прослушивают
@@ -292,7 +290,8 @@ private:
 
     // root тоже имеет право на свои переменные в mainwindow
     QString messeges;                         // Строка из закодированных рунами строк (через пробел)
-    vector<QByteArray> datagramms;            // Датаграммы с картинками
+    QString img_code;                         // Строка с закодированными изображениями (номер руны_номерцвета)
+    //
 
     home_window *home_wnd;
     send_messege *send_messege_wnd;
@@ -300,6 +299,8 @@ private:
     make_img_window *make_wnd;
     root_window *root_wnd;
     interception *intercept_wnd;
+
+    bool flag_is_it_root = false;
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */
@@ -307,7 +308,5 @@ int count_simbols_befor(QString data, char befor); /* Находит колич�
 QString cut_string_befor_simbol(QString &str, char befor); /* Вырезает из строки кусок, который идет до символа befor. Символ befor удаляет */
 
 QString simbols_in_str_at_positions(QString data, int position, int count);
-
-void sleep(int t);
 
 #endif // MAINWINDOW_H

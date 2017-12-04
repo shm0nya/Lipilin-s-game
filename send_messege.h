@@ -28,7 +28,7 @@ class send_messege : public QDialog
 public:
     explicit send_messege(QWidget *parent = 0);
 
-    void user_choose_img(QImage img);       /* Выбранное пользователем изображение с его координатами устанавливается как активное */
+    void user_choose_img(QImage img, QString code);       /* Выбранное пользователем изображение с его координатами устанавливается как активное */
     void set_position_of_img(int i, int j); // Установка позици изображения (в choose_button используется через mainwindow)
     void players_img_verdict(bool verdict); // Проверка правильности изображения
 
@@ -81,6 +81,7 @@ private:
     bool flag_new_image;                    /* В случае, когда пользователь составил алгоритм, загрузил изображение и жмет на кнопку P или S,
                                              * необходимо сбросить кнопку, дабы алгоритм не рос постоянно */
     int algoritme_size = 30;                // Максимльная длина алгоритма
+    QString now_using_rune_code = "";
 };
 
 QImage encrypt_image_p(QImage encrypted_image, std::vector<int> pb_key); /* Принимает QImage - изображение, которое надо шифровать,

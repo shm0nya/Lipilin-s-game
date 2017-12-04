@@ -38,7 +38,8 @@ class home_window : public QWidget
 public:
     explicit home_window(QString str_login, QWidget *parent = 0);
     ~home_window();
-    void create_img_buttons(vector<vector<QImage>> &cut, int n, int m); /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
+    void create_img_buttons(vector<vector<QImage>> &cut, int n, int m,
+                            vector<vector<QString>> codes);             /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
                                                                          * каждая кнопка по клику на неё вызывает сигнал home_window::i_opend(QImage, int, int)
                                                                          * После генерации каждой кнопки шлет сигнал home_window::do_it() в Main_window
                                                                          * для того, чтобы создать идентичную кнопку в окне choose_button
@@ -58,7 +59,7 @@ signals:
 
     void do_it(int, int);                  /* Сигнал для создания кнопок в окне choose_button */
 
-    void i_opend(QImage, int, int);        /* Сигнал, который шлет созданная кнопка в home_window в main_window
+    void i_opend(QImage,int, int, QString);/* Сигнал, который шлет созданная кнопка в home_window в main_window
                                             * для того, чтобы сообщить о том, что кнопка выбрана пользователем
                                             */
 

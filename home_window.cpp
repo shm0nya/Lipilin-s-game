@@ -53,7 +53,7 @@ vector <vector<QImage>> cut_image(QImage &image, int n, int m)
   return cut;
 }
 
-void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m)
+void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, vector<vector<QString>> codes)
 {
     for (int i = 0; i < n; i++)
         for (int j = 0; j < m; j++)
@@ -62,6 +62,7 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m)
             pb->reverse_img = cut[i][j];
             pb->i = i;
             pb->j = j;
+            pb->rune_code = codes[i][j];
             pb->was_opening = false;
 
             QSize button_size(50,50);
@@ -72,12 +73,13 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m)
             QSize icon_size(40,40);
             pb->setIconSize(icon_size);
 
-            connect(pb, &QPushButton::clicked, [this, pb](){
+            connect(pb, &QPushButton::clicked, [this, pb]()
+            {
                 QPushButton *pb2 = new QPushButton;
                 pb2->setIcon(QPixmap::fromImage(pb->reverse_img));
                 pb2->setIconSize(pb->size());
                 pb2->setMaximumSize(pb->size());
-                emit i_opend(pb->reverse_img, pb->i, pb->j);
+                emit i_opend(pb->reverse_img, pb->i, pb->j, pb->rune_code);
                 ui->componate_custom_buttons_img->addWidget(pb2, pb->i, pb->j);
             });
 
@@ -90,7 +92,7 @@ void home_window::on_pushButton_clicked()
 {
     original_img.load(":/images/work image.png");
     cut = cut_image(original_img,5,5);
-    create_img_buttons(cut, 5,5);
+    //create_img_buttons(cut, 5,5, );
 }
 
 void home_window::add_new_player(QString new_player_login)

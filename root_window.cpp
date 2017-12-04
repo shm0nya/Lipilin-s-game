@@ -11,7 +11,7 @@ root_window::root_window(QWidget *parent) :
     ui->edit_n->setValidator(new QRegExpValidator(is_int, this));
     ui->edit_m->setValidator(new QRegExpValidator(is_int, this));
 
-    create_images();
+    //create_images();
 }
 
 root_window::~root_window()
@@ -45,6 +45,7 @@ void root_window::on_button_apply_clicked()
 void root_window::create_images()
 {
     pb_runes.clear();
+
     for (int i = 0; i < m; i++)
     {
         std::vector<QPB_modify*> temp_vec;
@@ -59,6 +60,8 @@ void root_window::create_images()
                 pb->str = messege[j + i*n];
 
             pb->reverse_img = temp_rune;
+            pb->rune_code = QString::number((j + i*n)%runes_size) + '_' + QString::number((j + i*n)%colors_size);
+
             QSize button_size(50,50);
             pb->setMaximumSize(button_size);
             pb->setMinimumSize(button_size);
@@ -100,11 +103,11 @@ void root_window::set_rune_at_GL(QPB_modify *pb, int i, int j)
     pb_runes[i][j] = pb;
 }
 
-QImage root_window::get_rune_at_position(int i, int j)
+QString root_window::get_rune_code_at_position(int i, int j)
 {
-   QImage img;
-   img = pb_runes[i][j]->icon().pixmap(100,100).toImage();
-   return img;
+   QString code;
+   code = pb_runes[i][j]->rune_code;
+   return code;
 }
 
 QString root_window::get_messege_at_position(int i, int j)

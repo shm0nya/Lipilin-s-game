@@ -18,7 +18,7 @@ void choose_button::set_button(QPB_modify *pb, int i, int j)
     ui->buttons_grid->addWidget(pb, i, j);
 }
 
-void choose_button::open_button(QImage img, int i, int j)
+void choose_button::open_button(QImage img, int i, int j, QString code)
 {
     QPB_modify *pb = new QPB_modify;
     QSize button_size(50,50);
@@ -31,13 +31,14 @@ void choose_button::open_button(QImage img, int i, int j)
     pb->i = i;
     pb->j = j;
     pb->was_opening = true;
+    pb->rune_code = code;
 
     connect(pb, &QPushButton::clicked, [this, pb](){
         if (pb->reverse_img.isNull())
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
         {
-            emit i_choose_img(pb->reverse_img, pb->i, pb->j);
+            emit i_choose_img(pb->reverse_img, pb->i, pb->j, pb->rune_code);
             this->close();
         }
     });

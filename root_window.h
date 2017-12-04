@@ -30,13 +30,18 @@ public:
     void set_rune_at_GL(QPB_modify *pb, int i, int j);  // Установка руны в сетке рун, после её создания в mainwindow
     bool get_default_flag() {return flag_default;}      // Запрос флага (поумолчанию или нет?) - вдруг кто-то сам решит задать
     QString get_messege_at_position(int i, int j);      // Получение сообщения, соответствующего позиции в mainwindow
-    QImage get_rune_at_position(int i, int j);          // Передает руну на определенной позиции в mainwindow
+    QString get_rune_code_at_position(int i, int j);    // Передает руну на определенной позиции в mainwindow
 
     int get_n() {return n;}                             // Передает n в mainwindow
     int get_m() {return m;}                             // Передает m в mainwindow
 
     void add_new_player(QString login);                 // Добавляет нового пользователя в список на ui
     bool get_flag_game_on(){return flag_gamego_on;}     // Флаг, указывающий, игра началась или нет
+    void set_runes_bd_size(int value){runes_size = value;}
+    void set_colors_bd_size(int value)
+    {
+        colors_size = value;
+    }
 
 private slots:
     void on_button_apply_clicked();                     // Изменение n, m рутом (пересчет сетки)
@@ -66,8 +71,12 @@ private:
     bool flag_gamego_on = false;
 
     std::vector<QString> messege = default_text;    // Сообщение, которое закодировано рунами (изначально равно default_text)
+    std::vector<QImage> runes;                      // Здесь зранятся "Индексы" рун (строка из "i_j" i - номер исходной руны
+                                                    //                                                 j - номер цвета
     QImage temp_rune;                               // Костыль
     std::vector<std::vector<QPB_modify*>> pb_runes; // Массив с указателями на руны (сразу надо было делать везде)
+    int colors_size;
+    int runes_size;
 };
 
 #endif // ROOT_WINDOW_H
