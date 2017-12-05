@@ -462,6 +462,17 @@ void send_messege::set_position_of_img(int i, int j)
 
 void send_messege::on_button_send_messege_clicked()
 {
+    if (ui->img_original->pixmap()->isNull())
+    {
+        if (ui->lbl_algoritm_value->text()!= "")
+        {
+            QMessageBox::information(this, "Ботва какая-то", "Это не похоже на сообщение");
+            return;
+        }
+        //else
+            //Открытие изображения
+    }
+
     QString code = now_using_rune_code;
 
     int i;
