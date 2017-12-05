@@ -184,18 +184,18 @@ private slots:
                              */                                                                                                                         //
                                                                                                                                                         //
     void then_made_img(QImage img, QString code); /* mode = player                                                                                                    //
-                                     * слот, который ловит сигнал от make_img_window, после того, как пользователь создал изображения для brute_forse   //
-                                     */                                                                                                                 //
+                                                   * слот, который ловит сигнал от make_img_window, после того, как пользователь создал изображения для brute_forse   //
+                                                   */                                                                                                                 //
                                                                                                                                                         //
     void new_rune_created_root(QImage img ,int i, int j, QString str, QString img_code); /* mode = root                                                                   //
-                                                                        * в случае, если преподаватель хочет создать свою руну,                         //
-                                                                        * то он жмет на изображение, открывается make_img_window                        //
-                                                                        * После этого, преподаватель создает руну, жмет "ок". "ок" возвращает руну,     //
-                                                                        * строчку, которая закодированна таким способом + позицию в сетке рун           //
-                                                                        */                                                                              //
+                                                                                          * в случае, если преподаватель хочет создать свою руну,                         //
+                                                                                          * то он жмет на изображение, открывается make_img_window                        //
+                                                                                          * После этого, преподаватель создает руну, жмет "ок". "ок" возвращает руну,     //
+                                                                                          * строчку, которая закодированна таким способом + позицию в сетке рун           //
+                                                                                          */                                                                              //
                                                                                                                                                         //
-    void test_player_image(QImage img, QImage enc_img,      // mode = player                                                                            //
-                           QString p_key, int p_key_size,   // отсылает изображение, ключи P                                                            //
+    void test_player_image(QString code              ,      // mode = player                                                                            //
+                           QString p_key, int p_key_size,   // отсылает изображение (код), ключи P                                                            //
                            QString s_key, int s_key_size,   // S (для перехвата)                                                                        //
                            int i, int j,                    // позицию в сетке изображений                                                              //
                            QString algoritm);               // алгоритм шифрования                                                                      //
@@ -261,7 +261,7 @@ private slots:
                                                                                                                                                                //
     void NET_players_intercept_for_root(QString data, QHostAddress sender);                                                                                    //
     void NET_players_intercept_for_player(QString data);                                                                                                       //
-    void NET_send_intercepted_messege_for_player (QString addres, QImage img,     // адресс, изображение                                                       //
+    void NET_send_intercepted_messege_for_player (QString addres, QString code,     // адресс, изображение                                                       //
                                                  QString p_key, int p_key_size,   // ключи P                                                                   //
                                                  QString s_key, int s_key_size,   // S (для перехвата)                                                         //
                                                  int i, int j, QString algoritm);                                                                              //
@@ -272,7 +272,7 @@ private slots:
                                                                                                                                                                //
     void NET_list_of_user_in_game(QString data);                                                                                                               //
     void NET_send_info_for_player(QString address, QString &messeges, QString &codes);                                                                                         //
-    void NET_add_intercepted_messege(QString data, QByteArray buffer);                                                                                         //
+    void NET_add_intercepted_messege(QString data);                                                                                         //
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:

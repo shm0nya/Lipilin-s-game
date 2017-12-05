@@ -462,8 +462,7 @@ void send_messege::set_position_of_img(int i, int j)
 
 void send_messege::on_button_send_messege_clicked()
 {
-    QImage img = Loaded_image;
-    QImage enc_img = Encrypted_image;
+    QString code = now_using_rune_code;
 
     int i;
     QString i_str = ui->edit_coordinate_i->text();
@@ -500,7 +499,7 @@ void send_messege::on_button_send_messege_clicked()
 
     QString algoritm = ui->lbl_algoritm_value->text();
 
-    emit this->player_send_messege(img, enc_img , p_key_str, p_key_size, s_key_str, s_key_size, i, j, algoritm);
+    emit this->player_send_messege(code, p_key_str, p_key_size, s_key_str, s_key_size, i, j, algoritm);
 }
 
 void send_messege::players_img_verdict(bool verdict)
@@ -552,4 +551,32 @@ void send_messege::on_button_swap_clicked()
     QImage temp = Loaded_image;
     Loaded_image = Encrypted_image;
     Encrypted_image = temp;
+}
+
+QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey_size,
+                                            QString skey, int skey_size, QString algoritm)
+{
+    int generator_start = 0;
+    for (int i = 0; i < int(pkey.size()); i++)
+    {
+        generator_start = generator_start + pkey[i].toLatin1();
+    }
+    vector<int> pbk = pblok_key(pkey_size, generator_start);
+
+    generator_start = 0;
+    for (int i = 0; i < int(skey.size()); i++)
+    {
+        generator_start = generator_start + skey[i].toLatin1();
+    }
+    vector<vector<int>> sbk = sblok_like_vigener_key(skey_size, generator_start);
+
+    for (int i = 0; i<algoritm.size(); i++)
+    {
+        if(algoritm[i]=='P')
+            img = encrypt_image_p(img, pbk);
+        else
+            img = encrypt_image_s(img, sbk);
+    }
+
+    return img;
 }

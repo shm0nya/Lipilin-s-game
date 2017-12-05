@@ -24,7 +24,7 @@ void interception::on_button_back_clicked()
 void interception::add_new_messege(QImage img,
                                    QString p_key, int p_key_size,
                                    QString s_key, int s_key_size,
-                                   int i, int j, QString algoritm)
+                                   int i, int j, QString algoritm, QString code)
 {
     inter_messege msg;
     msg.img = img;
@@ -35,11 +35,12 @@ void interception::add_new_messege(QImage img,
     msg.i = i;
     msg.j = j;
     msg.algoritm = algoritm;
+    msg.code = code;
     intercepted_messeges.push_back(msg);
 
     QPB_modify *pb = new QPB_modify;
     pb->i = intercepted_messeges.size() - 1;
-    pb->setText(login_of_intercept + ' ' + QString::number(pb->i));
+    pb->setText("Msg from " + login_of_intercept + " №" + QString::number(pb->i));
     connect(pb, &QPushButton::clicked, [this, pb](){
         emit this->show_info_at_messege(pb->i);
     });

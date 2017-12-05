@@ -18,6 +18,7 @@ struct inter_messege
     int i;
     int j;
     QString algoritm;
+    QString code;
 };
 
 namespace Ui {
@@ -45,7 +46,8 @@ public:
     void add_new_messege(QImage img,
                          QString p_key, int p_key_size,
                          QString s_key, int s_key_size,
-                         int i, int j, QString algoritm);
+                         int i, int j, QString algoritm,
+                         QString code);
 
     QString get_login_of_intercept(){return login_of_intercept;}
     void set_login_of_intercept(QString login){login_of_intercept = login;}

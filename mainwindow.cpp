@@ -68,7 +68,7 @@ void MainWindow::playerwindow()
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd()));
     connect(make_wnd, SIGNAL(i_make_img(QImage, QString)), this, SLOT(then_made_img(QImage, QString)));
 
-    connect(send_messege_wnd, SIGNAL(player_send_messege(QImage,QImage,QString,int,QString,int,int,int, QString)),
+    connect(send_messege_wnd, SIGNAL(player_send_messege(QString,QString,int,QString,int,int,int, QString)),
             this, SLOT(test_player_image(QImage,QImage,QString,int,QString,int,int,int, QString)));
 
     connect(home_wnd, SIGNAL(show_intercept_wnd_please()), this, SLOT(show_intercept_window()));
@@ -268,7 +268,7 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 'I':
-        NET_add_intercepted_messege(data, buffer);
+        NET_add_intercepted_messege(data);
     }
 }
 
@@ -487,7 +487,7 @@ QString simbols_in_str_at_positions(QString data, int position, int count)
     return unswer;
 }
 
-void MainWindow::test_player_image(QImage img, QImage enc_img, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j, QString algoritm)
+void MainWindow::test_player_image(QString code, QString p_key, int p_key_size, QString s_key, int s_key_size, int i, int j, QString algoritm)
 {
     if ((i<=0) || (j<=0) || (i > img_count_n) || (j > img_count_m))
     {
@@ -497,13 +497,13 @@ void MainWindow::test_player_image(QImage img, QImage enc_img, QString p_key, in
 
     // В зависимости игра оффлайн или онлайн
     if (root_address == "127.0.0.1")
-        send_messege_wnd->players_img_verdict(img == home_wnd->get_cut_img(i-1, j-1));
+        send_messege_wnd->players_img_verdict(code == runes_code[i][j]);
     else
-        send_messege_wnd->players_img_verdict(img == source_img[i-1][j-1]);
+        send_messege_wnd->players_img_verdict(code == runes_code[i][j]);
 
     for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
         NET_send_intercepted_messege_for_player(me_overhere_addres_list[k],
-                                                enc_img, p_key, p_key_size,
+                                                code, p_key, p_key_size,
                                                 s_key, s_key_size, i, j, algoritm);
 }
 
@@ -559,7 +559,7 @@ void MainWindow::NET_players_intercept_for_player(QString data)
     }
 }
 
-void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QImage img,                  
+void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QString code,
                                              QString p_key, int p_key_size,   
                                              QString s_key, int s_key_size, 
                                              int i, int j, QString algoritm)
@@ -570,15 +570,10 @@ void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QImage
 
     messege = messege + p_key + ' ' + QString::number(p_key_size) + ' '
                       + s_key + ' ' + QString::number(s_key_size) + ' '
-                      + QString::number(i) + ' ' + QString::number(j) + ' ' + algoritm + ' ';
+                      + QString::number(i) + ' ' + QString::number(j) + ' ' + algoritm + ' '
+                      + code;
 
     Data.append(messege);
-
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    img.save(&buffer,"PNG");
-
-    Data = Data + ba;
 
     socket->writeDatagram(Data, QHostAddress(addres), 65201);
 }
@@ -621,7 +616,7 @@ void MainWindow::NET_send_info_for_player(QString address, QString &messeges, QS
 
 }
 
-void MainWindow::NET_add_intercepted_messege(QString data, QByteArray buffer)
+void MainWindow::NET_add_intercepted_messege(QString data)
 {
     // Костыльненько, но должно работать
     QString p_key           = cut_string_befor_simbol(data, ' ');
@@ -631,22 +626,23 @@ void MainWindow::NET_add_intercepted_messege(QString data, QByteArray buffer)
     QString i_str           = cut_string_befor_simbol(data, ' ');
     QString j_str           = cut_string_befor_simbol(data, ' ');
     QString algoritm        = cut_string_befor_simbol(data, ' ');
-
-    int size_data = p_key.size() + p_key_size_str.size() +
-                    s_key.size() + s_key_size_st.size() +
-                    i_str.size() + j_str.size() +
-                    algoritm.size () + 7 + 2; // 7 пробелов 2 - служеюаня информация
+    QString code            = cut_string_befor_simbol(data, ' ');
 
     int p_key_size = p_key_size_str.toInt();
     int s_key_size = s_key_size_st.toInt();
     int i = i_str.toInt();
     int j = j_str.toInt();
 
-    buffer.remove(0, size_data);
     QImage image;
-    image.loadFromData(buffer);
+    int ic = cut_string_befor_simbol(code, '_').toInt();
+    int jc = code.toInt();
+    image = make_wnd->paint_picture_at_code(ic, jc);
 
-    intercept_wnd->add_new_messege(image ,p_key,p_key_size,s_key,s_key_size,i, j, algoritm);
+    image = send_messege_wnd->encrypt_img_to_intercept(image, p_key, p_key_size,
+                                                              s_key, s_key_size,
+                                                              algoritm);
+
+    intercept_wnd->add_new_messege(image ,p_key,p_key_size,s_key,s_key_size,i, j, algoritm, code);
     home_wnd->set_visibale_new_messege(true);
 }
 

@@ -37,6 +37,10 @@ public:
                             QString s_key, int s_key_size,
                             int i, int j, QString algoritm);
 
+    QImage encrypt_img_to_intercept(QImage img, QString pkey, int pkey_size,
+                                                QString skey, int skey_size,
+                                                QString algoritm);
+
     ~send_messege();
 
 signals:
@@ -44,7 +48,7 @@ signals:
     void show_ch_buttons_sign();  /* Сигнал для показа окна choose_img */
     void show_make_img_wnd();     /* Сигнал для показа окна make img*/
 
-    void player_send_messege(QImage,QImage,QString,int,QString,int,int,int,QString);/* Передает в mainwindow следующие данные:
+    void player_send_messege(QString,QString,int,QString,int,int,int,QString);/* Передает в mainwindow следующие данные:
                                                                                      * 1) Qimage Изображение исходное и зашифрованное
                                                                                      * 2) QString P_key, int длина ключа P
                                                                                      * 3) QString s_key, int длина ключа S
@@ -104,5 +108,6 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key);
                                                                              * Алгоритм аналогичен "encrypt_image_p"
 */
 QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key); /* Делает то же, что и encrypt, только использует sblok_like_vigener_revers*/
+
 
 #endif // SEND_MESSEGE_H
