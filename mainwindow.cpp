@@ -69,14 +69,14 @@ void MainWindow::playerwindow()
     connect(make_wnd, SIGNAL(i_make_img(QImage, QString)), this, SLOT(then_made_img(QImage, QString)));
 
     connect(send_messege_wnd, SIGNAL(player_send_messege(QString,QString,int,QString,int,int,int, QString)),
-            this, SLOT(test_player_image(QImage,QImage,QString,int,QString,int,int,int, QString)));
+            this, SLOT(test_player_image(QString,QString,int,QString,int,int,int, QString)));
 
     connect(home_wnd, SIGNAL(show_intercept_wnd_please()), this, SLOT(show_intercept_window()));
     connect(intercept_wnd, SIGNAL(homecomig()), this, SLOT(back__homecoming()));
     connect(home_wnd, SIGNAL(i_want_intercept(QString)), this, SLOT(NET_send_players_inercept_login(QString)));
 
-    connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,QString,int,int,int,QString)),
-            this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,QString,int,int,int,QString)));
+    connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,QString,int,int,int,QString, QString)),
+            this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,QString,int,int,int,QString, QString)));
 
     home_wnd->show();
     this->close();
@@ -497,9 +497,9 @@ void MainWindow::test_player_image(QString code, QString p_key, int p_key_size, 
 
     // В зависимости игра оффлайн или онлайн
     if (root_address == "127.0.0.1")
-        send_messege_wnd->players_img_verdict(code == runes_code[i][j]);
+        send_messege_wnd->players_img_verdict(code == runes_code[i-1][j-1]);
     else
-        send_messege_wnd->players_img_verdict(code == runes_code[i][j]);
+        send_messege_wnd->players_img_verdict(code == runes_code[i-1][j-1]);
 
     for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
         NET_send_intercepted_messege_for_player(me_overhere_addres_list[k],
@@ -571,7 +571,7 @@ void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QStrin
     messege = messege + p_key + ' ' + QString::number(p_key_size) + ' '
                       + s_key + ' ' + QString::number(s_key_size) + ' '
                       + QString::number(i) + ' ' + QString::number(j) + ' ' + algoritm + ' '
-                      + code;
+                      + code + ' ';
 
     Data.append(messege);
 
@@ -638,6 +638,8 @@ void MainWindow::NET_add_intercepted_messege(QString data)
     int jc = code.toInt();
     image = make_wnd->paint_picture_at_code(ic, jc);
 
+    code = QString::number(ic) + '_' + QString::number(jc);
+
     image = send_messege_wnd->encrypt_img_to_intercept(image, p_key, p_key_size,
                                                               s_key, s_key_size,
                                                               algoritm);
@@ -650,9 +652,9 @@ void MainWindow::send_messege_wnd_on_intercept_value(QImage img,
                                          QString p_key, int p_key_size,
                                          QString s_key, int s_key_size,
                                          int i, int j,
-                                         QString algoritm)
+                                         QString algoritm,QString code)
 {
-    send_messege_wnd->set_intercept_info(img, p_key, p_key_size, s_key,s_key_size, i, j, algoritm);
+    send_messege_wnd->set_intercept_info(img, p_key, p_key_size, s_key,s_key_size, i, j, algoritm, code);
     intercept_wnd->close();
     send_messege_wnd->show();
 }

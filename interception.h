@@ -32,10 +32,7 @@ class interception : public QDialog
 signals:
     void homecomig(); // Угадайте пасхалку
     void show_info_at_messege(int); // Посылает сам себе, при нажатии на кнопку
-    void go_to_crypto(QImage img,
-                      QString p_key, int p_key_size,
-                      QString s_key, int s_key_size,
-                      int i, int j, QString algoritm);
+    void go_to_crypto(QImage,QString,int,QString,int,int,int,QString, QString);
 
 private slots:
     void show_info_at_messege_on_index(int i);
@@ -46,8 +43,7 @@ public:
     void add_new_messege(QImage img,
                          QString p_key, int p_key_size,
                          QString s_key, int s_key_size,
-                         int i, int j, QString algoritm,
-                         QString code);
+                         int i, int j, QString algoritm, QString code);
 
     QString get_login_of_intercept(){return login_of_intercept;}
     void set_login_of_intercept(QString login){login_of_intercept = login;}

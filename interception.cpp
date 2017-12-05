@@ -84,5 +84,6 @@ void interception::on_button_to_send_messege_clicked()
                 intercepted_messeges[index_message].s_key_size,
                 intercepted_messeges[index_message].i,
                 intercepted_messeges[index_message].j,
-                intercepted_messeges[index_message].algoritm);
+                intercepted_messeges[index_message].algoritm,
+                intercepted_messeges[index_message].code);
 }

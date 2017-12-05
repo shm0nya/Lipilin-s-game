@@ -521,9 +521,18 @@ void send_messege::on_button_back_clicked()
 void send_messege::set_intercept_info(QImage img,
                         QString p_key, int p_key_size,
                         QString s_key, int s_key_size,
-                        int i, int j, QString algoritm)
+                        int i, int j, QString algoritm , QString code)
 {
-    this->user_choose_img(img, "");
+    //Loaded_image = img;
+    //Encrypted_image = Loaded_image;
+    Encrypted_image = img;
+    int widch = ui->img_changed->width();
+    int heich = ui->img_changed->height();
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
+
+    QPixmap t;
+    ui->img_original->setPixmap(t);
+
     flag_new_image = false;
 
     ui->p_key_edit->setText(p_key);
@@ -532,25 +541,8 @@ void send_messege::set_intercept_info(QImage img,
     ui->s_key_size_edit_slider->setValue(s_key_size);
     ui->lbl_algoritm_value->setText(algoritm);
 
-    this->set_position_of_img(i+1, j+1);
-}
-
-void send_messege::on_button_swap_clicked()
-{
-    int lblwid = ui->img_changed->width();
-    int lblhei = ui->img_changed->height();
-
-    ui->img_changed->setPixmap(QPixmap::fromImage(Loaded_image).scaled(lblwid,lblhei));
-
-    int lblwid2 = ui->img_original->width();
-    int lblhei2 = ui->img_original->height();
-
-    ui->img_original->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid2,lblhei2));
-
-    // А в питоне так можно!!! Loaded_image, Encrypted_image = Encrypted_image, Loaded_image;
-    QImage temp = Loaded_image;
-    Loaded_image = Encrypted_image;
-    Encrypted_image = temp;
+    now_using_rune_code = code;
+    this->set_position_of_img(i-1, j-1);
 }
 
 QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey_size,

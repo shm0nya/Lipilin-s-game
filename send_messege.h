@@ -35,7 +35,7 @@ public:
     void set_intercept_info(QImage img,
                             QString p_key, int p_key_size,
                             QString s_key, int s_key_size,
-                            int i, int j, QString algoritm);
+                            int i, int j, QString algoritm, QString code);
 
     QImage encrypt_img_to_intercept(QImage img, QString pkey, int pkey_size,
                                                 QString skey, int skey_size,
@@ -74,7 +74,6 @@ private slots:
 
     void on_button_back_clicked();
 
-    void on_button_swap_clicked();
 
 private:
     Ui::send_messege *ui;
