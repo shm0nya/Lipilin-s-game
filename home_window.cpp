@@ -129,9 +129,7 @@ void home_window::set_visibale_new_messege(bool vis)
 }
 
 
-
-
-
+/* */
 void home_window::on_automat_clicked()
 {
     int luck; //переменная, определяющая, откроется ли картинка

@@ -78,6 +78,9 @@ void MainWindow::playerwindow()
     connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,QString,int,int,int,QString, QString)),
             this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,QString,int,int,int,QString, QString)));
 
+    if (root_address == "127.0.0.1")
+        solo();
+
     home_wnd->show();
     this->close();
 
@@ -213,7 +216,7 @@ void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str, QS
 
 void MainWindow::then_made_img(QImage img, QString code)
 {
-    send_messege_wnd->user_choose_img(img, code);
+    send_messege_wnd->user_made_img(img, code);
 
     send_messege_wnd->setEnabled(true);
     send_messege_wnd->show();
@@ -658,6 +661,45 @@ void MainWindow::send_messege_wnd_on_intercept_value(QImage img,
     intercept_wnd->close();
     send_messege_wnd->show();
 }
+
+void MainWindow::solo()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        vector <QString> temp_vec;
+        vector <QImage> images;
+        for (int j = 0; j < 6; j++)
+        {
+            QString code = QString::number(i) + '_' + QString::number(j);
+            temp_vec.push_back(code);
+
+            QImage img = make_wnd->paint_picture_at_code(i, j);
+            images.push_back(img);
+        }
+        source_img.push_back(images);
+        runes_code.push_back(temp_vec);
+        code_messege.push_back(temp_vec);
+    }
+
+    home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -36,19 +36,6 @@
    </property>
    <layout class="QGridLayout" name="componate_custom_buttons_img"/>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>530</y>
-     <width>281</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Кнопка, для игры в соло. Заменяет сигнал старт</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>

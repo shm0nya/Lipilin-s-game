@@ -32,6 +32,9 @@ send_messege::send_messege(QWidget *parent) :
 
     connect(ui->button_choose_img, SIGNAL(clicked()), this, SIGNAL(show_ch_buttons_sign()));
     connect(ui->button_make_img, SIGNAL(clicked()), this, SIGNAL(show_make_img_wnd()));
+
+    ui->lbl_progress->setVisible(false);
+    ui->progress_send->setVisible(false);
 }
 
 send_messege::~send_messege()
@@ -440,6 +443,24 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
 
 void send_messege::user_choose_img(QImage img, QString code)
 {
+    mc = 75;
+    Loaded_image= img;
+    flag_new_image = true;
+    Encrypted_image = Loaded_image;
+    now_using_rune_code = code;
+
+    int wid = ui->img_original->width();
+    int hei = ui->img_original->height();
+    ui->img_original->setPixmap(QPixmap::fromImage(Loaded_image.scaled(wid,hei)));
+
+    int widch = ui->img_changed->width();
+    int heich = ui->img_changed->height();
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
+}
+
+void send_messege::user_made_img(QImage img, QString code)
+{
+    mc = 100;
     Loaded_image= img;
     flag_new_image = true;
     Encrypted_image = Loaded_image;
@@ -462,16 +483,33 @@ void send_messege::set_position_of_img(int i, int j)
 
 void send_messege::on_button_send_messege_clicked()
 {
-    if (ui->img_original->pixmap()->isNull())
+    /*Проверки*/
+    if (ui->img_original->pixmap()->isNull())// Т.Е. Анализирует перехваченное сообщение
     {
-        if (ui->lbl_algoritm_value->text()!= "")
+        mc = 25;
+        if (ui->lbl_algoritm_value->text()!= "")// Если расшифровал не до конца
         {
-            QMessageBox::information(this, "Ботва какая-то", "Это не похоже на сообщение");
+            QMessageBox::information(this, "Да ладно", "Ты даже не расшифровал изображение");
             return;
         }
-        //else
-            //Открытие изображения
     }
+
+
+    /*  Забивает время */
+    ui->lbl_progress->setVisible(true);
+    ui->progress_send->setVisible(true);
+    for (int i = 0; i < 100; i++)
+    {
+        QEventLoop loop;
+        QTimer::singleShot(mc, &loop, SLOT(quit()));
+        loop.exec();
+        loop.exit();
+        ui->progress_send->setValue(i+1);
+    }
+
+    ui->lbl_progress->setVisible(false);
+    ui->progress_send->setVisible(false);
+    /* ------------------------------------------ */
 
     QString code = now_using_rune_code;
 
@@ -583,3 +621,4 @@ QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey
 
     return img;
 }
+
