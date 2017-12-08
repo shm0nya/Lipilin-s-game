@@ -56,6 +56,8 @@ vector <vector<QImage>> cut_image(QImage &image, int n, int m)
 void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, vector<vector<QString>> codes)
 {
     for (int i = 0; i < n; i++)
+    {
+        vector<QPB_modify*> pb_vec;
         for (int j = 0; j < m; j++)
         {
             QPB_modify *pb = new QPB_modify;
@@ -85,7 +87,10 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
 
             emit do_it(pb->i, pb->j);
             ui->componate_custom_buttons_img->addWidget(pb,i,j);
+            pb_vec.push_back(pb);
         }
+        icons.push_back(pb_vec);
+    }
 }
 
 void home_window::on_pushButton_clicked()
@@ -129,7 +134,7 @@ void home_window::set_visibale_new_messege(bool vis)
 }
 
 
-/* */
+/* ------ */
 void home_window::on_automat_clicked()
 {
     int luck; //переменная, определяющая, откроется ли картинка
@@ -237,3 +242,24 @@ void home_window::rand_image(int c)
         break;
     }
 }
+
+void home_window::i_find_image_bf(int i, int j)
+{
+    QPB_modify *pb = icons[i][j];
+    emit pb->clicked();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

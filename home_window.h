@@ -53,6 +53,7 @@ public:
 
     QImage get_cut_img(int i, int j){return cut[i][j];}                 // Для игры "локально"
     void set_visibale_new_messege(bool vis);                            // Делает изображение с конвертом видимым и нет
+    void i_find_image_bf(int i, int j);
 
 signals:
     void change_wnd_to_swnd();             /* Сигнал для переключения с home_window на send_messege */
@@ -92,6 +93,7 @@ private:
     QString login_name;
     vector<vector<QImage>> cut;
     vector<QString> players;
+    vector <vector<QPB_modify *>> icons;
 
     std::vector<QImage> runes =
     {

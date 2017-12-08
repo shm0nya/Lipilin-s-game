@@ -499,10 +499,14 @@ void MainWindow::test_player_image(QString code, QString p_key, int p_key_size, 
     }
 
     // В зависимости игра оффлайн или онлайн
+    bool verdict = code == runes_code[i-1][j-1];
     if (root_address == "127.0.0.1")
-        send_messege_wnd->players_img_verdict(code == runes_code[i-1][j-1]);
+        send_messege_wnd->players_img_verdict(verdict);
     else
-        send_messege_wnd->players_img_verdict(code == runes_code[i-1][j-1]);
+        send_messege_wnd->players_img_verdict(verdict);
+
+    if (verdict)
+        home_wnd->i_find_image_bf(i-1, j-1);
 
     for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
         NET_send_intercepted_messege_for_player(me_overhere_addres_list[k],
