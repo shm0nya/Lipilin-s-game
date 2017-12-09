@@ -94,6 +94,7 @@ private:
     vector<vector<QImage>> cut;
     vector<QString> players;
     vector <vector<QPB_modify *>> icons;
+    int count_777 = 0;
 
     std::vector<QImage> runes =
     {

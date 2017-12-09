@@ -77,6 +77,13 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
 
             connect(pb, &QPushButton::clicked, [this, pb]()
             {
+                if (count_777 == 0)
+                {
+                    QMessageBox::information(this, "Азино 777", "Вращайте барабан!");
+                    return;
+                }
+                count_777--;
+
                 QPushButton *pb2 = new QPushButton;
                 pb2->setIcon(QPixmap::fromImage(pb->reverse_img));
                 pb2->setIconSize(pb->size());
@@ -152,12 +159,14 @@ void home_window::on_automat_clicked()
         rand_image(2);
         //открыть 2 одинаковые
         QMessageBox::information(0,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
+        count_777++;
     }
     else
     {
         rand_image(3);
         //открыть 3 одинаковые
         QMessageBox::information(0,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
+        count_777=+2;
     }
 }
 
@@ -246,6 +255,7 @@ void home_window::rand_image(int c)
 void home_window::i_find_image_bf(int i, int j)
 {
     QPB_modify *pb = icons[i][j];
+    count_777++; // Компенсация перехваченного сообщения
     emit pb->clicked();
 }
 
