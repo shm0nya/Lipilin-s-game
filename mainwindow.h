@@ -281,7 +281,7 @@ private:
     Ui::MainWindow *ui;
     QUdpSocket *socket;
     QString root_address = "127.0.0.1";       // Меняется в зависиости от сети! Менять ручками в исходном коде
-    QMap<QString, QString> user_list;         // Список пользователей. Ключ - логин, value - адресс (IPv4)
+    QMap<QString, QString> user_list;         // Список пользователей. Ключ - адресс (IPv4), value -  логин
     vector<vector<QImage>> source_img;        // Исходные изображения, которые прислыает root
     vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
     vector<vector<QString>> runes_code;       // Коды source image

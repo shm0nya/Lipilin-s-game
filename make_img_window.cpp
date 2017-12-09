@@ -88,7 +88,7 @@ void make_img_window::on_button_cancel_clicked()
 void make_img_window::on_button_ok_clicked()
 {
     QImage img = ui->lbl_created_img->pixmap()->toImage().scaled(100, 100);
-    QString img_code = QString::number(ic) + '_' + QString::number(ir);
+    QString img_code = QString::number(ir) + '_' + QString::number(ic);
 
     if (flag_is_it_root)
         emit this->root_make_new_img(img, root_i, root_j, ui->edit_root_messege->text(), img_code);

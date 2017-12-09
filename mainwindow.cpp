@@ -283,7 +283,7 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        if (it.key() == login)
+        if (it.value() == login)
         {
             verdict = "false";
             break;
@@ -302,7 +302,7 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     if (verdict == "true")
     {
         NET_a_new_player_come(login, sender.toString());
-        user_list[login] = sender.toString();
+        user_list[sender.toString()] = login;
     }
 
     if (flag_is_it_root)
@@ -328,9 +328,9 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        users = users + it.key() + ' ';
+        users = users + it.value() + ' ';
 
-        QHostAddress temp_addres(it.value());
+        QHostAddress temp_addres(it.key());
         QByteArray Data;
         Data.append("1n");
         Data.append(new_player_login);
@@ -385,13 +385,13 @@ void MainWindow::NET_send_info_for_start()
     /* Шлем данные */
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        NET_send_info_for_player(it.value(), messeges, img_code);
+        NET_send_info_for_player(it.key(), messeges, img_code);
     }
 
     /* Посылаем сигнал старта игры */
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        QHostAddress temp_addres(it.value());
+        QHostAddress temp_addres(it.key());
 
         QByteArray Data;
         Data.append("1g");
@@ -548,7 +548,17 @@ void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sende
     Data.append(action);
     Data.append(' ');
 
-    QHostAddress addres (user_list[data]);
+    // Поиск в map по значению
+    QHostAddress addres;
+    QMap<QString, QString>::iterator it;
+    for (it = user_list.begin(); it!=user_list.end(); it++)
+    {
+        if (it.value()==data)
+        {
+            addres = it.key();
+            break;
+        }
+    }
 
     Data.append(sender.toString());
     socket->writeDatagram(Data, addres, 65201);
