@@ -590,6 +590,9 @@ void send_messege::set_intercept_info(QImage img,
     ui->s_key_size_edit_slider->setValue(s_key_size);
     ui->lbl_algoritm_value->setText(algoritm);
 
+    emit ui->button_p_key_generate->clicked();
+    emit ui->button_s_key_generate->clicked();
+
     now_using_rune_code = code;
     this->set_position_of_img(i-1, j-1);
 }
