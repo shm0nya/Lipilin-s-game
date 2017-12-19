@@ -47,7 +47,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Жёлудь и дерево красовались около ворот аббатсва проверка квантограббер Калининград Берляндский аэропорт десть часов пятнадцать минут день икс парад с флагами на площади близ фонтана</string>
+    <string>ДЕНЬИКСВВОСЕМЬДВАДЦАТЬУФОНТАНА</string>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -102,7 +102,7 @@
            </size>
           </property>
           <property name="text">
-           <string>5</string>
+           <string>6</string>
           </property>
          </widget>
         </item>
@@ -132,7 +132,7 @@
            </size>
           </property>
           <property name="text">
-           <string>5</string>
+           <string>6</string>
           </property>
          </widget>
         </item>

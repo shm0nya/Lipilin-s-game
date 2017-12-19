@@ -82,8 +82,8 @@ void root_window::create_images()
 
 void root_window::on_button_default_clicked()
 {
-    n = 5;
-    m = 5;
+    n = 6;
+    m = 6;
     flag_default = true;
     create_images();
 
