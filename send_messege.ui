@@ -102,7 +102,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Операции с шифрвами</string>
+         <string>Операции с шифрами</string>
         </property>
        </widget>
       </item>
@@ -699,7 +699,7 @@
     <string>назад</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>270</x>

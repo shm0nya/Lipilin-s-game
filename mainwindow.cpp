@@ -528,7 +528,7 @@ void MainWindow::back__homecoming()
 
 void MainWindow::NET_send_players_inercept_login(QString login)
 {
-    if (intercept_wnd->get_login_of_intercept() != "")
+    if (i_overhear_login != "")
         NET_no_overhere_for_root(login);
 
     intercept_wnd->set_login_of_intercept(login);

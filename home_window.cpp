@@ -148,7 +148,7 @@ void home_window::on_automat_clicked()
 
     luck=rand()%10;
 
-    if (luck<6)
+    if (luck<7)
     {
         //3 случайные картинки, не совпадающие
         rand_image(1);

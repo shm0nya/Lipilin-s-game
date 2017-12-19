@@ -54,7 +54,7 @@
       <item>
        <widget class="QLabel" name="lbl_overhere_text">
         <property name="text">
-         <string>Перезватывать</string>
+         <string>Перехватывать</string>
         </property>
        </widget>
       </item>
@@ -164,7 +164,7 @@
         <item>
          <widget class="QLabel" name="lbl_overhear_show">
           <property name="text">
-           <string>Вы прослушиаете:</string>
+           <string>Вы прослушиваете:</string>
           </property>
          </widget>
         </item>
