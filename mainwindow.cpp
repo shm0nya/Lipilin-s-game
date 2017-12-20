@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QMessageBox::information(this,"Welcome", "Добро пожаловать! Для старта игры введите ваш логин, а также IP-адрес компьютера преподавателя.");
+
     ui->Login_button->setEnabled(false);
     QRegExp is_login_variable("[a-zA-Z0-9]{1,20}");
     ui->login_edit->setValidator(new QRegExpValidator(is_login_variable, this));
@@ -97,11 +99,19 @@ void MainWindow::on_Login_button_clicked()
         rootwindow();
     else
     {
+        QMessageBox::information(this,"Правила", "Позволь объяснить тебе смысл игры. "
+                                                 "Ты - агент, которому нужно стать лучшим среди всех. "
+                                                 "Штаб послал всем агентам сообщение, в котором закодирована важная информация."
+                                                 "Твоя задача - как можно быстрее восстановить сообщение штаба, "
+                                                 "ведь так ты станешь лучшим и получишь приз. "
+                                                 "Но помни - ты здесь не один. Другие агенты тоже хотят заполучить приз. "
+                                                 "И путь к победе не всегда бывает честным...");
         QByteArray data;
         data.append("0r");
         data.append(ui->login_edit->text());
         socket->writeDatagram(data, QHostAddress(root_address), 65201);
     }
+
 }
 
 void MainWindow::home_wnd__sendmess_wnd()

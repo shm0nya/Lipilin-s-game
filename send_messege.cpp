@@ -22,6 +22,15 @@ send_messege::send_messege(QWidget *parent) :
     ui->button_crypto_p->setEnabled(!p_key.empty());
     ui->button_crypto_s->setEnabled(!s_key.empty());
 
+    /* Пусть у нас есть переменная level, которая хранит уровень
+     * тогда
+     *
+     * if (level==1)&&(он первый раз заходит в это окно)
+     * {
+     *      QMessageBox::information(this,"1 уровень", "Для отправки части сообщения в штаб нажми на кнопку Выбрать и выбери открытое изображение. "
+     *                                                  "После выбора нажми кнопку Отправить сообщение и ожидай подтверждения штаба.);
+     * }
+    */
     QRegExp is_value_variable("[a-zA-Z0-9а-яА-Я]{1,20}");
     ui->p_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
     ui->s_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
@@ -395,7 +404,7 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
             i++;
         }
 
-        // Шифроание и запись зашифрованных пикселей
+        // Шифрование и запись зашифрованных пикселей
         if (int(temp.size())==blok_size)
         {
             temp = sblok_like_vigener_use(temp, sb_key);
@@ -558,6 +567,13 @@ void send_messege::players_img_verdict(bool verdict)
     else
     {
         QMessageBox::information(this, "Nice", "Это верное изображение");
+        /*
+        if (level==1)
+            * {
+            *      QMessageBox::information(this,"Переход на 2 уровень", "Поздравляем! Ты переходишь на 2 уровень.");
+            *       level++;
+            * }
+        */
         /* Здесь код, который запускает функцию, говорящую, что все хорошо*/
     }
 }
