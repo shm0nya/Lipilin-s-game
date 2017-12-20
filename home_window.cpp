@@ -262,14 +262,3 @@ void home_window::i_find_image_bf(int i, int j)
 
 
 
-
-
-
-
-
-
-
-
-
-
-

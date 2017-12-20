@@ -34,7 +34,9 @@ SOURCES += \
     choose_button.cpp \
     root_window.cpp \
     make_img_window.cpp \
-    interception.cpp
+    interception.cpp \
+    rsa.cpp \
+    rsa.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +47,9 @@ HEADERS += \
     choose_button.h \
     root_window.h \
     make_img_window.h \
-    interception.h
+    interception.h \
+    rsa.h \
+    rsa.h
 
 FORMS += \
         mainwindow.ui \
@@ -54,7 +58,8 @@ FORMS += \
     choose_button.ui \
     root_window.ui \
     make_img_window.ui \
-    interception.ui
+    interception.ui \
+    rsa.ui
 
 RESOURCES += \
     data.qrc

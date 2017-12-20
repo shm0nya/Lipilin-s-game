@@ -78,6 +78,10 @@ private slots:
 
     void on_button_back_clicked();
 
+    void on_button_choose_img_clicked();
+
+    void on_button_make_img_clicked();
+
 private:
     Ui::send_messege *ui;
     std::vector<int> p_key;                 // Ключ Р

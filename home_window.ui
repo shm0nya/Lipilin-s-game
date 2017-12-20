@@ -90,8 +90,8 @@
     <rect>
      <x>10</x>
      <y>20</y>
-     <width>216</width>
-     <height>256</height>
+     <width>211</width>
+     <height>211</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="componate">
@@ -250,6 +250,19 @@
        </widget>
       </item>
       <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QLabel" name="lbl_new_intercepted_msg">
         <property name="minimumSize">
          <size>
@@ -284,40 +297,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="componate_button_diifi">
-      <item>
-       <widget class="QPushButton" name="button_diffi_helman">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Схема Диффи-Хелмана</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+     <layout class="QHBoxLayout" name="componate_button_diifi"/>
     </item>
    </layout>
   </widget>
@@ -331,7 +311,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>РЫЧАГ!!!!</string>
+    <string>РЫЧАГ!</string>
    </property>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">

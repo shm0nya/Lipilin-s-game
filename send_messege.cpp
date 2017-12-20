@@ -427,7 +427,7 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
             i++;
         }
 
-        // Шифроание и за,пись зашифрованных пикселей
+        // Шифроание и запись зашифрованных пикселей
         if (int(temp.size())==blok_size)
         {
             temp = sblok_like_vigener_reverse(temp, sb_key);

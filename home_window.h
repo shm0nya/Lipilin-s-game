@@ -87,6 +87,8 @@ private slots:
 
     void rand_image(int c);
 
+    void on_button_diffi_helman_clicked();
+
 private:
     Ui::home_window *ui;
     QImage original_img;
