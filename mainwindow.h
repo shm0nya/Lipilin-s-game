@@ -81,6 +81,7 @@
 #include "make_img_window.h"
 #include "interception.h"
 
+
 namespace Ui {
 class MainWindow;
 }

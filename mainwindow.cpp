@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QMessageBox::information(this,"Welcome", "Добро пожаловать! Для старта игры введите ваш логин, а также IP-адрес компьютера преподавателя.");
-
     ui->Login_button->setEnabled(false);
     QRegExp is_login_variable("[a-zA-Z0-9]{1,20}");
     ui->login_edit->setValidator(new QRegExpValidator(is_login_variable, this));
@@ -20,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->edit_ip_root->setText(root_address);
     ui->lbl_now_use_ip_root->setText(root_address);
+
+    QMessageBox::information(this,"Welcome", "Добро пожаловать! Для старта игры введите ваш логин, а также IP-адрес компьютера преподавателя.");
 }
 
 MainWindow::~MainWindow()
@@ -110,6 +110,8 @@ void MainWindow::on_Login_button_clicked()
         data.append("0r");
         data.append(ui->login_edit->text());
         socket->writeDatagram(data, QHostAddress(root_address), 65201);
+        //attension
+        playerwindow();
     }
 
 }

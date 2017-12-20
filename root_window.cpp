@@ -51,13 +51,13 @@ void root_window::create_images()
         std::vector<QPB_modify*> temp_vec;
         for (int j = 0; j < n; j++)
         {
-            emit this->get_rune(j + i*n);
+            emit this->get_rune(j + i*n);//***&&%#$@$#
 
             QPB_modify *pb = new QPB_modify;
             pb->i = i;
             pb->j = j;
             if (flag_default == true)
-                pb->str = messege[j + i*n];
+                pb->str = messege[j + i*n];//zdes
 
             pb->reverse_img = temp_rune;
             pb->rune_code = QString::number((j + i*n)%runes_size) + '_' + QString::number((j + i*n)%colors_size);

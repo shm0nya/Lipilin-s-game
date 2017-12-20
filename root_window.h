@@ -67,6 +67,7 @@ private:
                         "минут", "день", "икс", "парад", "с",
                         "флагами", "на", "площади", "близ", "фонтана"};
 
+
     bool flag_default = true;
     bool flag_gamego_on = false;
 

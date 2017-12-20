@@ -58,3 +58,5 @@ FORMS += \
 
 RESOURCES += \
     data.qrc
+
+QMAKE_LFLAGS_RELEASE += -static -static-libgcc

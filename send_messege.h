@@ -78,9 +78,9 @@ private slots:
 
     void on_button_back_clicked();
 
-    void on_button_choose_img_clicked();
+   // void on_button_choose_img_clicked();
 
-    void on_button_make_img_clicked();
+  //  void on_button_make_img_clicked();
 
     void on_pushButton_clicked();
 

@@ -87,7 +87,7 @@ private slots:
 
     void rand_image(int c);
 
-    void on_button_diffi_helman_clicked();
+   // void on_button_diffi_helman_clicked();
 
     void on_button_overhear_messege_2_clicked();
 
