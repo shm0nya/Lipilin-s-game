@@ -262,3 +262,8 @@ void home_window::i_find_image_bf(int i, int j)
 
 
 
+
+void home_window::on_button_overhear_messege_2_clicked()
+{
+    //ГЕНЕРАЦИЯ КЛЮЧЕЙ RSA
+}

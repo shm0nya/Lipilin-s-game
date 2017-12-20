@@ -89,6 +89,8 @@ private slots:
 
     void on_button_diffi_helman_clicked();
 
+    void on_button_overhear_messege_2_clicked();
+
 private:
     Ui::home_window *ui;
     QImage original_img;

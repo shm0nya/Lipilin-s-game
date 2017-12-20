@@ -625,3 +625,8 @@ QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey
     return img;
 }
 
+
+void send_messege::on_pushButton_clicked()
+{
+    //ШИФРОВАНИЕ RSA
+}

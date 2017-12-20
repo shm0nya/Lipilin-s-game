@@ -30,7 +30,7 @@
     <rect>
      <x>10</x>
      <y>110</y>
-     <width>872</width>
+     <width>916</width>
      <height>404</height>
     </rect>
    </property>
@@ -162,6 +162,13 @@
         </property>
        </spacer>
       </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Зашифровать ключи с помощью RSA</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -207,7 +214,7 @@
    <property name="geometry">
     <rect>
      <x>740</x>
-     <y>580</y>
+     <y>590</y>
      <width>131</width>
      <height>61</height>
     </rect>
@@ -690,7 +697,7 @@
    <property name="geometry">
     <rect>
      <x>880</x>
-     <y>580</y>
+     <y>590</y>
      <width>131</width>
      <height>61</height>
     </rect>
