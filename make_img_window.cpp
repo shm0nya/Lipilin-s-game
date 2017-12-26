@@ -4,6 +4,9 @@
 extern std::vector<QRgb> colors;
 extern std::vector<QImage> runes;
 
+
+
+
 make_img_window::make_img_window(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::make_img_window)
@@ -13,6 +16,40 @@ make_img_window::make_img_window(QWidget *parent) :
     set_runes();
     ui->edit_root_messege->setVisible(false);
     ui->lbl_root_show_messege->setVisible(false);
+
+    QMap <char,int> letters;
+    letters['а']=1;
+    letters['б']=2;
+    letters['в']=18;
+    letters['г']=9;
+    letters['д']=5;
+    letters['е']=6;
+    letters['ж']=7;
+    letters['з']=3;
+    letters['и']=8;
+    letters['й']=8;
+    letters['к']=9;
+    letters['л']=10;
+    letters['м']=11;
+    letters['н']=12;
+    letters['о']=13;
+    letters['п']=14;
+    letters['р']=15;
+    letters['с']=3;
+    letters['т']=16;
+    letters['у']=17;
+    letters['ф']=18;
+    letters['х']=7;
+    letters['ц']=4;
+    letters['ч']=4;
+    letters['ш']=14;
+    letters['щ']=16;
+    letters['ъ']=15;
+    letters['ы']=5;
+    letters['ь']=2;
+    letters['э']=6;
+    letters['ю']=17;
+    letters['я']=1;
 }
 
 make_img_window::~make_img_window()
