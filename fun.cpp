@@ -9,20 +9,6 @@ using namespace std;
 
 #include "fun.h"
 
-int NOD(int a, int b)
-{
-    /*
-    Ищет остатки от деления. см Алгоритм Евклида
-    https://habrahabr.ru/sandbox/60131/
-    */
-    while (a && b)
-        if (a >= b)
-            a %= b;
-        else
-            b %= a;
-    return a | b;
-}
-
 vector<int> pblok_key(int pblok_lenght, int start)
 {
     /*

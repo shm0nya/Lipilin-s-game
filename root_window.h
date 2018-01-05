@@ -7,10 +7,12 @@
 #include <QPushButton>
 #include <QLayout>
 #include <QRgb>
+#include <QMap>
 
 #include <vector>
 
-#include <qpb_modify.h>
+#include "qpb_modify.h"
+#include "fun.h"
 
 namespace Ui {
 class root_window;
@@ -37,11 +39,6 @@ public:
 
     void add_new_player(QString login);                 // Добавляет нового пользователя в список на ui
     bool get_flag_game_on(){return flag_gamego_on;}     // Флаг, указывающий, игра началась или нет
-    void set_runes_bd_size(int value){runes_size = value;}
-    void set_colors_bd_size(int value)
-    {
-        colors_size = value;
-    }
 
 private slots:
     void on_button_apply_clicked();                     // Изменение n, m рутом (пересчет сетки)
@@ -50,8 +47,10 @@ private slots:
 
     void on_button_start_clicked();                     // Старт игры
 
+    void on_edit_text_editingFinished();
+
 signals:
-    void get_rune(int);                                         // Сигнал "дай мне руну" (шлется в make_img), там есть vector с рунами
+    void get_rune(int, int);                                    // Сигнал "дай мне руну" (шлется в make_img), там есть vector с рунами
     void show_make_img_with_my_img(QImage, int, int, QString);  // Смена окон
     void start();                                               // Старт игры
 
@@ -60,24 +59,31 @@ private:
 
     /* Параметры по-умолчанию */
     int n = 5;
-    int m = 5;
-    std::vector<QString> default_text = {"Жёлудь", "и", "дерево", "красовались", "около",
-                        "ворот", "аббатства", "проверка", "квантограббер", "Каллининград",
-                        "Берляндский", "Аэропорт", "десять", "часов", "пятнадцать",
-                        "минут", "день", "икс", "парад", "с",
-                        "флагами", "на", "площади", "близ", "фонтана"};
+    int m = 6;
+    std::vector<QString> default_text = {
+                        "Д", "Е", "Н", "Ь", "И",
+                        "К", "С", "В", "В", "О",
+                        "С", "Е", "М", "Ь", "Д",
+                        "В", "А", "Д", "Ц", "А",
+                        "Т", "Ь", "У", "Ф", "О",
+                        "Н", "Т", "А", "Н", "А"
+                        };
 
 
     bool flag_default = true;
     bool flag_gamego_on = false;
 
-    std::vector<QString> messege = default_text;    // Сообщение, которое закодировано рунами (изначально равно default_text)
+    std::vector<QString> messege;                   // Сообщение, которое закодировано рунами (изначально равно default_text)
     std::vector<QImage> runes;                      // Здесь зранятся "Индексы" рун (строка из "i_j" i - номер исходной руны
                                                     //                                                 j - номер цвета
     QImage temp_rune;                               // Костыль
     std::vector<std::vector<QPB_modify*>> pb_runes; // Массив с указателями на руны (сразу надо было делать везде)
-    int colors_size;
-    int runes_size;
+    int colors_size = 7;                                // Количество цветов в игре
+    int runes_size = 18;                                 // Количество рун в игре
+    std::vector<int> p_colors;                      // Ключ перестановки цветов
+
+    QMap<QString, int> letters;                     // Инициализация при создании rootwnd. Соответствие между char и руной
+                                                    // QString потому что я заебался
 };
 
 #endif // ROOT_WINDOW_H

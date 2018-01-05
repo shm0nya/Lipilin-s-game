@@ -35,13 +35,10 @@ void MainWindow::rootwindow()
     make_wnd = new make_img_window;
 
     connect(root_wnd, SIGNAL(show_make_img_with_my_img(QImage, int, int, QString)), this, SLOT(show_make_wnd_to_root(QImage, int, int, QString)));
-    connect(root_wnd, SIGNAL(get_rune(int)), this, SLOT(set_rune(int)));
+    connect(root_wnd, SIGNAL(get_rune(int, int)), this, SLOT(set_rune(int, int)));
     connect(make_wnd, SIGNAL(rejected()), this, SLOT(if_close_wnd_fo_root()));
     connect(make_wnd, SIGNAL(root_make_new_img(QImage, int, int, QString, QString)), this, SLOT(new_rune_created_root(QImage, int, int, QString, QString)));
     connect(root_wnd, SIGNAL(start()), this, SLOT(NET_send_info_for_start()));
-
-    root_wnd->set_runes_bd_size(make_wnd->get_rune_bd_size());
-    root_wnd->set_colors_bd_size(make_wnd->get_colors_bd_size());
 
     root_wnd->show();
     this->close();
@@ -85,7 +82,6 @@ void MainWindow::playerwindow()
 
     home_wnd->show();
     this->close();
-
 }
 
 void MainWindow::ok_enabled()
@@ -110,8 +106,6 @@ void MainWindow::on_Login_button_clicked()
         data.append("0r");
         data.append(ui->login_edit->text());
         socket->writeDatagram(data, QHostAddress(root_address), 65201);
-        //attension
-        playerwindow();
     }
 
 }
@@ -183,10 +177,10 @@ void MainWindow::show_make_wnd()
     make_wnd->show();
 }
 
-void MainWindow::set_rune(int i)
+void MainWindow::set_rune(int rune, int color)
 {
-    root_wnd->set_temp_rune(make_wnd->paint_picture(make_wnd->get_rune(i),
-                                                   make_wnd->get_color(i)));
+    root_wnd->set_temp_rune(make_wnd->paint_picture(make_wnd->get_rune(rune),
+                                                   make_wnd->get_color(color)));
 }
 
 void MainWindow::show_make_wnd_to_root(QImage img, int i, int j, QString str)
@@ -567,7 +561,7 @@ void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sende
     {
         if (it.value()==data)
         {
-            addres = it.key();
+            addres = QHostAddress(it.key());
             break;
         }
     }
