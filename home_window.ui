@@ -286,7 +286,7 @@
     <item>
      <layout class="QHBoxLayout" name="componate_button_diifi">
       <item>
-       <widget class="QPushButton" name="button_overhear_messege_2">
+       <widget class="QPushButton" name="button_assimetry">
         <property name="minimumSize">
          <size>
           <width>150</width>
@@ -324,8 +324,8 @@
   <widget class="QPushButton" name="automat">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>390</y>
+     <x>270</x>
+     <y>380</y>
      <width>111</width>
      <height>71</height>
     </rect>
@@ -337,13 +337,13 @@
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>39</x>
-     <y>389</y>
+     <x>20</x>
+     <y>380</y>
      <width>221</width>
      <height>71</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QHBoxLayout" name="componate_automat_images">
     <item>
      <widget class="QLabel" name="rand_image1">
       <property name="text">

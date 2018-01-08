@@ -53,6 +53,7 @@ void MainWindow::playerwindow()
     choose_button_wnd = new choose_button;
     make_wnd = new make_img_window;
     intercept_wnd = new interception;
+    rsa_wnd = new asimetry;
 
     connect(send_messege_wnd, SIGNAL(change_wnd_to_homewnd()), this, SLOT(sendmess_wnd__home_wnd()));
     connect(home_wnd, SIGNAL(change_wnd_to_swnd()),this ,SLOT(home_wnd__sendmess_wnd()));
@@ -76,6 +77,11 @@ void MainWindow::playerwindow()
 
     connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,QString,int,int,int,QString, QString)),
             this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,QString,int,int,int,QString, QString)));
+
+    connect(home_wnd, SIGNAL(from_home_wnd_to_rsa_wnd()), this, SLOT(show_rsa_wnd()));
+    connect(rsa_wnd, SIGNAL(rejected()), this, SLOT(back_from_rsa_wnd()));
+    connect(rsa_wnd, SIGNAL(from_rsa_to_home_wnd()), this, SLOT(back_from_rsa_wnd()));
+    connect(rsa_wnd, SIGNAL(keys_was_generated()), this, SLOT(use_assimetry_crypto()));
 
     if (root_address == "127.0.0.1")
         solo();
@@ -596,8 +602,12 @@ void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QStrin
                       + QString::number(i) + ' ' + QString::number(j) + ' ' + algoritm + ' '
                       + code + ' ';
 
-    Data.append(messege);
+    if (flag_assimetry_done)
+        messege = messege + '1' + ' ';
+    else
+        messege = messege + '0' + ' ';
 
+    Data.append(messege);
     socket->writeDatagram(Data, QHostAddress(addres), 65201);
 }
 
@@ -650,6 +660,7 @@ void MainWindow::NET_add_intercepted_messege(QString data)
     QString j_str           = cut_string_befor_simbol(data, ' ');
     QString algoritm        = cut_string_befor_simbol(data, ' ');
     QString code            = cut_string_befor_simbol(data, ' ');
+    QString ass             = cut_string_befor_simbol(data, ' ');
 
     int p_key_size = p_key_size_str.toInt();
     int s_key_size = s_key_size_st.toInt();
@@ -662,10 +673,16 @@ void MainWindow::NET_add_intercepted_messege(QString data)
     image = make_wnd->paint_picture_at_code(ic, jc);
 
     code = QString::number(ic) + '_' + QString::number(jc);
-
     image = send_messege_wnd->encrypt_img_to_intercept(image, p_key, p_key_size,
                                                               s_key, s_key_size,
                                                               algoritm);
+    if (ass == '1')
+    {
+        p_key = "unknown";
+        p_key_size = 0;
+        s_key = "unknown";
+        s_key_size = 0;
+    }
 
     intercept_wnd->add_new_messege(image ,p_key,p_key_size,s_key,s_key_size,i, j, algoritm, code);
     home_wnd->set_visibale_new_messege(true);
@@ -704,37 +721,20 @@ void MainWindow::solo()
     home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code);
 }
 
+void MainWindow::show_rsa_wnd()
+{
+    home_wnd->close();
+    rsa_wnd->show();
+}
 
+void MainWindow::back_from_rsa_wnd()
+{
+    rsa_wnd->close();
+    home_wnd->show();
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::use_assimetry_crypto()
+{
+    flag_assimetry_done = true;
+}
 

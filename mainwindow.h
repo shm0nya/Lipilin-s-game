@@ -80,6 +80,7 @@
 #include "root_window.h"
 #include "make_img_window.h"
 #include "interception.h"
+#include "asimetry.h"
 
 
 namespace Ui {
@@ -152,7 +153,11 @@ private slots:
                                                                         * которое выбрал root + указывает позицию изображения               //
                                                                         */                                                                  //
                                                                                                                                             //
-    void if_close_wnd_fo_root(); /* Защита от неожиданного и от санкционированного закрытия окна */                                         //
+    void if_close_wnd_fo_root(); /* Защита от неожиданного и от санкционированного закрытия окна */
+
+    void show_rsa_wnd();
+    void back_from_rsa_wnd();//
+    void use_assimetry_crypto();
                                                                                                                                             //
 /****************************************************************************************************************************************** */
 
@@ -305,8 +310,10 @@ private:
     make_img_window *make_wnd;
     root_window *root_wnd;
     interception *intercept_wnd;
+    asimetry *rsa_wnd;
 
     bool flag_is_it_root = false;
+    bool flag_assimetry_done = false;
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */

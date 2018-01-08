@@ -41,8 +41,8 @@ public:
                             QString s_key, int s_key_size,
                             int i, int j, QString algoritm, QString code);
 
-    QImage encrypt_img_to_intercept(QImage img, QString pkey, int pkey_size,
-                                                QString skey, int skey_size,
+    QImage encrypt_img_to_intercept(QImage img, QString pkey_str, int pkey_size,
+                                                QString skey_str, int skey_size,
                                                 QString algoritm);
 
     ~send_messege();
@@ -73,28 +73,27 @@ private slots:
     void on_button_algoritm_crypto_clicked();/* Шифрует по алгоритму (подробнее см в send_messege.cpp) */
     void on_button_crypto_cansel_clicked();/* Расшифровывает последний шифр (подробнее см в send_messege.cpp) */
     void on_button_algoritm_crypto_delete_clicked(); /* Сбрасыывает алгоритм (подробнее см в send_messege.cpp) */
-
     void on_button_send_messege_clicked();
-
     void on_button_back_clicked();
-
-   // void on_button_choose_img_clicked();
-
-  //  void on_button_make_img_clicked();
-
-    void on_pushButton_clicked();
 
 private:
     Ui::send_messege *ui;
     std::vector<int> p_key;                 // Ключ Р
+    std::vector<int> p_key_intercepted;
     std::vector<vector<int>> s_key;         // Ключ S
+    std::vector<vector<int>> s_key_intercepted;
     QImage Loaded_image;                    // Загруженное изображение
     QImage Encrypted_image;                 // Зашифрованное изображение
+    QImage Intercepted_image;
     bool flag_new_image;                    /* В случае, когда пользователь составил алгоритм, загрузил изображение и жмет на кнопку P или S,
                                              * необходимо сбросить кнопку, дабы алгоритм не рос постоянно */
     int algoritme_size = 30;                // Максимльная длина алгоритма
     QString now_using_rune_code = "";
     int mc;
+    bool flag_p_key_ex = false;             // Флаг, определяющий существет ли ключ (при перехвате сообщений)
+    bool flag_s_key_ex = true;
+    bool flag_img_intercept;
+    QString temoalgor;
 };
 
 QImage encrypt_image_p(QImage encrypted_image, std::vector<int> pb_key); /* Принимает QImage - изображение, которое надо шифровать,

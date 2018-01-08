@@ -71,25 +71,18 @@ signals:
 
     void show_intercept_wnd_please();       // Просит показать окно перехвата
     void i_want_intercept(QString);         // Передается в mainwindow логин игрока, которого будем перехватывать
+    void from_home_wnd_to_rsa_wnd();
 
 private slots:
-    void on_pushButton_clicked();                           /* Заменяет сигнал Старт от рута */
-
     QImage i_get_source_img_for_u(QImage img){return img;}  //
     int i_get_n_for_u(int n){return n;}                     //
     int i_get_m_for_u(int m){return m;}                     //
-
     void on_button_overhear_messege_clicked();              // Переход в окно overhere - intercept
-
     void on_button_inercept_clicked();
-
     void on_automat_clicked();
-
     void rand_image(int c);
 
-   // void on_button_diffi_helman_clicked();
-
-    void on_button_overhear_messege_2_clicked();
+    void on_button_assimetry_clicked();
 
 private:
     Ui::home_window *ui;

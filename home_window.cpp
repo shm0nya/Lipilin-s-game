@@ -116,13 +116,6 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
     }
 }
 
-void home_window::on_pushButton_clicked()
-{
-    original_img.load(":/images/work image.png");
-    cut = cut_image(original_img,5,5);
-    //create_img_buttons(cut, 5,5, );
-}
-
 void home_window::add_new_player(QString new_player_login)
 {
     players.push_back(new_player_login);
@@ -156,7 +149,6 @@ void home_window::set_visibale_new_messege(bool vis)
     ui->lbl_new_intercepted_msg->setVisible(vis);
 }
 
-
 /* ------ */
 void home_window::on_automat_clicked()
 {
@@ -168,20 +160,20 @@ void home_window::on_automat_clicked()
     {
         //3 случайные картинки, не совпадающие
         rand_image(1);
-        QMessageBox::information(0,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
+        QMessageBox::information(this,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
     }
     else if (luck<9)
     {
         rand_image(2);
         //открыть 2 одинаковые
-        QMessageBox::information(0,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
+        QMessageBox::information(this,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
         count_777++;
     }
     else
     {
         rand_image(3);
         //открыть 3 одинаковые
-        QMessageBox::information(0,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
+        QMessageBox::information(this,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
         count_777=+2;
     }
 }
@@ -275,11 +267,9 @@ void home_window::i_find_image_bf(int i, int j)
     emit pb->clicked();
 }
 
+/* ------ */
 
-
-
-
-void home_window::on_button_overhear_messege_2_clicked()
+void home_window::on_button_assimetry_clicked()
 {
-    //ГЕНЕРАЦИЯ КЛЮЧЕЙ RSA
+    emit this->from_home_wnd_to_rsa_wnd();
 }
