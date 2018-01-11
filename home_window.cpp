@@ -186,7 +186,8 @@ void home_window::rand_image(int c)
     QImage img;
     int image_num=5, image_num2=5, image_num3=5;
 
-    switch (c) {
+    switch (c)
+    {
     case 3:
         image_num = rand()%5;
         img=runes[image_num];
@@ -224,7 +225,7 @@ void home_window::rand_image(int c)
             img=runes[image_num2];
             ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
             break;
-        case 3:
+        case 2:
             //натянуть на 1 и 2
             image_num = rand()%5;
             img=runes[image_num];
