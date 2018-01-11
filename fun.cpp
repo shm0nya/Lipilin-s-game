@@ -85,7 +85,9 @@ vector<QRgb> sblok_like_vigener_use(vector<QRgb> &data, vector<vector<int>> &key
      *
     */
 
-    for (int i = 0; i < int(data.size()); i++)
+    int data_size = data.size();
+
+    for (int i = 0; i < data_size; i++)
     {
         // Способ работы с пикселем - QColor
         // Каждую составляющую складывает с ключом
@@ -111,7 +113,10 @@ vector<int> pblok_key_revers(vector<int> &pblok_key)
     */
     vector<int> revers;
     int i = 0;
-    while (i != int(pblok_key.size()))
+
+    int pblok_key_size = pblok_key.size();
+
+    while (i != pblok_key_size)
     {
         for (int j = 0; j < int(pblok_key.size()); j++)
             if (pblok_key[j] == i)
@@ -135,7 +140,10 @@ vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> 
      * Поскольку у нас не конечное поле, то могут быть отрицательные значения, преобразуем к
      * c - b + n (mod n) = a
     */
-    for (int i = 0; i < int(data.size()); i++)
+
+    int data_size = data.size();
+
+    for (int i = 0; i < data_size; i++)
     {
         // Способ работы с пикселем - QColor
         // Каждую составляющую складывает с ключом

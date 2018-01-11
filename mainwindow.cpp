@@ -675,7 +675,7 @@ void MainWindow::NET_add_intercepted_messege(QString data)
     image = send_messege_wnd->encrypt_img_to_intercept(image, p_key, p_key_size,
                                                               s_key, s_key_size,
                                                               algoritm);
-    if (ass == '1')
+    if (ass == "1")
     {
         p_key = "unknown";
         p_key_size = 0;

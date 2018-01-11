@@ -24,7 +24,8 @@ make_img_window::~make_img_window()
 void make_img_window::set_colors()
 {
     QHBoxLayout *hbox = new QHBoxLayout(this);
-    for (int i = 0; i < int(colors.size()); i++)
+    int color_size = colors.size();
+    for (int i = 0; i < color_size; i++)
     {
         QPB_modify *pb = new QPB_modify;
         QImage temp(100, 100, QImage::Format_RGB32);
@@ -56,7 +57,8 @@ void make_img_window::set_colors()
 void make_img_window::set_runes()
 {
     QVBoxLayout *vbox = new QVBoxLayout(this);
-    for (int i = 0; i < int(runes.size()); i++)
+    int runes_size = runes.size();
+    for (int i = 0; i < runes_size; i++)
     {
         QPB_modify *pb = new QPB_modify;
 
@@ -110,7 +112,9 @@ QImage make_img_window::paint_picture (QImage img, QRgb color)
     int wid = data.width();
     int hei = data.height();
 
-    for (int i = 0; i < wid*hei; i++)
+    int cicl_end = wid*hei;
+
+    for (int i = 0; i < cicl_end; i++)
     {
         QRgb temp = data.pixel(i%wid, i/wid);
 

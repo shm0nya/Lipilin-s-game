@@ -54,9 +54,11 @@ vector <vector<QImage>> cut_image(QImage &image, int n, int m)
         for (int j = 0; j<n; j++)
         {
             QImage temp(100,100,image.format());
-            for (int wid = j*100; wid<j*100+100; wid++)
+            int wid_temp = j*100+100;
+            for (int wid = j*100; wid<wid_temp; wid++)
             {
-                for (int hei = i*100; hei<i*100+100; hei++)
+                 int hei_temp = i*100+100;
+                for (int hei = i*100; hei < hei_temp; hei++)
                 {
                     QRgb t = image.pixel(wid,hei);
                     temp.setPixel(wid%100, hei%100, t);
@@ -133,7 +135,8 @@ void home_window::on_button_inercept_clicked()
     QString intercepting_player;
     intercepting_player = ui->edit_overhere->text();
 
-    for (int i = 0; i < int(players.size()); i++)
+    int player_size = players.size();
+    for (int i = 0; i < player_size; i++)
         if (intercepting_player == players[i])
         {
             emit this->i_want_intercept(intercepting_player);
@@ -200,7 +203,8 @@ void home_window::rand_image(int c)
         {
             image_num2 = rand()%5;
         }
-        switch (place) {
+        switch (place)
+        {
         case 0:
             //натянуть на 2 и 3
             img=runes[image_num];

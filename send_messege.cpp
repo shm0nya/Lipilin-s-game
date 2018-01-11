@@ -129,7 +129,8 @@ void send_messege::on_button_p_key_generate_clicked()
     /* Инициирование стартового значения генератора */
     string value_key = ui->p_key_edit->text().toStdString();
     int generator_start = 0;
-    for (int i = 0; i < int(value_key.size()); i++)
+    int value_key_size = value_key.size();
+    for (int i = 0; i < value_key_size; i++)
         generator_start = generator_start + value_key[i];
 
 
@@ -197,7 +198,8 @@ void send_messege::on_button_s_key_generate_clicked()
     /* Инициирование стартового значения генератора */
     string value_key = ui->s_key_edit->text().toStdString();
     int generator_start = 0;
-    for (int i = 0; i < int(value_key.size()); i++)
+    int value_key_size = value_key.size();
+    for (int i = 0; i < value_key_size; i++)
         generator_start = generator_start + value_key[i];
 
 
@@ -235,7 +237,8 @@ void send_messege::on_button_crypto_p_clicked()
     }
 
     QString algoritm = ui->lbl_algoritm_value->text();
-    if (algoritm.size() > algoritme_size)
+    int algoritm_size = algoritm.size();
+    if (algoritm_size > algoritme_size)
     {
         QMessageBox::information(this,"Error","Слишком большой алгоритм");
         return;
@@ -310,7 +313,8 @@ void send_messege::on_button_algoritm_crypto_clicked()
     flag_new_image = false;
     Encrypted_image = Loaded_image;
     QString algoritme = ui->lbl_algoritm_value->text();
-    for (int i = 0; i<algoritme.size(); i++)
+    int algoritm_size = algoritme.size();
+    for (int i = 0; i<algoritm_size; i++)
     {
         if(algoritme[i]=='P')
             Encrypted_image = encrypt_image_p(Encrypted_image, p_key);
@@ -415,7 +419,8 @@ QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
         }
         
         // Шифрование и запись зашифрованных пикселей
-        if (int(temp.size())==p_size)
+        int temp_size = temp.size();
+        if (temp_size==p_size)
         {
             temp = pblok_use(temp, pb_key);
             for (int j = 0; j<p_size;j++)
@@ -435,20 +440,24 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
     int hei = encrypted_image.height();
     int blok_size = sb_key[0].size() * 3;
 
+    int cikl = hei*wid;
+
     // Считывание
-    for (int i = 0; i < hei*wid;)
+    for (int i = 0; i < cikl;)
     {
         vector<QRgb> temp;
         for (int j=0; j<blok_size; j++)
         {
             QRgb t;
+
             t=encrypted_image.pixel(i%wid, i/wid);
             temp.push_back(t);
             i++;
         }
 
         // Шифрование и запись зашифрованных пикселей
-        if (int(temp.size())==blok_size)
+        int temp_size = temp.size();
+        if (temp_size==blok_size)
         {
             temp = sblok_like_vigener_use(temp, sb_key);
             for (int j = 0; j<blok_size;j++)
@@ -468,7 +477,8 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
     int blok_size = sb_key[0].size()*3;
 
     // Считывание
-    for (int i = 0; i < hei*wid;)
+    int cikl = hei*wid;
+    for (int i = 0; i < cikl;)
     {
         vector<QRgb> temp;
         for (int j=0; j<blok_size; j++)
@@ -480,7 +490,8 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
         }
 
         // Шифроание и запись зашифрованных пикселей
-        if (int(temp.size())==blok_size)
+        int temp_size = temp.size();
+        if (temp_size==blok_size)
         {
             temp = sblok_like_vigener_reverse(temp, sb_key);
             for (int j = 0; j<blok_size;j++)
@@ -646,7 +657,8 @@ void send_messege::set_intercept_info(QImage img,
     {
         string p_key_strstd = p_key_str.toStdString();
         generator_start = 0;
-        for (int i = 0; i < int(p_key_strstd.size()); i++)
+        int p_key_strstd_size = p_key_strstd.size();
+        for (int i = 0; i < p_key_strstd_size; i++)
             generator_start = generator_start + p_key_strstd[i];
 
         p_key = pblok_key(p_key_size, generator_start);
@@ -663,7 +675,8 @@ void send_messege::set_intercept_info(QImage img,
     {
         string s_key_strstd = s_key_str.toStdString();
         generator_start = 0;
-        for (int i = 0; i < int(s_key_strstd.size()); i++)
+        int s_key_strstd_size = s_key_strstd.size();
+        for (int i = 0; i < s_key_strstd_size; i++)
             generator_start = generator_start + s_key_strstd[i];
 
         s_key = sblok_like_vigener_key(s_key_size, generator_start);
@@ -688,20 +701,23 @@ QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey
                                             QString skey, int skey_size, QString algoritm)
 {
     int generator_start = 0;
-    for (int i = 0; i < int(pkey.size()); i++)
+    int pkey_size2 = pkey.size();
+    for (int i = 0; i < pkey_size2; i++)
     {
         generator_start = generator_start + pkey[i].toLatin1();
     }
     vector<int> pbk = pblok_key(pkey_size, generator_start);
 
     generator_start = 0;
-    for (int i = 0; i < int(skey.size()); i++)
+    int skey_size2 = skey.size();
+    for (int i = 0; i < skey_size2; i++)
     {
         generator_start = generator_start + skey[i].toLatin1();
     }
     vector<vector<int>> sbk = sblok_like_vigener_key(skey_size, generator_start);
 
-    for (int i = 0; i<algoritm.size(); i++)
+    int algoritm_size2 = algoritm.size();
+    for (int i = 0; i<algoritm_size2; i++)
     {
         if(algoritm[i]=='P')
             img = encrypt_image_p(img, pbk);

@@ -139,7 +139,8 @@ void root_window::on_button_default_clicked()
     flag_default = true;
     messege = default_text;
     QString str = "";
-    for (int i = 0; i < messege.size(); i++)
+    int messege_size = messege.size();
+    for (int i = 0; i < messege_size; i++)
         str = str + messege[i] + ' ';
 
     create_images();
@@ -169,7 +170,8 @@ QString root_window::get_rune_code_at_position(int i, int j)
 
 QString root_window::get_messege_at_position(int i, int j)
 {
-    if (int(messege.size()) > i*n +j)
+    int messege_size = messege.size();
+    if (messege_size > i*n +j)
         return messege[i*n + j];
     else
         return "";

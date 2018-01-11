@@ -63,3 +63,4 @@ RESOURCES += \
     data.qrc
 
 QMAKE_LFLAGS_RELEASE += -static -static-libgcc
+CONFIG += c++11
