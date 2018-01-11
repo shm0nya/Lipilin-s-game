@@ -67,7 +67,8 @@ vector<QRgb> pblok_use(vector<QRgb> &original, vector<int> &key)
     */
     vector<QRgb> p_pixel;
     QRgb temp;
-    for (int i = 0; i < int(key.size()); i++)
+    int key_size = key.size();
+    for (int i = 0; i < key_size; i++)
     {
         temp = original[key[i]];
         p_pixel.push_back(temp);
@@ -118,7 +119,7 @@ vector<int> pblok_key_revers(vector<int> &pblok_key)
 
     while (i != pblok_key_size)
     {
-        for (int j = 0; j < int(pblok_key.size()); j++)
+        for (int j = 0; j < pblok_key_size; j++)
             if (pblok_key[j] == i)
             {
                 revers.push_back(j);
