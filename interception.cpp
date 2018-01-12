@@ -9,7 +9,7 @@ interception::interception(QWidget *parent) :
     lay = new QGridLayout;
     ui->scroll_inercept_content->setLayout(lay);
 
-    int level=1; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
+    int level=10; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
     ui->button_decrypt->setEnabled(level>=4);
     ui->button_back_2->setEnabled(level>=4);
 

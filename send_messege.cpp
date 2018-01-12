@@ -20,7 +20,7 @@ send_messege::send_messege(QWidget *parent) :
 
     ui->lbl_algoritm_value->setText("");
 
-    int level=1; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
+    int level=10; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
     ui->button_p_key_generate->setEnabled(level>=3);
     ui->button_s_key_generate->setEnabled(level>=3);
     ui->button_crypto_cansel->setEnabled(level>=3);
