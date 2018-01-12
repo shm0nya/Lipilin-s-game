@@ -204,27 +204,27 @@ void MainWindow::if_close_wnd_fo_root()
 
 void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str, QString img_code)
 {
-    QPB_modify *pb = new QPB_modify;
+    QPB_modify pb;
 
-    pb->i = i;
-    pb->j = j;
-    pb->str = str;
-    pb->rune_code = img_code;
+    pb.i = i;
+    pb.j = j;
+    pb.str = str;
+    pb.rune_code = img_code;
 
-    pb->reverse_img = img;
+    pb.reverse_img = img;
     QSize button_size(50,50);
-    pb->setMaximumSize(button_size);
-    pb->setMinimumSize(button_size);
+    pb.setMaximumSize(button_size);
+    pb.setMinimumSize(button_size);
 
-    pb->setIcon(QIcon(QPixmap::fromImage(img)));
-    QSize icon_size(pb->size());
-    pb->setIconSize(icon_size);
+    pb.setIcon(QIcon(QPixmap::fromImage(img)));
+    QSize icon_size(pb.size());
+    pb.setIconSize(icon_size);
 
-    connect(pb, &QPushButton::clicked, [this, pb](){
-        emit root_wnd->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
+    connect(&pb, &QPushButton::clicked, [this, &pb](){
+        emit root_wnd->show_make_img_with_my_img(pb.reverse_img, pb.i, pb.j, pb.str);
     });
 
-    root_wnd->set_rune_at_GL(pb, i, j);
+    root_wnd->set_rune_at_GL(&pb, i, j);
 }
 
 void MainWindow::then_made_img(QImage img, QString code)
