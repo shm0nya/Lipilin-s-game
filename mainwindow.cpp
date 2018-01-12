@@ -135,25 +135,27 @@ void MainWindow::show_ch_wnd()
 
 void MainWindow::create_pb(int i, int j)
 {
-    QPB_modify *pb = new QPB_modify;
+
+    QPB_modify pb;
     QSize button_size(50,50);
-    pb->setMaximumSize(button_size);
-    pb->setMinimumSize(button_size);
+    pb.setMaximumSize(button_size);
+    pb.setMinimumSize(button_size);
 
-    pb->setIcon(QIcon(":/images/question.png"));
+    pb.setIcon(QIcon(":/images/question.png"));
     QSize icon_size(40,40);
-    pb->setIconSize(icon_size);
+    pb.setIconSize(icon_size);
 
-    pb->rune_code = runes_code[i][j];
+    pb.rune_code = runes_code[i][j];
 
-    connect(pb, &QPushButton::clicked, [this, pb](){
-        if (pb->reverse_img.isNull())
+    connect(&pb, &QPushButton::clicked, [this, &pb](){
+        if (pb.reverse_img.isNull())
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
-            emit choose_button_wnd->i_choose_img(pb->reverse_img, pb->i, pb->j, pb->rune_code);
+            emit choose_button_wnd->i_choose_img(pb.reverse_img, pb.i, pb.j, pb.rune_code);
     });
 
-    choose_button_wnd->set_button(pb, i, j);
+    choose_button_wnd->set_button(&pb, i, j);
+
 }
 
 void MainWindow::then_choosen_img(QImage img, int i, int j, QString code)
