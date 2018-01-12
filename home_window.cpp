@@ -155,9 +155,7 @@ void home_window::set_visibale_new_messege(bool vis)
 /* ------ */
 void home_window::on_automat_clicked()
 {
-    int luck; //переменная, определяющая, откроется ли картинка
-
-    luck=rand()%10;
+    int luck = rand() % 10;
 
     if (luck<7)
     {
@@ -167,101 +165,118 @@ void home_window::on_automat_clicked()
     }
     else if (luck<9)
     {
-        rand_image(2);
+
         //открыть 2 одинаковые
-        QMessageBox::information(this,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
+        rand_image(2);
         count_777++;
+        QMessageBox::information(this,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
     }
     else
     {
-        rand_image(3);
+
         //открыть 3 одинаковые
+        rand_image(3);
+        count_777+=2;
         QMessageBox::information(this,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
-        count_777=+2;
     }
 }
 
 void home_window::rand_image(int c)
 {
     QImage img;
-    int image_num=5, image_num2=5, image_num3=5;
 
     switch (c)
     {
     case 3:
-        image_num = rand()%5;
+    {
+        int image_num = rand()%5;
         img=runes[image_num];
         ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
         ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
         ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
         break;
+    }
     case 2:
-        int place;
-        place = rand()%3;
-        image_num = rand()%5;
-        image_num2 = rand()%5;
-        while(image_num2==image_num)
+    {
+        int count_runes = 5;
+
+        int runes2[] = { 0,1,2,3,4 };
+        int new_runes[] = { 0,1 };
+
+        for (int i = 0; i < 2; i++)
         {
-            image_num2 = rand()%5;
+            int Rand_index = rand() % count_runes;
+
+            new_runes[i] = runes2[Rand_index];
+            int last = runes2[count_runes - 1];
+            runes2[Rand_index] = last;
+
+            count_runes--;
         }
+
+        int place = rand() % 3;
+
         switch (place)
         {
         case 0:
             //натянуть на 2 и 3
-            img=runes[image_num];
+            img=runes[new_runes[0]];
             ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
             ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
 
-            img=runes[image_num2];
+            img=runes[new_runes[1]];
             ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
             break;
         case 1:
             //натянуть на 1 и 3
-            image_num = rand()%5;
-            img=runes[image_num];
+            img=runes[new_runes[0]];
             ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
             ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
 
-            img=runes[image_num2];
+            img=runes[new_runes[1]];
             ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
             break;
         case 2:
             //натянуть на 1 и 2
-            image_num = rand()%5;
-            img=runes[image_num];
+            img=runes[new_runes[0]];
             ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
             ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
 
-            img=runes[image_num2];
+            img=runes[new_runes[1]];
             ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
             break;
         }
-
-
         break;
-    default://должен срабатывать при с=1
+    }
+    case 1:
+    {
+        int count_runes = 5;
 
-        image_num = rand()%5;
-        image_num2 = rand()%5;
-        while(image_num2==image_num)
+        int runes2[] = { 0,1,2,3,4 };
+        int new_runes[] = { 0,1,2 };
+
+        for (int i = 0; i < 3; i++)
         {
-            image_num2 = rand()%5;
+            int Rand_index = rand() % count_runes;
+
+            new_runes[i] = runes2[Rand_index];
+            int last = runes2[count_runes - 1];
+            runes2[Rand_index] = last;
+
+            count_runes--;
         }
-        image_num3 = rand()%5;
-        while((image_num3==image_num)||(image_num3==image_num2))
-        {
-            image_num2 = rand()%5;
-        }
+
         //сделать одно
-        img=runes[image_num];
+        img=runes[new_runes[0]];
         ui->rand_image1->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image1->size()));
         //второе
-        img=runes[image_num2];
+        img=runes[new_runes[1]];
         ui->rand_image2->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image2->size()));
         //третье
-        img=runes[image_num3];
+        img=runes[new_runes[2]];
         ui->rand_image3->setPixmap(QPixmap::fromImage(img).scaled(ui->rand_image3->size()));
         break;
+    }
     }
 }
 
