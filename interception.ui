@@ -415,7 +415,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Криптография</string>
+       <string>Отправить</string>
       </property>
      </widget>
     </item>
@@ -434,7 +434,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="button_back_2">
    <property name="geometry">
     <rect>
      <x>640</x>
@@ -447,7 +447,7 @@
     <string>Отмена</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="button_decrypt">
    <property name="geometry">
     <rect>
      <x>640</x>

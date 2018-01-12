@@ -12,6 +12,10 @@ home_window::home_window(QString login, QWidget *parent) :
     ui->setupUi(this);
     connect(ui->button_send_messege,SIGNAL(clicked()),this, SIGNAL(change_wnd_to_swnd()));
 
+    int level=1; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
+    ui->button_overhear_messege->setEnabled(level>=2);
+    ui->button_assimetry->setEnabled(level>=5);
+
     srand(time(NULL));//это для случайных чисел
 
     login_name = login;

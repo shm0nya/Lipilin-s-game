@@ -150,7 +150,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="button_crypt_rsa">
         <property name="minimumSize">
          <size>
           <width>150</width>

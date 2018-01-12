@@ -8,6 +8,11 @@ interception::interception(QWidget *parent) :
     ui->setupUi(this);
     lay = new QGridLayout;
     ui->scroll_inercept_content->setLayout(lay);
+
+    int level=1; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
+    ui->button_decrypt->setEnabled(level>=4);
+    ui->button_back_2->setEnabled(level>=4);
+
     connect(this, SIGNAL(show_info_at_messege(int)), this, SLOT(show_info_at_messege_on_index(int)) );
 }
 
