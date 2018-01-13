@@ -2,17 +2,13 @@
 #define ASIMETRY_H
 
 #include <QDialog>
-#include <Qtime>
-/* Все ключи RSA уже заданы в базе данных
- * Пользователь выбирает случайный
- * Пам пам - делать надо было раньше, а сейчас уже поздно
- */
-
 #include <QTimer>
 #include <QString>
 #include <QMessageBox>
 
 #include<vector>
+
+#include "fun.h"
 
 namespace Ui {
 class asimetry;
@@ -35,15 +31,15 @@ private slots:
 
 signals:
     void from_rsa_to_home_wnd();                // Сигнал, чтобы вернуться в home_wnd
-    void keys_was_generated();                  // Сигнал, оповещающий о том, что ключи были сгенерированы
+    void keys_was_generated(long long int,      // Сигнал, оповещающий о том, что ключи были сгенерированы
+                            long long int,
+                            long long int);
 
 private:
     Ui::asimetry *ui;
     bool flag_key_generated = false;            // Флаг, определяющийЮ были сгенерированы ключи или нет
-    std::vector<std::vector<QString>> keys_bd;  // База данных клчюей RSA
     int mc = 50;                                // Время, в течение которого идет обмен
-
-    void init_bd();                             // Инициализация БД
+    long long int n, e, d;                      // Ключи RSA
 };
 
 #endif // ASIMETRY_H

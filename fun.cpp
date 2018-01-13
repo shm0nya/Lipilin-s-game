@@ -5,9 +5,9 @@
 #include<QRgb>
 #include <QColor>
 
-using namespace std;
-
 #include "fun.h"
+
+using namespace std;
 
 vector<int> pblok_key(int pblok_lenght, int start)
 {
@@ -33,6 +33,7 @@ vector<int> pblok_key(int pblok_lenght, int start)
 
     return key;
 }
+
 vector <vector<int>> sblok_like_vigener_key(int count, int start)
 {
     /*
@@ -161,3 +162,86 @@ vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> 
     return data;
 }
 
+long long int prostoe_chislo(long long int max)
+{
+    long long int a = 0;
+
+    while (1)
+    {
+        a = rand() % max;
+
+        if (prostoe(a))
+        {
+            break;
+        }
+    }
+    return a;
+}
+
+long long int take_d(long long int e, long long int phi)
+{
+    long long int d = 3;
+    while (1)
+    {
+        if ((e*d) % (phi) == 1)
+        {
+            break;
+        }
+        d++;
+    }
+    return d;
+}
+
+bool prostoe(long long int n)
+{
+    if (n < 3)
+        return false;
+    for (int i = 2; i <= sqrt(n); i++)
+    {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
+
+vector <int> crypt(string s1, int e, int n)
+{
+    vector <int> result;
+    for (int i = 0; i < (int)s1.size(); i++)
+    {
+        int c = 1;
+        int j = 0;
+        unsigned int ASCIIcode = (unsigned int)s1[i];
+        while (j < e)
+        {
+            c = c*ASCIIcode;
+            c = c%n;
+            j++;
+        }
+        result.push_back(c);
+        //cout << c << " ";
+    }
+    //cout << endl;
+    return result;
+}
+
+string decrypt(vector <int> crypted, int d, int n)
+{
+    string s1="";
+    for (int i = 0; i < (int)crypted.size(); i++)
+    {
+        int m = 1;
+        int j = 0;
+        while (j < d)
+        {
+            m = m * crypted[i];
+            m = m % n;
+            j++;
+        }
+        //unsigned int temp = m;
+        char ch = m;
+        s1 = s1 + ch;
+    }
+    //cout << "TEST: " << s1;
+    return s1;
+}

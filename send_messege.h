@@ -45,6 +45,14 @@ public:
                                                 QString skey_str, int skey_size,
                                                 QString algoritm);
 
+    void set_ass_key(long long int nn,long long int ee, long long int dd)
+    {
+        n = nn;
+        e = ee;
+        d = dd;
+        flag_rsa = true;
+    }
+
     ~send_messege();
 
 signals:
@@ -94,6 +102,8 @@ private:
     bool flag_s_key_ex = true;
     bool flag_img_intercept;
     QString temoalgor;
+    long long int n, e, d;                  // Ключи RSA
+    bool flag_rsa = false;
 };
 
 QImage encrypt_image_p(QImage encrypted_image, std::vector<int> pb_key); /* Принимает QImage - изображение, которое надо шифровать,

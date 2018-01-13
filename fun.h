@@ -1,6 +1,19 @@
 #ifndef MODULE1_H
 #define MODULE1_H
 
+#include<QRgb>
+#include <QColor>
+#include <QImage>
+
+#include <vector>
+#include <string>
+#include <map>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+
+#include "fun.h"
+
 using namespace std;
 
 int NOD(int a, int b);
@@ -11,11 +24,18 @@ vector<int> pblok_key_revers(vector<int> &pblok_key);               /* Гене�
                                                                      * Для расшифровывания применяется pblok_use с реверсным ключом
                                                                      */
 
-
 /* Используется в качестве замены (S) несколько кривой Виженер
  * Будет использоваться, пока кто-нибудь не перепишет его
  */
 vector<vector<int>> sblok_like_vigener_key(int count, int start);                      // Ключ S
 vector<QRgb> sblok_like_vigener_use(vector<QRgb> &data, vector<vector<int>> &key);     // Шифрование S
 vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> &key); // Расшифровывание S
+
+/* assimetry from Stas */
+long long int prostoe_chislo(long long int max);
+long long int take_d(long long int e, long long int phi);
+bool prostoe(long long int n);
+vector <int> crypt(string s1, int e, int n);
+string decrypt(vector <int> crypted, int d, int n);
+
 #endif

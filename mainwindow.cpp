@@ -81,7 +81,8 @@ void MainWindow::playerwindow()
     connect(home_wnd, SIGNAL(from_home_wnd_to_rsa_wnd()), this, SLOT(show_rsa_wnd()));
     connect(rsa_wnd, SIGNAL(rejected()), this, SLOT(back_from_rsa_wnd()));
     connect(rsa_wnd, SIGNAL(from_rsa_to_home_wnd()), this, SLOT(back_from_rsa_wnd()));
-    connect(rsa_wnd, SIGNAL(keys_was_generated()), this, SLOT(use_assimetry_crypto()));
+    connect(rsa_wnd, SIGNAL(keys_was_generated(long long,long long,long long)),
+            this, SLOT(use_assimetry_crypto(long long,long long,long long)));
 
     if (root_address == "127.0.0.1")
         solo();
@@ -734,8 +735,9 @@ void MainWindow::back_from_rsa_wnd()
     home_wnd->show();
 }
 
-void MainWindow::use_assimetry_crypto()
+void MainWindow::use_assimetry_crypto(long long int n,long long int e, long long int d)
 {
+    send_messege_wnd->set_ass_key(n, e, d);
     flag_assimetry_done = true;
 }
 

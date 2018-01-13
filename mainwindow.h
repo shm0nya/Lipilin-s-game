@@ -157,7 +157,7 @@ private slots:
 
     void show_rsa_wnd();
     void back_from_rsa_wnd();//
-    void use_assimetry_crypto();
+    void use_assimetry_crypto(long long int n,long long int e, long long int d);
                                                                                                                                             //
 /****************************************************************************************************************************************** */
 
