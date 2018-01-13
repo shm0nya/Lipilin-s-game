@@ -213,12 +213,7 @@ private slots:
                                                             // Проверят соотвествует ли присланное изображение родному                                  //
                                                             // Если пользователя перехватывают, то отсылает информацию                                  //
                                                                                                                                                         //
-    void send_messege_wnd_on_intercept_value(QImage img,                      // mode = player                                                          //
-                                             QString p_key, int p_key_size,   // отсылает изображение, ключи P                                          //
-                                             QString s_key, int s_key_size,   // S (для перехвата)                                                      //
-                                             int i, int j,                    // позицию в сетке изображений                                            //
-                                             QString algoritm, QString code);
-
+    void send_messege_wnd_on_intercept_value(QImage img, QString code, int i, int j);
     void solo();
                                                                                                                           //
     /************************************************************************************************************************************************** */

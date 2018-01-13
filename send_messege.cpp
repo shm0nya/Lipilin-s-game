@@ -88,8 +88,6 @@ void send_messege::on_button_load_img_clicked()
         int widch = ui->img_changed->width();
         int heich = ui->img_changed->height();
         ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
-
-        flag_img_intercept = false;
 }
 
 void send_messege::on_button_p_key_generate_clicked()
@@ -102,7 +100,7 @@ void send_messege::on_button_p_key_generate_clicked()
 
 
     /* Проверка на "шифрование различными ключами" */
-    if (((Loaded_image != Encrypted_image) && (!p_key.empty())) || (flag_img_intercept))
+    if ((Loaded_image != Encrypted_image) && (!p_key.empty()))
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this,"warning",
@@ -112,10 +110,8 @@ void send_messege::on_button_p_key_generate_clicked()
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)
         {
-            if (flag_img_intercept)
-                Encrypted_image = Intercepted_image;
-            else
-                Encrypted_image = Loaded_image;
+
+            Encrypted_image = Loaded_image;
             int lblwid = ui->img_changed->width();
             int lblhei = ui->img_changed->height();
             ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
@@ -152,10 +148,6 @@ void send_messege::on_button_p_key_generate_clicked()
     QString str = QString("%1").arg(ui->p_key_size_edit_spbox->value());// Перевод int в строку
     ui->lbl_p_key_size->setText(str);
     ui->lbl_p_key_value->setText(ui->p_key_edit->text());
-
-    flag_p_key_ex = true;
-    if(flag_img_intercept)
-        ui->lbl_algoritm_value->setText(temoalgor);
 }
 
 void send_messege::on_button_s_key_generate_clicked()
@@ -171,7 +163,7 @@ void send_messege::on_button_s_key_generate_clicked()
      * Делает активной клавишу "Зашифровать S"  */
 
     /* Проверка на "шифрование различными ключами" */
-    if (((Loaded_image != Encrypted_image) && (!s_key.empty())) || (flag_img_intercept))
+    if ((Loaded_image != Encrypted_image) && (!s_key.empty()))
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this,"warning",
@@ -181,10 +173,8 @@ void send_messege::on_button_s_key_generate_clicked()
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)
         {
-            if (flag_img_intercept)
-                Encrypted_image = Intercepted_image;
-            else
-                Encrypted_image = Loaded_image;
+
+            Encrypted_image = Loaded_image;
             int lblwid = ui->img_changed->width();
             int lblhei = ui->img_changed->height();
             ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
@@ -221,10 +211,6 @@ void send_messege::on_button_s_key_generate_clicked()
     QString str = QString("%1").arg(ui->s_key_size_edit_spbox->value());// Перевод int в строку
     ui->lbl_s_key_size->setText(str);
     ui->lbl_s_key_value->setText(ui->s_key_edit->text());
-
-    flag_s_key_ex = true;
-    if(flag_img_intercept)
-        ui->lbl_algoritm_value->setText(temoalgor);
 }
 
 void send_messege::on_button_crypto_p_clicked()
@@ -242,7 +228,6 @@ void send_messege::on_button_crypto_p_clicked()
         return;
     }
 
-    QString algoritm = ui->lbl_algoritm_value->text();
     if (flag_rsa_used)
     {
         QMessageBox::StandardButton reply;
@@ -254,10 +239,7 @@ void send_messege::on_button_crypto_p_clicked()
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)
         {
-            if (flag_img_intercept)
-                Encrypted_image = Intercepted_image;
-            else
-                Encrypted_image = Loaded_image;
+            Encrypted_image = Loaded_image;
             int lblwid = ui->img_changed->width();
             int lblhei = ui->img_changed->height();
             ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
@@ -274,19 +256,13 @@ void send_messege::on_button_crypto_p_clicked()
         ui->lbl_algoritm_value->setText("");
     }
 
+    QString algoritm = ui->lbl_algoritm_value->text();
     int algoritm_size = algoritm.size();
     if (algoritm_size > algoritme_size)
     {
         QMessageBox::information(this,"Error","Слишком большой алгоритм");
         return;
     }
-
-    if (!flag_p_key_ex)
-    {
-        QMessageBox::information(this, "error", "Ключ P не задан или неизвестен для перехваченного изображения");
-        return;
-    }
-
     algoritm += "P";
     ui->lbl_algoritm_value->setText(algoritm);
 
@@ -307,7 +283,6 @@ void send_messege::on_button_crypto_s_clicked()
          return;
     }
 
-    QString algoritm = ui->lbl_algoritm_value->text();
     if (flag_rsa_used)
     {
         QMessageBox::StandardButton reply;
@@ -319,10 +294,8 @@ void send_messege::on_button_crypto_s_clicked()
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)
         {
-            if (flag_img_intercept)
-                Encrypted_image = Intercepted_image;
-            else
-                Encrypted_image = Loaded_image;
+
+            Encrypted_image = Loaded_image;
             int lblwid = ui->img_changed->width();
             int lblhei = ui->img_changed->height();
             ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
@@ -339,15 +312,10 @@ void send_messege::on_button_crypto_s_clicked()
         ui->lbl_algoritm_value->setText("");
     }
 
+    QString algoritm = ui->lbl_algoritm_value->text();
     if (algoritm.size() > algoritme_size)
     {
         QMessageBox::information(this,"Error","Слишком большой алгоритм");
-        return;
-    }
-
-    if(!flag_s_key_ex)
-    {
-        QMessageBox::information(this, "error", "Ключ S не задан или неизвестен для перехваченного изображения");
         return;
     }
 
@@ -355,10 +323,8 @@ void send_messege::on_button_crypto_s_clicked()
     ui->lbl_algoritm_value->setText(algoritm);
 
     Encrypted_image = encrypt_image_s(Encrypted_image, s_key);
-
     int lblwid = ui->img_changed->width();
     int lblhei = ui->img_changed->height();
-
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
 }
 
@@ -419,22 +385,10 @@ void send_messege::on_button_crypto_cansel_clicked()
     if (algoritme[algoritme.size()-1] == 'P')
     {
         vector<int> revers = pblok_key_revers(p_key);
-        if (!flag_p_key_ex)
-        {
-            QMessageBox::information(this, "error", "Неизвестен ключ P для расшифровывания");
-            return;
-        }
         Encrypted_image = encrypt_image_p(Encrypted_image, revers);
     }
     else
-    {
-        if (!flag_s_key_ex)
-        {
-            QMessageBox::information(this, "error", "Неизвестен ключ S для расшифровывания");
-            return;
-        }
         Encrypted_image = decrypt_image_s(Encrypted_image, s_key);
-    }
 
     algoritme.chop(1);
     ui->lbl_algoritm_value->setText(algoritme);
@@ -456,10 +410,8 @@ void send_messege::on_button_algoritm_crypto_delete_clicked()
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)
         {
-            if(flag_img_intercept)
-                Encrypted_image = Intercepted_image;
-            else
-                Encrypted_image = Loaded_image;
+
+            Encrypted_image = Loaded_image;
             int lblwid = ui->img_changed->width();
             int lblhei = ui->img_changed->height();
             ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
@@ -470,6 +422,7 @@ void send_messege::on_button_algoritm_crypto_delete_clicked()
     }
 
     ui->lbl_algoritm_value->setText("");
+    flag_rsa_used = false;
 }
 
 QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
@@ -599,8 +552,6 @@ void send_messege::user_choose_img(QImage img, QString code)
     int widch = ui->img_changed->width();
     int heich = ui->img_changed->height();
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
-
-    flag_img_intercept = false;
 }
 
 void send_messege::user_made_img(QImage img, QString code)
@@ -624,8 +575,6 @@ void send_messege::user_made_img(QImage img, QString code)
     int widch = ui->img_changed->width();
     int heich = ui->img_changed->height();
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
-
-    flag_img_intercept = false;
 }
 
 void send_messege::set_position_of_img(int i, int j)
@@ -636,17 +585,6 @@ void send_messege::set_position_of_img(int i, int j)
 
 void send_messege::on_button_send_messege_clicked()
 {
-    /*Проверки*/
-    if (ui->img_original->pixmap()->isNull())// Т.Е. Анализирует перехваченное сообщение
-    {
-        //mc = 25;
-        if (ui->lbl_algoritm_value->text()!= "")// Если расшифровал не до конца
-        {
-            QMessageBox::information(this, "Да ладно", "Ты даже не расшифровал изображение");
-            return;
-        }
-    }
-
     /*  Забивает время */
     ui->lbl_progress->setVisible(true);
     ui->progress_send->setVisible(true);
@@ -683,7 +621,6 @@ void send_messege::on_button_send_messege_clicked()
     if (flag_rsa_used)
     {
         emit this->send_rsa_messege(code, e, n, i, j);
-        //ui->lbl_algoritm_value->setText("");
         return;
     }
 
@@ -724,69 +661,19 @@ void send_messege::on_button_back_clicked()
    emit this->change_wnd_to_homewnd();
 }
 
-void send_messege::set_intercept_info(QImage img,
-                        QString p_key_str, int p_key_size,
-                        QString s_key_str, int s_key_size,
-                        int i, int j, QString algoritm , QString code)
+void send_messege::set_intercept_info(QImage img, QString code, int i, int j)
 {
-    flag_img_intercept = true;
     flag_new_image = false;
+    mc = 45;
 
     Encrypted_image = img;
-    Intercepted_image = img;
+    Loaded_image = img;
     int widch = ui->img_changed->width();
     int heich = ui->img_changed->height();
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
-    QPixmap t;
-    ui->img_original->setPixmap(t);
-
-    ui->lbl_algoritm_value->setText(algoritm);
-    temoalgor = algoritm;
-
-    /* Генерация ключа P */
-    int generator_start;
-    if ((p_key_str!="none") && (p_key_str!="unknown"))
-    {
-        string p_key_strstd = p_key_str.toStdString();
-        generator_start = 0;
-        int p_key_strstd_size = p_key_strstd.size();
-        for (int i = 0; i < p_key_strstd_size; i++)
-            generator_start = generator_start + p_key_strstd[i];
-
-        p_key = pblok_key(p_key_size, generator_start);
-        flag_p_key_ex = true;
-        ui->lbl_p_key_value->setText(p_key_str);
-        ui->lbl_p_key_size->setText(QString::number(p_key_size));
-    }
-    else
-        flag_p_key_ex = false;
-
-
-    /* Генерация ключа S */
-    if((s_key_str!="none") && (s_key_str!="unknown"))
-    {
-        string s_key_strstd = s_key_str.toStdString();
-        generator_start = 0;
-        int s_key_strstd_size = s_key_strstd.size();
-        for (int i = 0; i < s_key_strstd_size; i++)
-            generator_start = generator_start + s_key_strstd[i];
-
-        s_key = sblok_like_vigener_key(s_key_size, generator_start);
-        flag_s_key_ex = true;
-        ui->lbl_s_key_value->setText(s_key_str);
-        ui->lbl_s_key_size->setText(QString::number(s_key_size));
-    }
-    else
-        flag_s_key_ex = false;
-
 
     now_using_rune_code = code;
     this->set_position_of_img(i-1, j-1);
-
-    if ((p_key_str == "unknown") || (s_key_str == "unknown"))
-        QMessageBox::information(this, "info", "Не удалось получить ключи, т.к. они были переданы с пмощью\
-                                                ассиметричной криптографии. Будут использоваться ключи,\
-                                                заданные вами");
 }
 
 QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey_size,
@@ -855,7 +742,7 @@ void send_messege::on_button_crypt_rsa_clicked()
     for (int i = 0; i < 100; i++)
     {
         QEventLoop loop;
-        QTimer::singleShot(10, &loop, SLOT(quit()));       // Время 300
+        QTimer::singleShot(300, &loop, SLOT(quit()));       // Время 300
         loop.exec();
         loop.exit();
         ui->progress_send->setValue(i+1);

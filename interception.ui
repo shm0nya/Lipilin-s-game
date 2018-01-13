@@ -6,41 +6,203 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>772</width>
-    <height>467</height>
+    <width>734</width>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>190</width>
-     <height>431</height>
+     <x>11</x>
+     <y>11</y>
+     <width>754</width>
+     <height>361</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="componate_inercept_messeges">
+   <layout class="QHBoxLayout" name="componate_uo">
     <item>
-     <layout class="QHBoxLayout" name="componate_lbl_inercept">
+     <layout class="QVBoxLayout" name="componate_inercept_messeges">
       <item>
-       <widget class="QLabel" name="lbl_intercept_messege">
-        <property name="text">
-         <string>Перехваченные сообщения</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="componate_lbl_inercept">
+        <item>
+         <widget class="QLabel" name="lbl_intercept_messege">
+          <property name="text">
+           <string>Перехваченные сообщения</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <widget class="QScrollArea" name="scroll_intercept">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scroll_inercept_content">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>186</width>
+           <height>327</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="componate_images_all">
+      <item>
+       <layout class="QHBoxLayout" name="componate_img_lbl">
+        <item>
+         <widget class="QLabel" name="lbl_img_show">
+          <property name="text">
+           <string>Изображение:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_images">
+        <item>
+         <widget class="QLabel" name="image_intercept">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>250</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>250</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="image_intercept_dec">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>250</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>250</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_algoritm">
+        <item>
+         <widget class="QLabel" name="lbl_algoritm_show">
+          <property name="text">
+           <string>Алгоритм шифрования:</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lbl_algoritm_value">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>218</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_but_dec">
+        <item>
+         <widget class="QPushButton" name="button_decrypt">
+          <property name="text">
+           <string>Расшифровать</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>20</width>
+          <height>40</height>
          </size>
         </property>
        </spacer>
@@ -48,114 +210,13 @@
      </layout>
     </item>
     <item>
-     <widget class="QScrollArea" name="scroll_intercept">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scroll_inercept_content">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>186</width>
-         <height>399</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>10</y>
-     <width>302</width>
-     <height>330</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="componate_img">
-    <item>
-     <layout class="QHBoxLayout" name="componate_img_lbl">
-      <item>
-       <widget class="QLabel" name="lbl_img_show">
-        <property name="text">
-         <string>Изображение:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QLabel" name="image_intercept">
-      <property name="minimumSize">
-       <size>
-        <width>300</width>
-        <height>300</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>300</width>
-        <height>300</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_5">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>350</y>
-     <width>501</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="componate_algoritm">
-    <item>
-     <widget class="QLabel" name="lbl_algoritm_show">
-      <property name="text">
-       <string>Алгоритм шифрования:</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::AutoText</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="lbl_algoritm_value">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_4">
+     <spacer name="horizontalSpacer_5">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>218</width>
+        <width>40</width>
         <height>20</height>
        </size>
       </property>
@@ -163,146 +224,16 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>11</y>
-     <width>225</width>
-     <height>201</height>
+     <x>10</x>
+     <y>390</y>
+     <width>754</width>
+     <height>51</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QHBoxLayout" name="componate_s_key_all">
-      <item>
-       <layout class="QHBoxLayout" name="componate_s_key">
-        <item>
-         <layout class="QVBoxLayout" name="componate_s_key_show">
-          <item>
-           <layout class="QHBoxLayout" name="componate_s_key_show_value">
-            <item>
-             <widget class="QLabel" name="s_key_show_value">
-              <property name="text">
-               <string>Ключ S</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="s_key_show_size">
-            <property name="text">
-             <string>Длина блока S</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="componate_s_key_edit">
-          <item>
-           <layout class="QHBoxLayout" name="componate_s_key_edit_value">
-            <item>
-             <widget class="QLineEdit" name="s_key_edit"/>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="componate_s_size_edit">
-            <item>
-             <widget class="QSlider" name="s_key_size_edit_slider">
-              <property name="maximum">
-               <number>100</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="s_key_size_edit_spbox">
-              <property name="maximum">
-               <number>100</number>
-              </property>
-              <property name="singleStep">
-               <number>1</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="componate_p_key_all">
-      <item>
-       <layout class="QHBoxLayout" name="componate_p_key">
-        <item>
-         <layout class="QVBoxLayout" name="componate_p_key_show">
-          <item>
-           <layout class="QHBoxLayout" name="componate_p_key_show_value">
-            <item>
-             <widget class="QLabel" name="p_key_show_value">
-              <property name="text">
-               <string>Ключ Р</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="p_key_show_size">
-            <property name="text">
-             <string>Длина блока Р</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="componate_p_key_edit_2">
-          <item>
-           <layout class="QHBoxLayout" name="componate_p_key_edit_value">
-            <item>
-             <widget class="QLineEdit" name="p_key_edit"/>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="componate_p_size_edit">
-            <item>
-             <widget class="QSlider" name="p_key_size_edit_slider">
-              <property name="maximum">
-               <number>100</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="p_key_size_edit_spbox">
-              <property name="maximum">
-               <number>100</number>
-              </property>
-              <property name="singleStep">
-               <number>1</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
+   <layout class="QHBoxLayout" name="componate_info_a">
     <item>
      <layout class="QVBoxLayout" name="componate_coordinate">
       <item>
@@ -322,18 +253,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="edit_coordinate_i">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>20</height>
-           </size>
+         <widget class="QLabel" name="lbl__i_value">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -362,18 +284,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="edit_coordinate_j">
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>20</height>
-           </size>
+         <widget class="QLabel" name="lbl_j_value">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -394,138 +307,249 @@
       </item>
      </layout>
     </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>560</x>
-     <y>410</y>
-     <width>208</width>
-     <height>52</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="componate_buttons">
     <item>
-     <widget class="QPushButton" name="button_to_send_messege">
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Отправить</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="componate_s_key">
+      <item>
+       <layout class="QVBoxLayout" name="componate_s_key_show">
+        <item>
+         <layout class="QHBoxLayout" name="componate_s_key_show_value">
+          <item>
+           <widget class="QLabel" name="s_key_show_value">
+            <property name="text">
+             <string>Ключ S</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="s_key_show_size">
+          <property name="text">
+           <string>Длина блока S</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="componate_s_k_VVV">
+        <item>
+         <layout class="QHBoxLayout" name="compinate_s_k_v">
+          <item>
+           <widget class="QLabel" name="lbl_s_key_vlaue">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="componate_s_k_s_v">
+          <item>
+           <widget class="QLabel" name="lbl_s_size_value">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="button_back">
-      <property name="minimumSize">
+     <layout class="QHBoxLayout" name="componate_p_k">
+      <item>
+       <layout class="QVBoxLayout" name="componate_p_key_show">
+        <item>
+         <layout class="QHBoxLayout" name="componate_p_key_show_value">
+          <item>
+           <widget class="QLabel" name="p_key_show_value">
+            <property name="text">
+             <string>Ключ Р</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="p_key_show_size">
+          <property name="text">
+           <string>Длина блока Р</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="componate_p_k_vvv">
+        <item>
+         <layout class="QHBoxLayout" name="componate_p_kv">
+          <item>
+           <widget class="QLabel" name="lbl_p_key_value">
+            <property name="minimumSize">
+             <size>
+              <width>75</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="componate_p_k_s_v">
+          <item>
+           <widget class="QLabel" name="lbl_p_size_value">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="componate_buttons">
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="componate_but">
+        <item>
+         <widget class="QPushButton" name="button_to_send_messege">
+          <property name="minimumSize">
+           <size>
+            <width>75</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>75</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Отправить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_back">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>75</width>
+            <height>39</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Назад</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_12">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
        <size>
-        <width>100</width>
-        <height>50</height>
+        <width>40</width>
+        <height>20</height>
        </size>
       </property>
-      <property name="text">
-       <string>Назад</string>
-      </property>
-     </widget>
+     </spacer>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="button_back_2">
-   <property name="geometry">
-    <rect>
-     <x>640</x>
-     <y>280</y>
-     <width>101</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Отмена</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="button_decrypt">
-   <property name="geometry">
-    <rect>
-     <x>640</x>
-     <y>240</y>
-     <width>101</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Расшифровать</string>
-   </property>
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>s_key_size_edit_spbox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>s_key_size_edit_slider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>716</x>
-     <y>57</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>672</x>
-     <y>55</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>s_key_size_edit_slider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>s_key_size_edit_spbox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>619</x>
-     <y>55</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>716</x>
-     <y>58</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>p_key_size_edit_slider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>p_key_size_edit_spbox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>679</x>
-     <y>116</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>705</x>
-     <y>111</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>p_key_size_edit_spbox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>p_key_size_edit_slider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>710</x>
-     <y>123</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>658</x>
-     <y>121</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

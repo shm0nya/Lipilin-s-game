@@ -10,7 +10,8 @@
 
 struct inter_messege
 {
-    QImage img;
+    QImage img;             // Зашифрованное изображение
+    QImage original_image;  // Оригинальное изображение
     QString p_key;
     int p_key_size;
     QString s_key;
@@ -32,7 +33,7 @@ class interception : public QDialog
 signals:
     void homecomig(); // Угадайте пасхалку
     void show_info_at_messege(int); // Посылает сам себе, при нажатии на кнопку
-    void go_to_crypto(QImage,QString,int,QString,int,int,int,QString, QString);
+    void go_to_crypto(QImage img, QString code, int i, int j);
 
 private slots:
     void show_info_at_messege_on_index(int i);
@@ -40,7 +41,7 @@ private slots:
 public:
     explicit interception(QWidget *parent = 0);
     ~interception();
-    void add_new_messege(QImage img,
+    void add_new_messege(QImage img, QImage orig_image,
                          QString p_key, int p_key_size,
                          QString s_key, int s_key_size,
                          int i, int j, QString algoritm, QString code);
@@ -54,6 +55,8 @@ private slots:
 
     void on_button_to_send_messege_clicked();
 
+    void on_button_decrypt_clicked();
+
 private:
     Ui::interception *ui;
     std::vector<QPB_modify*> buttons_of_messege;
@@ -61,7 +64,8 @@ private:
     QGridLayout *lay;
     QString login_of_intercept;
     bool flag_now_using_message = false;
-    int index_message;
+    bool flag_decr = false;
+    int index_message;                                  // Какое сейчас используется перехваченное сообщение
 };
 
 #endif // INTERCEPTION_H

@@ -36,10 +36,7 @@ public:
     void set_position_of_img(int i, int j); // Установка позици изображения (в choose_button используется через mainwindow)
     void players_img_verdict(bool verdict); // Проверка правильности изображения
 
-    void set_intercept_info(QImage img,
-                            QString p_key, int p_key_size,
-                            QString s_key, int s_key_size,
-                            int i, int j, QString algoritm, QString code);
+    void set_intercept_info(QImage img, QString code, int i, int j);
 
     QImage encrypt_img_to_intercept(QImage img, QString pkey_str, int pkey_size,
                                                 QString skey_str, int skey_size,
@@ -100,11 +97,7 @@ private:
                                              * необходимо сбросить кнопку, дабы алгоритм не рос постоянно */
     int algoritme_size = 30;                // Максимльная длина алгоритма
     QString now_using_rune_code = "0_0";
-    int mc;
-    bool flag_p_key_ex = false;             // Флаг, определяющий существет ли ключ (при перехвате сообщений)
-    bool flag_s_key_ex = true;
-    bool flag_img_intercept;
-    QString temoalgor;
+    int mc = 25;
     int n, e, d;                  // Ключи RSA
     bool flag_rsa = false;
     bool flag_rsa_used = false;

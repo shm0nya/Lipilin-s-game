@@ -76,8 +76,8 @@ void MainWindow::playerwindow()
     connect(intercept_wnd, SIGNAL(homecomig()), this, SLOT(back__homecoming()));
     connect(home_wnd, SIGNAL(i_want_intercept(QString)), this, SLOT(NET_send_players_inercept_login(QString)));
 
-    connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,QString,int,int,int,QString, QString)),
-            this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,QString,int,int,int,QString, QString)));
+    connect(intercept_wnd, SIGNAL(go_to_crypto(QImage,QString,int,int)),
+            this, SLOT(send_messege_wnd_on_intercept_value(QImage,QString,int,int)));
 
     connect(home_wnd, SIGNAL(from_home_wnd_to_rsa_wnd()), this, SLOT(show_rsa_wnd()));
     connect(rsa_wnd, SIGNAL(rejected()), this, SLOT(back_from_rsa_wnd()));
@@ -676,13 +676,13 @@ void MainWindow::NET_add_intercepted_messege(QString data)
     int i = i_str.toInt();
     int j = j_str.toInt();
 
-    QImage image;
+    QImage image, crypt_image;
     int ic = cut_string_befor_simbol(code, '_').toInt();
     int jc = code.toInt();
     image = make_wnd->paint_picture_at_code(ic, jc);
 
     code = QString::number(ic) + '_' + QString::number(jc);
-    image = send_messege_wnd->encrypt_img_to_intercept(image, p_key, p_key_size,
+    crypt_image = send_messege_wnd->encrypt_img_to_intercept(image, p_key, p_key_size,
                                                               s_key, s_key_size,
                                                               algoritm);
     if (ass == "1")
@@ -693,17 +693,13 @@ void MainWindow::NET_add_intercepted_messege(QString data)
         s_key_size = 0;
     }
 
-    intercept_wnd->add_new_messege(image ,p_key,p_key_size,s_key,s_key_size,i, j, algoritm, code);
+    intercept_wnd->add_new_messege(crypt_image, image ,p_key,p_key_size,s_key,s_key_size,i, j, algoritm, code);
     home_wnd->set_visibale_new_messege(true);
 }
 
-void MainWindow::send_messege_wnd_on_intercept_value(QImage img,
-                                         QString p_key, int p_key_size,
-                                         QString s_key, int s_key_size,
-                                         int i, int j,
-                                         QString algoritm,QString code)
+void MainWindow::send_messege_wnd_on_intercept_value(QImage img, QString code, int i, int j)
 {
-    send_messege_wnd->set_intercept_info(img, p_key, p_key_size, s_key,s_key_size, i, j, algoritm, code);
+    send_messege_wnd->set_intercept_info(img, code, i, j);
     intercept_wnd->close();
     send_messege_wnd->show();
 }
