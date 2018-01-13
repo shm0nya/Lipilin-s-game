@@ -731,7 +731,7 @@
     <item>
      <widget class="QLabel" name="lbl_progress">
       <property name="text">
-       <string>Обработка сообщения</string>
+       <string>Обработка</string>
       </property>
      </widget>
     </item>

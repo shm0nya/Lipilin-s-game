@@ -74,6 +74,8 @@
 #include <QBuffer>
 #include <QVector>
 
+#include <vector>
+
 #include "home_window.h"
 #include "send_messege.h"
 #include "choose_button.h"
@@ -81,7 +83,7 @@
 #include "make_img_window.h"
 #include "interception.h"
 #include "asimetry.h"
-
+#include "fun.h"
 
 namespace Ui {
 class MainWindow;
@@ -157,7 +159,7 @@ private slots:
 
     void show_rsa_wnd();
     void back_from_rsa_wnd();//
-    void use_assimetry_crypto(long long int n,long long int e, long long int d);
+    void use_assimetry_crypto(int n,int e,int d);
                                                                                                                                             //
 /****************************************************************************************************************************************** */
 
@@ -284,6 +286,9 @@ private slots:
     void NET_list_of_user_in_game(QString data);                                                                                                               //
     void NET_send_info_for_player(QString address, QString &messeges, QString &codes);                                                                                         //
     void NET_add_intercepted_messege(QString data);                                                                                         //
+
+    void NET_send_rsa_img(QString code, int e, int d);
+    void NET_set_rsa_intercept_mess(QString data);
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:

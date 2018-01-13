@@ -354,6 +354,11 @@ void send_messege::on_button_crypto_cansel_clicked()
         return;
     }
 
+    if (algoritme == "RSA")
+    {
+        decryp_rsa();
+    }
+
     if (algoritme[algoritme.size()-1] == 'P')
     {
         vector<int> revers = pblok_key_revers(p_key);
@@ -590,6 +595,11 @@ void send_messege::on_button_send_messege_clicked()
     /* ------------------------------------------ */
 
     QString code = now_using_rune_code;
+    QString algoritm = ui->lbl_algoritm_value->text();
+    if (algoritm[0] == 'R')
+    {
+        emit this->send_rsa_messege(code, e, n);
+    }
 
     int i;
     QString i_str = ui->edit_coordinate_i->text();
@@ -624,8 +634,6 @@ void send_messege::on_button_send_messege_clicked()
         s_key_size = 0;
     else
         s_key_size = s_key_size_str.toInt();
-
-    QString algoritm = ui->lbl_algoritm_value->text();
 
     emit this->player_send_messege(code, p_key_str, p_key_size, s_key_str, s_key_size, i, j, algoritm);
 }
@@ -738,4 +746,77 @@ QImage send_messege::encrypt_img_to_intercept(QImage img, QString pkey, int pkey
     }
 
     return img;
+}
+
+void send_messege::on_button_crypt_rsa_clicked()
+{
+    if (!flag_rsa)
+    {
+        QMessageBox::information(this, "error", "Ключи RSA не сгенерироаны. Вернитесь в домашнее окно");
+        return;
+    }
+
+    if (!flag_new_image)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"warning",
+                              "Вы применяете алгоритм шифрования RSA "
+                              "это приведет к тому, что предыдущие изменения будут отменены "
+                              "Вы уверены в своем решении?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+        {
+            Encrypted_image = Loaded_image;
+            flag_new_image = true;
+
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+        }
+        else
+            return;
+    }
+
+    /* Забить временем */
+    ui->lbl_progress->setVisible(true);
+    ui->progress_send->setVisible(true);
+    for (int i = 0; i < 100; i++)
+    {
+        QEventLoop loop;
+        QTimer::singleShot(300, &loop, SLOT(quit()));       // Время 300
+        loop.exec();
+        loop.exit();
+        ui->progress_send->setValue(i+1);
+    }
+
+    ui->lbl_progress->setVisible(false);
+    ui->progress_send->setVisible(false);
+
+    vector <int> data = image_to_vector(Encrypted_image);
+    vector<int> crypt_data = crypt(data, e, n);
+    set_vector_at_image(Encrypted_image, crypt_data);
+
+    int lblwid = ui->img_changed->width();
+    int lblhei = ui->img_changed->height();
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+
+    ui->lbl_algoritm_value->setText("RSA");
+
+    flag_new_image = false;
+    mc = 200;
+}
+
+void send_messege::decryp_rsa()
+{
+    vector<int> data = image_to_vector(Encrypted_image);
+    vector<int> decrypted_data = decrypt(data, d, n);
+    set_vector_at_image(Encrypted_image, decrypted_data);
+
+    int lblwid = ui->img_changed->width();
+    int lblhei = ui->img_changed->height();
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+
+    ui->lbl_algoritm_value->setText("");
+
+    flag_new_image = true;
 }

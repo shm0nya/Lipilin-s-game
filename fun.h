@@ -12,8 +12,6 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "fun.h"
-
 using namespace std;
 
 int NOD(int a, int b);
@@ -35,7 +33,10 @@ vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> 
 long long int prostoe_chislo(long long int max);
 long long int take_d(long long int e, long long int phi);
 bool prostoe(long long int n);
-vector <int> crypt(string s1, int e, int n);
-string decrypt(vector <int> crypted, int d, int n);
+vector <int> crypt(vector<int> s1, int e, int n);
+vector<int> decrypt (vector <int> crypted, int d, int n);
+
+vector<int> image_to_vect(QImage& img);
+void set_vector_at_image(QImage& img, vector<int>& data);
 
 #endif

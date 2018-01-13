@@ -43,14 +43,14 @@ void interception::add_new_messege(QImage img,
     msg.code = code;
     intercepted_messeges.push_back(msg);
 
-    QPB_modify *pb = new QPB_modify;
-    pb->i = intercepted_messeges.size() - 1;
-    pb->setText("Msg from " + login_of_intercept + " №" + QString::number(pb->i));
-    connect(pb, &QPushButton::clicked, [this, pb](){
-        emit this->show_info_at_messege(pb->i);
+    QPB_modify pb;
+    pb.i = intercepted_messeges.size() - 1;
+    pb.setText("Msg from " + login_of_intercept + " №" + QString::number(pb.i));
+    connect(&pb, &QPushButton::clicked, [this, &pb](){
+        emit this->show_info_at_messege(pb.i);
     });
 
-    lay->addWidget(pb, pb->i, 0);
+    lay->addWidget(&pb, pb.i, 0);
 }
 
 void interception::show_info_at_messege_on_index(int i)
@@ -71,6 +71,12 @@ void interception::show_info_at_messege_on_index(int i)
 
     ui->edit_coordinate_i->setText(QString::number(msg.i));
     ui->edit_coordinate_j->setText(QString::number(msg.j));
+
+    if (msg.algoritm == "RSA")
+    {
+        QMessageBox::information(this, "omg", "Этот игрок зашифровал сообщение с помощью алгоритма RSA, расшифровать не получится"
+                                              "Не самый умный ход с его стороны, не такли?");
+    }
 }
 
 void interception::on_button_to_send_messege_clicked()
@@ -91,4 +97,19 @@ void interception::on_button_to_send_messege_clicked()
                 intercepted_messeges[index_message].j,
                 intercepted_messeges[index_message].algoritm,
                 intercepted_messeges[index_message].code);
+}
+
+void interception::set_rsa_info(QImage img, QString code)
+{
+    inter_messege msg;
+    msg.img = img;
+    msg.p_key = "none";
+    msg.p_key_size = 0;
+    msg.s_key = "none";
+    msg.s_key_size = 0;
+    msg.i = 0;
+    msg.j = 0;
+    msg.algoritm = "RSA";
+    msg.code = code;
+    intercepted_messeges.push_back(msg);
 }

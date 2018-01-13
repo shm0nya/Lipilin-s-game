@@ -31,15 +31,15 @@ private slots:
 
 signals:
     void from_rsa_to_home_wnd();                // Сигнал, чтобы вернуться в home_wnd
-    void keys_was_generated(long long int,      // Сигнал, оповещающий о том, что ключи были сгенерированы
-                            long long int,
-                            long long int);
+    void keys_was_generated(int, int, int);     // Сигнал, оповещающий о том, что ключи были сгенерированы
+
+
 
 private:
     Ui::asimetry *ui;
     bool flag_key_generated = false;            // Флаг, определяющийЮ были сгенерированы ключи или нет
     int mc = 50;                                // Время, в течение которого идет обмен
-    long long int n, e, d;                      // Ключи RSA
+    int n, e, d;                      // Ключи RSA
 };
 
 #endif // ASIMETRY_H

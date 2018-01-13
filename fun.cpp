@@ -204,14 +204,14 @@ bool prostoe(long long int n)
     return true;
 }
 
-vector <int> crypt(string s1, int e, int n)
+vector <int> crypt(vector<int> s1, int e, int n)
 {
     vector <int> result;
     for (int i = 0; i < (int)s1.size(); i++)
     {
         int c = 1;
         int j = 0;
-        unsigned int ASCIIcode = (unsigned int)s1[i];
+       int ASCIIcode = s1[i];
         while (j < e)
         {
             c = c*ASCIIcode;
@@ -225,9 +225,9 @@ vector <int> crypt(string s1, int e, int n)
     return result;
 }
 
-string decrypt(vector <int> crypted, int d, int n)
+vector<int> decrypt(vector <int> crypted, int d, int n)
 {
-    string s1="";
+    vector<int> s1;
     for (int i = 0; i < (int)crypted.size(); i++)
     {
         int m = 1;
@@ -239,9 +239,41 @@ string decrypt(vector <int> crypted, int d, int n)
             j++;
         }
         //unsigned int temp = m;
-        char ch = m;
-        s1 = s1 + ch;
+        s1.push_back(m);
     }
     //cout << "TEST: " << s1;
     return s1;
+}
+
+vector<int> image_to_vector(QImage& img)
+{
+    vector<int> data;
+    QColor pxl;
+
+    for (int i = 0; i < img.width(); i++)
+        for (int j = 0; j < img.height(); j++)
+        {
+            pxl = QColor(img.pixel(i, j));
+            data.push_back(pxl.red());
+            data.push_back(pxl.green());
+            data.push_back(pxl.blue());
+        }
+
+    return data;
+}
+
+void set_vector_at_image(QImage& img, vector<int>& data)
+{
+    int pointer = 0;        // Указатель на элемент вектора
+
+    for (int i = 0; i < img.width(); i++)
+        for (int j = 0; j < img.height(); j++)
+        {
+            QColor pxl = QColor(img.pixel(i, j));
+            pxl.setRed(data[pointer]);
+            pxl.setGreen(data[pointer+1]);
+            pxl.setBlue(data[pointer+2]);
+            img.setPixel(i, j, pxl.rgb());
+            pointer = pointer + 3;
+        }
 }

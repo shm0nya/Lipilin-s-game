@@ -47,6 +47,7 @@ public:
 
     QString get_login_of_intercept(){return login_of_intercept;}
     void set_login_of_intercept(QString login){login_of_intercept = login;}
+    void set_rsa_info(QImage img, QString code);
 
 private slots:
     void on_button_back_clicked();  // Возврат в окно home_windows

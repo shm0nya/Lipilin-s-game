@@ -31,8 +31,8 @@ void asimetry::on_button_generate_clicked()
 
     n = p*q;
     long long int phi = (p - 1)*(q - 1);
-    e = prostoe_chislo(phi);
-    d = take_d(e, phi);
+    e = (int)prostoe_chislo(phi);
+    d = (int)take_d(e, phi);
 
     QString s = QString::number(p);
     ui->lbl_p_value->setText(s);

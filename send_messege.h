@@ -45,7 +45,7 @@ public:
                                                 QString skey_str, int skey_size,
                                                 QString algoritm);
 
-    void set_ass_key(long long int nn,long long int ee, long long int dd)
+    void set_ass_key(int nn, int ee, int dd)
     {
         n = nn;
         e = ee;
@@ -70,6 +70,7 @@ signals:
                                                                                      * в mainwindow сравнивается с исходным.
                                                                                      * Если нас прослушивают отправляет тому, кто прослушивает
                                                                                      */
+    void send_rsa_messege(QString code, int e, int n);
 
 
 private slots:
@@ -83,6 +84,8 @@ private slots:
     void on_button_algoritm_crypto_delete_clicked(); /* Сбрасыывает алгоритм (подробнее см в send_messege.cpp) */
     void on_button_send_messege_clicked();
     void on_button_back_clicked();
+
+    void on_button_crypt_rsa_clicked();
 
 private:
     Ui::send_messege *ui;
@@ -102,8 +105,10 @@ private:
     bool flag_s_key_ex = true;
     bool flag_img_intercept;
     QString temoalgor;
-    long long int n, e, d;                  // Ключи RSA
+    int n, e, d;                  // Ключи RSA
     bool flag_rsa = false;
+
+    void decryp_rsa();
 };
 
 QImage encrypt_image_p(QImage encrypted_image, std::vector<int> pb_key); /* Принимает QImage - изображение, которое надо шифровать,
@@ -126,6 +131,5 @@ QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key);
                                                                              * Алгоритм аналогичен "encrypt_image_p"
 */
 QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key); /* Делает то же, что и encrypt, только использует sblok_like_vigener_revers*/
-
 
 #endif // SEND_MESSEGE_H

@@ -81,8 +81,9 @@ void MainWindow::playerwindow()
     connect(home_wnd, SIGNAL(from_home_wnd_to_rsa_wnd()), this, SLOT(show_rsa_wnd()));
     connect(rsa_wnd, SIGNAL(rejected()), this, SLOT(back_from_rsa_wnd()));
     connect(rsa_wnd, SIGNAL(from_rsa_to_home_wnd()), this, SLOT(back_from_rsa_wnd()));
-    connect(rsa_wnd, SIGNAL(keys_was_generated(long long,long long,long long)),
-            this, SLOT(use_assimetry_crypto(long long,long long,long long)));
+    connect(rsa_wnd, SIGNAL(keys_was_generated(int,int,int)),this, SLOT(use_assimetry_crypto(int,int,int)));
+
+    connect(send_messege_wnd, SIGNAL(send_rsa_messege(QString,int,int)), this, SLOT(NET_send_rsa_img(QString,int,int)));
 
     if (root_address == "127.0.0.1")
         solo();
@@ -286,6 +287,9 @@ void MainWindow::NET_datagramm_analysis()
 
     case 'I':
         NET_add_intercepted_messege(data);
+
+    case 'R':
+        NET_set_rsa_intercept_mess(data);
     }
 }
 
@@ -735,9 +739,46 @@ void MainWindow::back_from_rsa_wnd()
     home_wnd->show();
 }
 
-void MainWindow::use_assimetry_crypto(long long int n,long long int e, long long int d)
+void MainWindow::use_assimetry_crypto(int n,int e,int d)
 {
     send_messege_wnd->set_ass_key(n, e, d);
     flag_assimetry_done = true;
 }
 
+void MainWindow::NET_send_rsa_img(QString code, int e, int d)
+{
+    QByteArray Data;
+    Data.append("1R");
+    QString message = "";
+    message = code + ' ' + QString::number(e) + ' ' + QString::number(d);
+    Data.append(message);
+
+    for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
+    {
+        QString addres = me_overhere_addres_list[k];
+        socket->writeDatagram(Data, QHostAddress(addres), 65201);
+    }
+}
+
+void MainWindow::NET_set_rsa_intercept_mess(QString data)
+{
+    QString code = cut_string_befor_simbol(data, ' ');
+    QString kostill = code;
+    QString r_id = cut_string_befor_simbol(code, '_');
+    QString c_id = code;
+    int r = r_id.toInt();
+    int c = c_id.toInt();
+
+    QString e_str = cut_string_befor_simbol(data, ' ');
+    int e = e_str.toInt();
+
+    QString n_str = cut_string_befor_simbol(data, ' ');
+    int n = n_str.toInt();
+
+    QImage img = make_wnd->paint_picture_at_code(r, c);
+    vector<int> data = image_to_vector(img);
+    vector<int> crypt_data = crypt(data, e, n);
+    set_vector_at_image(img, crypt_data);
+
+    intercept_wnd->set_rsa_info(img, kostill);
+}
