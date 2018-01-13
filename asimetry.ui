@@ -26,7 +26,7 @@
     <string>Назад</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -126,7 +126,7 @@
           <item>
            <widget class="QLabel" name="lbl_q_value">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -181,7 +181,7 @@
           <item>
            <widget class="QLabel" name="lbl_f_n_show">
             <property name="text">
-             <string>f_n = (p-1)*(q-1)</string>
+             <string>f_n = </string>
             </property>
            </widget>
           </item>
@@ -223,7 +223,7 @@
               <item>
                <widget class="QLabel" name="lbl_e_value">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -276,22 +276,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="componate_info">
-            <item>
-             <widget class="QLabel" name="lbl_info_1">
-              <property name="text">
-               <string>(d*e) mod(f_n) = 1</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="lbl_info_2">
-              <property name="text">
-               <string>d = k*f_n + 1/e</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <layout class="QVBoxLayout" name="componate_info"/>
           </item>
          </layout>
         </item>
