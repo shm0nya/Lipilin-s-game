@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "fun.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -775,10 +776,10 @@ void MainWindow::NET_set_rsa_intercept_mess(QString data)
     QString n_str = cut_string_befor_simbol(data, ' ');
     int n = n_str.toInt();
 
-    QImage img = make_wnd->paint_picture_at_code(r, c);
-    vector<int> data = image_to_vector(img);
-    vector<int> crypt_data = crypt(data, e, n);
-    set_vector_at_image(img, crypt_data);
+    QImage img2 = make_wnd->paint_picture_at_code(r, c);
+    vector<int> data2 = image_to_vector(img2);
+    vector<int> crypt_data = crypt(data2, e, n);
+    set_vector_at_image(img2, crypt_data);
 
-    intercept_wnd->set_rsa_info(img, kostill);
+    intercept_wnd->set_rsa_info(img2, kostill);
 }

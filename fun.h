@@ -36,7 +36,7 @@ bool prostoe(long long int n);
 vector <int> crypt(vector<int> s1, int e, int n);
 vector<int> decrypt (vector <int> crypted, int d, int n);
 
-vector<int> image_to_vect(QImage& img);
-void set_vector_at_image(QImage& img, vector<int>& data);
+vector <int> image_to_vector(QImage img);
+void set_vector_at_image(QImage img, vector<int> data);
 
 #endif

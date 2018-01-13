@@ -3,12 +3,6 @@
 
 using namespace std;
 
-long long int prostoe_chislo(long long int max);
-long long int take_d(long long int e, long long int phi);
-bool prostoe(long long int n);
-vector <int> crypt(string s1, int e, int n);
-string decrypt(vector <int> crypted, int d, int n);
-
 asimetry::asimetry(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::asimetry)

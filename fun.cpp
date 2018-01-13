@@ -245,7 +245,7 @@ vector<int> decrypt(vector <int> crypted, int d, int n)
     return s1;
 }
 
-vector<int> image_to_vector(QImage& img)
+vector<int> image_to_vector(QImage img)
 {
     vector<int> data;
     QColor pxl;
@@ -262,7 +262,7 @@ vector<int> image_to_vector(QImage& img)
     return data;
 }
 
-void set_vector_at_image(QImage& img, vector<int>& data)
+void set_vector_at_image(QImage img, vector<int> data)
 {
     int pointer = 0;        // Указатель на элемент вектора
 
