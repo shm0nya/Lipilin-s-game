@@ -16,6 +16,7 @@ choose_button::~choose_button()
 void choose_button::set_button(QPB_modify *pb, int i, int j)
 {
     ui->buttons_grid->addWidget(pb, i, j);
+    pb->setVisible(true);
 }
 
 void choose_button::open_button(QImage img, int i, int j, QString code)

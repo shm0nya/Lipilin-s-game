@@ -242,13 +242,38 @@ void send_messege::on_button_crypto_p_clicked()
         return;
     }
 
+    QString algoritm = ui->lbl_algoritm_value->text();
+    if (flag_rsa_used)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"warning",
+                              "Вы пытаетесь шифровать симметричными алгоритмами при "
+                              "примененном ассиметричном шифре. "
+                              "Это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы уверены в своем решении?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+        {
+            if (flag_img_intercept)
+                Encrypted_image = Intercepted_image;
+            else
+                Encrypted_image = Loaded_image;
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+            flag_new_image = true;
+            flag_rsa_used = false;
+        }
+        else
+            return;
+    }
+
     if (flag_new_image == true)
     {
         flag_new_image = false;
         ui->lbl_algoritm_value->setText("");
     }
 
-    QString algoritm = ui->lbl_algoritm_value->text();
     int algoritm_size = algoritm.size();
     if (algoritm_size > algoritme_size)
     {
@@ -282,13 +307,38 @@ void send_messege::on_button_crypto_s_clicked()
          return;
     }
 
+    QString algoritm = ui->lbl_algoritm_value->text();
+    if (flag_rsa_used)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"warning",
+                              "Вы пытаетесь шифровать симметричными алгоритмами при "
+                              "примененном ассиметричном шифре. "
+                              "Это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы уверены в своем решении?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+        {
+            if (flag_img_intercept)
+                Encrypted_image = Intercepted_image;
+            else
+                Encrypted_image = Loaded_image;
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+            flag_new_image = true;
+            flag_rsa_used = false;
+        }
+        else
+            return;
+    }
+
     if (flag_new_image == true)
     {
         flag_new_image = false;
         ui->lbl_algoritm_value->setText("");
     }
 
-    QString algoritm = ui->lbl_algoritm_value->text();
     if (algoritm.size() > algoritme_size)
     {
         QMessageBox::information(this,"Error","Слишком большой алгоритм");
@@ -322,9 +372,15 @@ void send_messege::on_button_algoritm_crypto_clicked()
         return;
     }
 
-    flag_new_image = false;
     Encrypted_image = Loaded_image;
     QString algoritme = ui->lbl_algoritm_value->text();
+    if (algoritme == "RSA")
+    {
+        emit this->on_button_crypt_rsa_clicked();
+        return;
+    }
+    flag_new_image = false;
+
     int algoritm_size = algoritme.size();
     for (int i = 0; i<algoritm_size; i++)
     {
@@ -357,6 +413,7 @@ void send_messege::on_button_crypto_cansel_clicked()
     if (algoritme == "RSA")
     {
         decryp_rsa();
+        return;
     }
 
     if (algoritme[algoritme.size()-1] == 'P')
@@ -523,6 +580,12 @@ QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
 
 void send_messege::user_choose_img(QImage img, QString code)
 {
+    if (flag_rsa_used)
+    {
+        flag_rsa_used = false;
+        ui->lbl_algoritm_value->setText("");
+    }
+
     mc = 75;
     Loaded_image= img;
     flag_new_image = true;
@@ -542,6 +605,12 @@ void send_messege::user_choose_img(QImage img, QString code)
 
 void send_messege::user_made_img(QImage img, QString code)
 {
+    if (flag_rsa_used)
+    {
+        flag_rsa_used = false;
+        ui->lbl_algoritm_value->setText("");
+    }
+
     mc = 100;
     Loaded_image= img;
     flag_new_image = true;
@@ -570,7 +639,7 @@ void send_messege::on_button_send_messege_clicked()
     /*Проверки*/
     if (ui->img_original->pixmap()->isNull())// Т.Е. Анализирует перехваченное сообщение
     {
-        mc = 25;
+        //mc = 25;
         if (ui->lbl_algoritm_value->text()!= "")// Если расшифровал не до конца
         {
             QMessageBox::information(this, "Да ладно", "Ты даже не расшифровал изображение");
@@ -581,6 +650,7 @@ void send_messege::on_button_send_messege_clicked()
     /*  Забивает время */
     ui->lbl_progress->setVisible(true);
     ui->progress_send->setVisible(true);
+
     for (int i = 0; i < 100; i++)
     {
         QEventLoop loop;
@@ -593,13 +663,6 @@ void send_messege::on_button_send_messege_clicked()
     ui->lbl_progress->setVisible(false);
     ui->progress_send->setVisible(false);
     /* ------------------------------------------ */
-
-    QString code = now_using_rune_code;
-    QString algoritm = ui->lbl_algoritm_value->text();
-    if (algoritm[0] == 'R')
-    {
-        emit this->send_rsa_messege(code, e, n);
-    }
 
     int i;
     QString i_str = ui->edit_coordinate_i->text();
@@ -614,6 +677,15 @@ void send_messege::on_button_send_messege_clicked()
         j = -1;
     else
         j = ui->edit_coordinate_j->text().toInt();
+
+    QString code = now_using_rune_code;
+    QString algoritm = ui->lbl_algoritm_value->text();
+    if (flag_rsa_used)
+    {
+        emit this->send_rsa_messege(code, e, n, i, j);
+        //ui->lbl_algoritm_value->setText("");
+        return;
+    }
 
     QString p_key_str;
     p_key_str = ui->lbl_p_key_value->text();
@@ -783,7 +855,7 @@ void send_messege::on_button_crypt_rsa_clicked()
     for (int i = 0; i < 100; i++)
     {
         QEventLoop loop;
-        QTimer::singleShot(300, &loop, SLOT(quit()));       // Время 300
+        QTimer::singleShot(10, &loop, SLOT(quit()));       // Время 300
         loop.exec();
         loop.exit();
         ui->progress_send->setValue(i+1);
@@ -793,8 +865,8 @@ void send_messege::on_button_crypt_rsa_clicked()
     ui->progress_send->setVisible(false);
 
     vector <int> data = image_to_vector(Encrypted_image);
-    vector<int> crypt_data = crypt(data, e, n);
-    set_vector_at_image(Encrypted_image, crypt_data);
+    vector<int> crypt_data = crypt_rsa2(data, e, n);
+    Encrypted_image = set_vector_at_image(Encrypted_image, crypt_data);
 
     int lblwid = ui->img_changed->width();
     int lblhei = ui->img_changed->height();
@@ -803,14 +875,14 @@ void send_messege::on_button_crypt_rsa_clicked()
     ui->lbl_algoritm_value->setText("RSA");
 
     flag_new_image = false;
-    mc = 200;
+    flag_rsa_used = true;
 }
 
 void send_messege::decryp_rsa()
 {
     vector<int> data = image_to_vector(Encrypted_image);
-    vector<int> decrypted_data = decrypt(data, d, n);
-    set_vector_at_image(Encrypted_image, decrypted_data);
+    vector<int> decrypted_data = decrypt_rsa2(data, e, n);
+    Encrypted_image = set_vector_at_image(Encrypted_image, decrypted_data);
 
     int lblwid = ui->img_changed->width();
     int lblhei = ui->img_changed->height();
@@ -819,4 +891,6 @@ void send_messege::decryp_rsa()
     ui->lbl_algoritm_value->setText("");
 
     flag_new_image = true;
+    flag_rsa_used = false;
+    mc = 75;
 }

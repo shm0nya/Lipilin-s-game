@@ -43,14 +43,14 @@ void interception::add_new_messege(QImage img,
     msg.code = code;
     intercepted_messeges.push_back(msg);
 
-    QPB_modify pb;
-    pb.i = intercepted_messeges.size() - 1;
-    pb.setText("Msg from " + login_of_intercept + " №" + QString::number(pb.i));
-    connect(&pb, &QPushButton::clicked, [this, &pb](){
-        emit this->show_info_at_messege(pb.i);
+    QPB_modify *pb = new QPB_modify;
+    pb->i = intercepted_messeges.size() - 1;
+    pb->setText("Msg from " + login_of_intercept + " №" + QString::number(pb->i));
+    connect(pb, &QPushButton::clicked, [this, pb](){
+        emit this->show_info_at_messege(pb->i);
     });
 
-    lay->addWidget(&pb, pb.i, 0);
+    lay->addWidget(pb, pb->i, 0);
 }
 
 void interception::show_info_at_messege_on_index(int i)
@@ -112,4 +112,13 @@ void interception::set_rsa_info(QImage img, QString code)
     msg.algoritm = "RSA";
     msg.code = code;
     intercepted_messeges.push_back(msg);
+
+    QPB_modify *pb = new QPB_modify;
+    pb->i = intercepted_messeges.size() - 1;
+    pb->setText("Msg from " + login_of_intercept + " №" + QString::number(pb->i));
+    connect(pb, &QPushButton::clicked, [this, pb](){
+        emit this->show_info_at_messege(pb->i);
+    });
+
+    lay->addWidget(pb, pb->i, 0);
 }

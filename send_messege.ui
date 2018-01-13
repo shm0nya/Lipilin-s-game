@@ -60,13 +60,6 @@
       <item>
        <layout class="QHBoxLayout" name="componate_button_load">
         <item>
-         <widget class="QPushButton" name="button_load_img">
-          <property name="text">
-           <string>Загрузить</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="button_choose_img">
           <property name="text">
            <string>Выбрать</string>
@@ -77,6 +70,13 @@
          <widget class="QPushButton" name="button_make_img">
           <property name="text">
            <string>Создать</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_load_img">
+          <property name="text">
+           <string>Загрузить</string>
           </property>
          </widget>
         </item>
@@ -738,7 +738,7 @@
     <item>
      <widget class="QProgressBar" name="progress_send">
       <property name="value">
-       <number>24</number>
+       <number>0</number>
       </property>
       <property name="textVisible">
        <bool>false</bool>

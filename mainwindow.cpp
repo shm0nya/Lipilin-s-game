@@ -84,7 +84,8 @@ void MainWindow::playerwindow()
     connect(rsa_wnd, SIGNAL(from_rsa_to_home_wnd()), this, SLOT(back_from_rsa_wnd()));
     connect(rsa_wnd, SIGNAL(keys_was_generated(int,int,int)),this, SLOT(use_assimetry_crypto(int,int,int)));
 
-    connect(send_messege_wnd, SIGNAL(send_rsa_messege(QString,int,int)), this, SLOT(NET_send_rsa_img(QString,int,int)));
+    connect(send_messege_wnd, SIGNAL(send_rsa_messege(QString,int,int, int, int)),
+            this, SLOT(NET_send_rsa_img(QString,int,int, int, int)));
 
     if (root_address == "127.0.0.1")
         solo();
@@ -139,26 +140,25 @@ void MainWindow::show_ch_wnd()
 void MainWindow::create_pb(int i, int j)
 {
 
-    QPB_modify pb;
+    QPB_modify* pb = new QPB_modify;
     QSize button_size(50,50);
-    pb.setMaximumSize(button_size);
-    pb.setMinimumSize(button_size);
+    pb->setMaximumSize(button_size);
+    pb->setMinimumSize(button_size);
 
-    pb.setIcon(QIcon(":/images/question.png"));
+    pb->setIcon(QIcon(":/images/question.png"));
     QSize icon_size(40,40);
-    pb.setIconSize(icon_size);
+    pb->setIconSize(icon_size);
 
-    pb.rune_code = runes_code[i][j];
+    pb->rune_code = runes_code[i][j];
 
-    connect(&pb, &QPushButton::clicked, [this, &pb](){
-        if (pb.reverse_img.isNull())
+    connect(pb, &QPushButton::clicked, [this, pb](){
+        if (pb->reverse_img.isNull())
             QMessageBox::information(this,"Oops", "Я же говорил, что ничего не будет");
         else
-            emit choose_button_wnd->i_choose_img(pb.reverse_img, pb.i, pb.j, pb.rune_code);
+            emit choose_button_wnd->i_choose_img(pb->reverse_img, pb->i, pb->j, pb->rune_code);
     });
 
-    choose_button_wnd->set_button(&pb, i, j);
-
+    choose_button_wnd->set_button(pb, i, j);
 }
 
 void MainWindow::then_choosen_img(QImage img, int i, int j, QString code)
@@ -288,9 +288,11 @@ void MainWindow::NET_datagramm_analysis()
 
     case 'I':
         NET_add_intercepted_messege(data);
+        break;
 
     case 'R':
         NET_set_rsa_intercept_mess(data);
+        break;
     }
 }
 
@@ -746,12 +748,28 @@ void MainWindow::use_assimetry_crypto(int n,int e,int d)
     flag_assimetry_done = true;
 }
 
-void MainWindow::NET_send_rsa_img(QString code, int e, int d)
+void MainWindow::NET_send_rsa_img(QString code, int e, int n, int i, int j)
 {
+    if ((i<=0) || (j<=0) || (i > img_count_n) || (j > img_count_m))
+    {
+        QMessageBox::information(this, "error", "Неправильыне координаты");
+        return;
+    }
+
+    // В зависимости игра оффлайн или онлайн
+    bool verdict = code == runes_code[i-1][j-1];
+    if (root_address == "127.0.0.1")
+        send_messege_wnd->players_img_verdict(verdict);
+    else
+        send_messege_wnd->players_img_verdict(verdict);
+
+    if (verdict)
+        home_wnd->i_find_image_bf(i-1, j-1);
+
     QByteArray Data;
     Data.append("1R");
     QString message = "";
-    message = code + ' ' + QString::number(e) + ' ' + QString::number(d);
+    message = code + ' ' + QString::number(e) + ' ' + QString::number(n) + ' ';
     Data.append(message);
 
     for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
@@ -778,8 +796,9 @@ void MainWindow::NET_set_rsa_intercept_mess(QString data)
 
     QImage img2 = make_wnd->paint_picture_at_code(r, c);
     vector<int> data2 = image_to_vector(img2);
-    vector<int> crypt_data = crypt(data2, e, n);
-    set_vector_at_image(img2, crypt_data);
+    vector<int> crypt_data = crypt_rsa2(data2, e, n);
+    img2 = set_vector_at_image(img2, crypt_data);
 
     intercept_wnd->set_rsa_info(img2, kostill);
+    home_wnd->set_visibale_new_messege(true);
 }

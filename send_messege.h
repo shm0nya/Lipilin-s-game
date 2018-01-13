@@ -70,7 +70,7 @@ signals:
                                                                                      * в mainwindow сравнивается с исходным.
                                                                                      * Если нас прослушивают отправляет тому, кто прослушивает
                                                                                      */
-    void send_rsa_messege(QString code, int e, int n);
+    void send_rsa_messege(QString, int, int, int, int);
 
 
 private slots:
@@ -99,7 +99,7 @@ private:
     bool flag_new_image;                    /* В случае, когда пользователь составил алгоритм, загрузил изображение и жмет на кнопку P или S,
                                              * необходимо сбросить кнопку, дабы алгоритм не рос постоянно */
     int algoritme_size = 30;                // Максимльная длина алгоритма
-    QString now_using_rune_code = "";
+    QString now_using_rune_code = "0_0";
     int mc;
     bool flag_p_key_ex = false;             // Флаг, определяющий существет ли ключ (при перехвате сообщений)
     bool flag_s_key_ex = true;
@@ -107,6 +107,7 @@ private:
     QString temoalgor;
     int n, e, d;                  // Ключи RSA
     bool flag_rsa = false;
+    bool flag_rsa_used = false;
 
     void decryp_rsa();
 };

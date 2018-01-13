@@ -262,7 +262,7 @@ vector<int> image_to_vector(QImage img)
     return data;
 }
 
-void set_vector_at_image(QImage img, vector<int> data)
+QImage set_vector_at_image(QImage img, vector<int> data)
 {
     int pointer = 0;        // Указатель на элемент вектора
 
@@ -276,4 +276,28 @@ void set_vector_at_image(QImage img, vector<int> data)
             img.setPixel(i, j, pxl.rgb());
             pointer = pointer + 3;
         }
+
+    return img;
+}
+
+vector<int> crypt_rsa2(vector<int> data, int e, int n)
+{
+    srand(e*n);
+    for (int i = 0; i < (int)data.size(); i++)
+    {
+        data[i] = data[i]^(rand() % 256);
+    }
+
+    return data;
+}
+
+vector<int> decrypt_rsa2(vector<int> data, int e, int n)
+{
+    srand(e*n);
+    for (int i = 0; i < (int)data.size(); i++)
+    {
+        data[i] = data[i]^(rand() %256);
+    }
+
+    return data;
 }

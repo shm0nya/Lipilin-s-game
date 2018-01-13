@@ -37,6 +37,8 @@ vector <int> crypt(vector<int> s1, int e, int n);
 vector<int> decrypt (vector <int> crypted, int d, int n);
 
 vector <int> image_to_vector(QImage img);
-void set_vector_at_image(QImage img, vector<int> data);
+QImage set_vector_at_image(QImage img, vector<int> data);
 
+vector<int> crypt_rsa2(vector<int> data, int e, int n);
+vector<int> decrypt_rsa2(vector<int> data, int e, int n);
 #endif

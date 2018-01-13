@@ -287,7 +287,7 @@ private slots:
     void NET_send_info_for_player(QString address, QString &messeges, QString &codes);                                                                                         //
     void NET_add_intercepted_messege(QString data);                                                                                         //
 
-    void NET_send_rsa_img(QString code, int e, int d);
+    void NET_send_rsa_img(QString code, int e, int n, int i, int j);
     void NET_set_rsa_intercept_mess(QString data);
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
