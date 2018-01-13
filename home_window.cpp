@@ -82,22 +82,22 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
         vector<QPB_modify*> pb_vec;
         for (int j = 0; j < m; j++)
         {
-            QPB_modify *pb = new QPB_modify;
-            pb->reverse_img = cut[i][j];
-            pb->i = i;
-            pb->j = j;
-            pb->rune_code = codes[i][j];
-            pb->was_opening = false;
+            QPB_modify pb;
+            pb.reverse_img = cut[i][j];
+            pb.i = i;
+            pb.j = j;
+            pb.rune_code = codes[i][j];
+            pb.was_opening = false;
 
             QSize button_size(50,50);
-            pb->setMaximumSize(button_size);
-            pb->setMinimumSize(button_size);
+            pb.setMaximumSize(button_size);
+            pb.setMinimumSize(button_size);
 
-            pb->setIcon(QIcon(":/images/question.png"));
+            pb.setIcon(QIcon(":/images/question.png"));
             QSize icon_size(40,40);
-            pb->setIconSize(icon_size);
+            pb.setIconSize(icon_size);
 
-            connect(pb, &QPushButton::clicked, [this, pb]()
+            connect(&pb, &QPushButton::clicked, [this, &pb]()
             {
                 if (count_777 == 0)
                 {
@@ -106,17 +106,17 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
                 }
                 count_777--;
 
-                QPushButton *pb2 = new QPushButton;
-                pb2->setIcon(QPixmap::fromImage(pb->reverse_img));
-                pb2->setIconSize(pb->size());
-                pb2->setMaximumSize(pb->size());
-                emit i_opend(pb->reverse_img, pb->i, pb->j, pb->rune_code);
-                ui->componate_custom_buttons_img->addWidget(pb2, pb->i, pb->j);
+                QPushButton pb2;
+                pb2.setIcon(QPixmap::fromImage(pb.reverse_img));
+                pb2.setIconSize(pb.size());
+                pb2.setMaximumSize(pb.size());
+                emit i_opend(pb.reverse_img, pb.i, pb.j, pb.rune_code);
+                ui->componate_custom_buttons_img->addWidget(&pb2, pb.i, pb.j);
             });
 
-            emit do_it(pb->i, pb->j);
-            ui->componate_custom_buttons_img->addWidget(pb,i,j);
-            pb_vec.push_back(pb);
+            emit do_it(pb.i, pb.j);
+            ui->componate_custom_buttons_img->addWidget(&pb,i,j);
+            pb_vec.push_back(&pb);
         }
         icons.push_back(pb_vec);
     }
@@ -286,7 +286,7 @@ void home_window::rand_image(int c)
 
 void home_window::i_find_image_bf(int i, int j)
 {
-    QPB_modify *pb = icons[i][j];
+    QPB_modify *pb = icons[i][j];   // Не соображу как исправить
     count_777++; // Компенсация перехваченного сообщения
     emit pb->clicked();
 }

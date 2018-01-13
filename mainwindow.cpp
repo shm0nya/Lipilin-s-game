@@ -227,7 +227,7 @@ void MainWindow::new_rune_created_root(QImage img ,int i, int j, QString str, QS
         emit root_wnd->show_make_img_with_my_img(pb.reverse_img, pb.i, pb.j, pb.str);
     });
 
-    root_wnd->set_rune_at_GL(&pb, i, j);
+    root_wnd->set_rune_at_GL(pb, i, j);
 }
 
 void MainWindow::then_made_img(QImage img, QString code)
