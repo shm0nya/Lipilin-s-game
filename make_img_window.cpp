@@ -23,63 +23,63 @@ make_img_window::~make_img_window()
 
 void make_img_window::set_colors()
 {
-    QHBoxLayout hbox;
+    QHBoxLayout *hbox = new QHBoxLayout(this);
     int color_size = colors.size();
     for (int i = 0; i < color_size; i++)
     {
-        QPB_modify pb;
+        QPB_modify *pb = new QPB_modify;
         QImage temp(100, 100, QImage::Format_RGB32);
         temp.fill(QColor(colors[i]));
 
-        pb.j = i;
+        pb->j = i;
 
-        pb.setMaximumSize(50, 50);
-        pb.setMinimumSize(50, 50);
-        pb.setIcon(QIcon(QPixmap::fromImage(temp)));
-        pb.setIconSize(pb.size());
-        connect(&pb, &QPushButton::clicked, [this, &pb](){
+        pb->setMaximumSize(50, 50);
+        pb->setMinimumSize(50, 50);
+        pb->setIcon(QIcon(QPixmap::fromImage(temp)));
+        pb->setIconSize(pb->size());
+        connect(pb, &QPushButton::clicked, [this, pb](){
             if(!flag_img_choosen)
                 QMessageBox::information(this, "error", "Выберите изображение (справа), да там, еще можно двигать ползунок");
             else
             {
-                ic = pb.j;
-                QImage temp = paint_picture(ui->lbl_created_img->pixmap()->toImage(), colors[pb.j]);
+                ic = pb->j;
+                QImage temp = paint_picture(ui->lbl_created_img->pixmap()->toImage(), colors[pb->j]);
                 ui->lbl_created_img->setPixmap(QPixmap::fromImage(temp));
             }
         });
 
-        hbox.addWidget(&pb);
+        hbox->addWidget(pb);
     }
 
-    ui->scroll_color_content->setLayout(&hbox);
+    ui->scroll_color_content->setLayout(hbox);
 }
 
 void make_img_window::set_runes()
 {
-    QVBoxLayout vbox;
+    QVBoxLayout *vbox = new QVBoxLayout(this);
     int runes_size = runes.size();
     for (int i = 0; i < runes_size; i++)
     {
-        QPB_modify pb;
+        QPB_modify *pb = new QPB_modify;
 
-        pb.setMaximumSize(80, 80);
-        pb.setMinimumSize(80, 80);
-        pb.setIcon(QIcon(QPixmap::fromImage(runes[i])));
+        pb->setMaximumSize(80, 80);
+        pb->setMinimumSize(80, 80);
+        pb->setIcon(QIcon(QPixmap::fromImage(runes[i])));
 
-        pb.i = i;
+        pb->i = i;
 
-        pb.setIconSize(pb.size());
-        connect(&pb, &QPushButton::clicked, [this, &pb](){
-            ir = pb.i;
+        pb->setIconSize(pb->size());
+        connect(pb, &QPushButton::clicked, [this, pb](){
+            ir = pb->i;
             ic = -1;
             flag_img_choosen = true;
-            ui->lbl_created_img->setPixmap(QPixmap::fromImage(runes[pb.i]).scaled(ui->lbl_created_img->size()));
+            ui->lbl_created_img->setPixmap(QPixmap::fromImage(runes[pb->i]).scaled(ui->lbl_created_img->size()));
         });
 
-        vbox.addWidget(&pb);
+        vbox->addWidget(pb);
     }
 
-    ui->scroll_rune_content->setLayout(&vbox);
+    ui->scroll_rune_content->setLayout(vbox);
 }
 
 void make_img_window::on_button_cancel_clicked()

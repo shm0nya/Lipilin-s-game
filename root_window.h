@@ -29,7 +29,7 @@ public:
     void create_images();                               // Создает кнопки в окне
 
     void set_temp_rune(QImage img) {temp_rune = img;}   // Костыль. Ставит руну созданную в make_rune
-    void set_rune_at_GL(QPB_modify& pb, int i, int j);  // Установка руны в сетке рун, после её создания в mainwindow
+    void set_rune_at_GL(QPB_modify *pb, int i, int j);  // Установка руны в сетке рун, после её создания в mainwindow
     bool get_default_flag() {return flag_default;}      // Запрос флага (поумолчанию или нет?) - вдруг кто-то сам решит задать
     QString get_messege_at_position(int i, int j);      // Получение сообщения, соответствующего позиции в mainwindow
     QString get_rune_code_at_position(int i, int j);    // Передает руну на определенной позиции в mainwindow

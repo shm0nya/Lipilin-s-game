@@ -103,30 +103,30 @@ void root_window::create_images()
             int col = p_colors[(j + i*n)%colors_size];
             emit this->get_rune(let, col);
 
-            QPB_modify pb;
-            pb.i = i;
-            pb.j = j;
+            QPB_modify *pb = new QPB_modify;
+            pb->i = i;
+            pb->j = j;
             if (flag_default == true)
-                pb.str = messege[j + i*n];
+                pb->str = messege[j + i*n];
 
-            pb.reverse_img = temp_rune;
-            pb.rune_code = QString::number((j + i*n)%runes_size) + '_' + QString::number((j + i*n)%colors_size);
+            pb->reverse_img = temp_rune;
+            pb->rune_code = QString::number((j + i*n)%runes_size) + '_' + QString::number((j + i*n)%colors_size);
 
             QSize button_size(50,50);
-            pb.setMaximumSize(button_size);
-            pb.setMinimumSize(button_size);
+            pb->setMaximumSize(button_size);
+            pb->setMinimumSize(button_size);
 
-            pb.setIcon(QIcon(QPixmap::fromImage(temp_rune)));
-            QSize icon_size(pb.size());
-            pb.setIconSize(icon_size);
+            pb->setIcon(QIcon(QPixmap::fromImage(temp_rune)));
+            QSize icon_size(pb->size());
+            pb->setIconSize(icon_size);
 
-            connect(&pb, &QPushButton::clicked, [this, &pb](){
+            connect(pb, &QPushButton::clicked, [this, pb](){
                 // Предыдущая реализация
                 //emit this->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
-                QMessageBox::information(this, "", pb.str);
+                QMessageBox::information(this, "", pb->str);
             });
-            ui->componate_alphabet_buttons->addWidget(&pb, i, j);
-            temp_vec.push_back(&pb);
+            ui->componate_alphabet_buttons->addWidget(pb, i, j);
+            temp_vec.push_back(pb);
         }
         pb_runes.push_back(temp_vec);
     }
@@ -155,10 +155,10 @@ void root_window::on_button_start_clicked()
     emit this->start();
 }
 
-void root_window::set_rune_at_GL(QPB_modify &pb, int i, int j)
+void root_window::set_rune_at_GL(QPB_modify *pb, int i, int j)
 {
-    ui->componate_alphabet_buttons->addWidget(&pb, i, j);    // Не знаю, что за собой потянет
-    pb_runes[i][j] = &pb;
+    ui->componate_alphabet_buttons->addWidget(pb, i, j);
+    pb_runes[i][j] = pb;
 }
 
 QString root_window::get_rune_code_at_position(int i, int j)
