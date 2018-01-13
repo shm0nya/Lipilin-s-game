@@ -93,10 +93,10 @@ void root_window::create_images()
 {
     pb_runes.clear();
 
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < n; i++)
     {
         std::vector<QPB_modify*> temp_vec;
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < m; j++)
         {
             // задается руна, соответствующая букве, с определенным цветом
             int let = letters[messege[j + i*n]];
@@ -171,8 +171,8 @@ QString root_window::get_rune_code_at_position(int i, int j)
 QString root_window::get_messege_at_position(int i, int j)
 {
     int messege_size = messege.size();
-    if (messege_size > i*n +j)
-        return messege[i*n + j];
+    if (messege_size > i*m +j)
+        return messege[i*m + j];
     else
         return "";
 }
