@@ -10,6 +10,9 @@ interception::interception(QWidget *parent) :
     ui->scroll_inercept_content->setLayout(lay);
 
     connect(this, SIGNAL(show_info_at_messege(int)), this, SLOT(show_info_at_messege_on_index(int)) );
+
+    int level = 1;
+    ui->button_decrypt->setEnabled(level>=4);
 }
 
 interception::~interception()
@@ -144,4 +147,9 @@ void interception::on_button_decrypt_clicked()
     ui->image_intercept_dec->setPixmap(QPixmap::fromImage(msg.original_image).scaled(wid, hei));
 
     flag_decr = true;
+}
+
+void interception::up_level(int level)
+{
+    ui->button_decrypt->setEnabled(level>=4);
 }
