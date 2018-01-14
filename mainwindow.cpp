@@ -261,6 +261,7 @@ void MainWindow::NET_datagramm_analysis()
         //QMessageBox::information(this, "error", temp_data);
         send_messege_wnd->up_level(temp_data.toInt());
         home_wnd->set_lvl_label(temp_data);
+        home_wnd->up_level(temp_data.toInt());
     }
 
     char who = QCharRef(data[0]).toLatin1();

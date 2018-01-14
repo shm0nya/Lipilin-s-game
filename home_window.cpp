@@ -12,7 +12,7 @@ home_window::home_window(QString login, QWidget *parent) :
     ui->setupUi(this);
     connect(ui->button_send_messege,SIGNAL(clicked()),this, SIGNAL(change_wnd_to_swnd()));
 
-    int level=10; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
+    int level = 1;
     ui->button_overhear_messege->setEnabled(level>=2);
     ui->button_assimetry->setEnabled(level>=5);
 
@@ -301,4 +301,12 @@ void home_window::i_find_image_bf(int i, int j)
 void home_window::on_button_assimetry_clicked()
 {
     emit this->from_home_wnd_to_rsa_wnd();
+}
+
+void home_window::up_level(int level)
+{
+
+    ui->button_overhear_messege->setEnabled(level>=2);
+    ui->button_assimetry->setEnabled(level>=5);
+
 }

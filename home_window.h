@@ -55,6 +55,7 @@ public:
     void set_visibale_new_messege(bool vis);                            // Делает изображение с конвертом видимым и нет
     void i_find_image_bf(int i, int j);
     void set_lvl_label(QString lvl);
+    void up_level(int level);
 
 signals:
     void change_wnd_to_swnd();             /* Сигнал для переключения с home_window на send_messege */
