@@ -41,6 +41,8 @@ void MainWindow::rootwindow()
     connect(make_wnd, SIGNAL(root_make_new_img(QImage, int, int, QString, QString)), this, SLOT(new_rune_created_root(QImage, int, int, QString, QString)));
     connect(root_wnd, SIGNAL(start()), this, SLOT(NET_send_info_for_start()));
 
+    connect(root_wnd, SIGNAL(lvl_up()), this, SLOT(NET_send_lvl()));
+
     root_wnd->show();
     this->close();
 }
@@ -249,6 +251,16 @@ void MainWindow::NET_datagramm_analysis()
 
     socket->readDatagram(buffer.data(), buffer.size(),&sender, &senderPort);
     QString data(buffer);
+    QString temp_data = data;
+
+    if (temp_data.left(6) == "level:")
+    {
+        QString temp = "";
+        temp_data.replace(0, 6, temp);
+         //QMessageBox::information(this, "error", "Ключи RSA не сгенерироаны. Вернитесь в домашнее окно");
+        //QMessageBox::information(this, "error", temp_data);
+        send_messege_wnd->up_level(temp_data.toInt());
+    }
 
     char who = QCharRef(data[0]).toLatin1();
     char action = QCharRef(data[1]).toLatin1();
@@ -808,4 +820,21 @@ void MainWindow::NET_set_rsa_intercept_mess(QString data)
 
     intercept_wnd->set_rsa_info(img2, kostill);
     home_wnd->set_visibale_new_messege(true);
+}
+
+void MainWindow::NET_send_lvl()
+{
+   int new_level = root_wnd->level;
+   QString s = QString::number(new_level);
+    QMap<QString, QString>::iterator it;
+   for (it = user_list.begin(); it!=user_list.end(); it++)
+   {
+       QHostAddress temp_addres(it.key());
+
+       QByteArray Data;
+       Data.append("level:");
+       Data.append(s);
+       socket->writeDatagram(Data, temp_addres, 65201);
+   }
+
 }

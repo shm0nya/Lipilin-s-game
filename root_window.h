@@ -40,6 +40,7 @@ public:
     void add_new_player(QString login);                 // Добавляет нового пользователя в список на ui
     bool get_flag_game_on(){return flag_gamego_on;}     // Флаг, указывающий, игра началась или нет
     void delete_player(QString login);
+    int level = 1;
 
 private slots:
     void on_button_apply_clicked();                     // Изменение n, m рутом (пересчет сетки)
@@ -49,12 +50,14 @@ private slots:
     void on_button_start_clicked();                     // Старт игры
 
     void on_edit_text_editingFinished();
+    void Lvl_up_all();
 
 
 signals:
     void get_rune(int, int);                                    // Сигнал "дай мне руну" (шлется в make_img), там есть vector с рунами
     void show_make_img_with_my_img(QImage, int, int, QString);  // Смена окон
     void start();                                               // Старт игры
+    void lvl_up();
 
 private:
     Ui::root_window *ui;
@@ -89,6 +92,7 @@ private:
 
     void mix_message();
     void pad_message();
+
 };
 
 #endif // ROOT_WINDOW_H

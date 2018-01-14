@@ -284,6 +284,8 @@ private slots:
 
     void NET_send_rsa_img(QString code, int e, int n, int i, int j);
     void NET_set_rsa_intercept_mess(QString data);
+
+   void NET_send_lvl();
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:

@@ -16,6 +16,7 @@ root_window::root_window(QWidget *parent) :
     QRegExp reg("[А-Я]{0,70}");
     ui->edit_text->setValidator(new QRegExpValidator(reg, this));
 
+
     // Инициализация соответствия букв и рун (слева буквы, справа руны)
 
     letters["А"]=1;
@@ -52,6 +53,16 @@ root_window::root_window(QWidget *parent) :
     letters["Я"]=1;
 
     //create_images();
+
+    connect(ui->button_level_up, SIGNAL(clicked()), this, SLOT(Lvl_up_all()));
+}
+
+void root_window::Lvl_up_all()
+{
+    level++;
+    ui->level->setText(QString::number(level));
+    emit this->lvl_up();
+
 }
 
 root_window::~root_window()

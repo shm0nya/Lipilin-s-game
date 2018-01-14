@@ -35,6 +35,7 @@ public:
     void user_made_img(QImage img, QString code);
     void set_position_of_img(int i, int j); // Установка позици изображения (в choose_button используется через mainwindow)
     void players_img_verdict(bool verdict); // Проверка правильности изображения
+    void up_level(int level);
 
     void set_intercept_info(QImage img, QString code, int i, int j);
 

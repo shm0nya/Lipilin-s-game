@@ -20,21 +20,6 @@ send_messege::send_messege(QWidget *parent) :
 
     ui->lbl_algoritm_value->setText("");
 
-    int level=10; //СЛУЖЕБНАЯ, ЗАМЕНИТЬ НА НАСТОЯЩИЙ
-    ui->button_p_key_generate->setEnabled(level>=3);
-    ui->button_s_key_generate->setEnabled(level>=3);
-    ui->button_crypto_cansel->setEnabled(level>=3);
-    ui->button_algoritm_crypto->setEnabled(level>=3);
-    ui->button_algoritm_crypto_delete->setEnabled(level>=3);
-
-    ui->button_crypt_rsa->setEnabled(level>=5);
-
-    ui->button_load_img->setEnabled(level>=6);
-    ui->button_make_img->setEnabled(level>=6);
-
-    ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
-    ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
-
     /* Вот это примерно вставить в обработку уровня
      *
      * if (level==1)&&(он первый раз заходит в это окно)
@@ -56,6 +41,20 @@ send_messege::send_messege(QWidget *parent) :
 
     ui->lbl_progress->setVisible(false);
     ui->progress_send->setVisible(false);
+    int level = 1;
+    ui->button_p_key_generate->setEnabled(level>=3);
+    ui->button_s_key_generate->setEnabled(level>=3);
+    ui->button_crypto_cansel->setEnabled(level>=3);
+    ui->button_algoritm_crypto->setEnabled(level>=3);
+    ui->button_algoritm_crypto_delete->setEnabled(level>=3);
+
+    ui->button_crypt_rsa->setEnabled(level>=5);
+
+    ui->button_load_img->setEnabled(level>=6);
+    ui->button_make_img->setEnabled(level>=6);
+
+    ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
+    ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
 }
 
 send_messege::~send_messege()
@@ -780,4 +779,23 @@ void send_messege::decryp_rsa()
     flag_new_image = true;
     flag_rsa_used = false;
     mc = 75;
+}
+
+void send_messege::up_level(int level)
+{
+    //QMessageBox::information(this, "error", "Кffff");
+
+    ui->button_p_key_generate->setEnabled(level>=3);
+    ui->button_s_key_generate->setEnabled(level>=3);
+    ui->button_crypto_cansel->setEnabled(level>=3);
+    ui->button_algoritm_crypto->setEnabled(level>=3);
+    ui->button_algoritm_crypto_delete->setEnabled(level>=3);
+
+    ui->button_crypt_rsa->setEnabled(level>=5);
+
+    ui->button_load_img->setEnabled(level>=6);
+    ui->button_make_img->setEnabled(level>=6);
+
+    ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
+    ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
 }
