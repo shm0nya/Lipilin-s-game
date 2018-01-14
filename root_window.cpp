@@ -69,12 +69,23 @@ void root_window::on_button_apply_clicked()
 
     n = ui->edit_n->text().toInt();
     m = ui->edit_m->text().toInt();
-    flag_default = false;
+
+    if (n*m % 7 != 0)
+    {
+        QMessageBox::information(this, "Error", "n*m должно быть кратно 7");
+        return;
+    }
 
     if (ui->lbl_count_of_char_value->text().toInt()!= n*m)
     {
-        QMessageBox::information(this, "error", "Количество букв в тексте и рун не совпадает");
-        return;
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "error", "Количество букв в тексте и рун не совпадает или не кратно количеству"
+                                                     "цветов (7). Дополнить или обрезать текст?",
+                              QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+            pad_message();
+        else
+            return;
     }
 
     // Удаление элементов, при задании новых n, m
@@ -92,6 +103,7 @@ void root_window::on_button_apply_clicked()
 void root_window::create_images()
 {
     pb_runes.clear();
+    mix_message();
 
     for (int i = 0; i < n; i++)
     {
@@ -99,18 +111,17 @@ void root_window::create_images()
         for (int j = 0; j < m; j++)
         {
             // задается руна, соответствующая букве, с определенным цветом
-            int let = letters[messege[j + i*n]];
-            int col = p_colors[(j + i*n)%colors_size];
+            int let = letters[messege[j + i*m]];
+            int col = p_colors[(j + i*m)%colors_size];
             emit this->get_rune(let, col);
 
             QPB_modify *pb = new QPB_modify;
             pb->i = i;
             pb->j = j;
-            if (flag_default == true)
-                pb->str = messege[j + i*n];
+            pb->str = messege[j + i*m];
 
             pb->reverse_img = temp_rune;
-            pb->rune_code = QString::number((j + i*n)%runes_size) + '_' + QString::number((j + i*n)%colors_size);
+            pb->rune_code = QString::number((j + i*m)%runes_size) + '_' + QString::number((j + i*m)%colors_size);
 
             QSize button_size(50,50);
             pb->setMaximumSize(button_size);
@@ -134,19 +145,13 @@ void root_window::create_images()
 
 void root_window::on_button_default_clicked()
 {
-    n = 5;
-    m = 6;
-    flag_default = true;
+    n = 6;
+    m = 7;
     messege = default_text;
-    QString str = "";
-    int messege_size = messege.size();
-    for (int i = 0; i < messege_size; i++)
-        str = str + messege[i] + ' ';
-
     create_images();
 
-    ui->edit_m->setText("6");
-    ui->edit_n->setText("5");
+    ui->edit_m->setText(QString::number(m));
+    ui->edit_n->setText(QString::number(n));
 }
 
 void root_window::on_button_start_clicked()
@@ -200,7 +205,7 @@ void root_window::on_edit_text_editingFinished()
             QString str = "";
             str = str + text[i];
             messege.push_back(str);
-            new_text = new_text + str + ' ';
+            new_text = new_text + str;
         }
         i++;
     }
@@ -209,7 +214,6 @@ void root_window::on_edit_text_editingFinished()
     ui->lbl_count_of_char_value->setText(QString::number(count));
 }
 
-<<<<<<< HEAD
 void root_window::delete_player(QString login)
 {
     for (int i = 0; i < (int)ui->user_list->count(); i++)
@@ -222,10 +226,74 @@ void root_window::delete_player(QString login)
              break;
        }
     }
-=======
-void root_window::on_button_level_up_clicked()
+}
+
+void root_window::mix_message()
 {
-    //повышение уровня
-    //после рассылки игрокам уровня вывести его значение в level (lable)
->>>>>>> 18ecb4e796007bcd531d8a2a3eaff8f119a06142
+    vector<QString> new_mess;                       // Новый блок с сообщениями
+    int count = (int)messege.size() / colors_size;  // Количество полных блоков
+
+    for (int i = 0; i < count; i++)
+    {
+        /* Инициализация блока */
+        vector<QString> block;
+        for (int j = 0; j < colors_size; j++)
+            block.push_back(messege[i*colors_size + j]);
+
+        /* Перемешивание */
+        for (int j = 0; j < colors_size; j++)
+        {
+            QString tmp = block[p_colors[j]];
+            new_mess.push_back(tmp);
+        }
+    }
+
+    messege = new_mess;
+}
+
+void root_window::pad_message()
+{
+    int size = messege.size();
+    if (size < n*m)
+    {
+        while (size<n*m)
+            messege.pop_back();
+        return;
+    }
+
+    std::vector<QString> pad;
+    pad.resize(10);
+    pad[0] = "Я";
+    pad[1] = "ЯН";
+    pad[2] = "ЮЛЯ";
+    pad[3] = "СТАС";
+    pad[4] = "ШПИОН";
+    pad[5] = "КЛИЕНТ";
+    pad[6] = "КАРТИНА";
+    pad[7] = "ПОДДЕЛКА";
+    pad[8] = "СМЕШАРИКИ";
+    pad[9] = "ШИФРОВАНИЕ";
+
+    while(size!= n*m)
+    {
+        int new_word = 1 + rand()%pad.size();
+        if (size + new_word <= n*m)
+        {
+            size = size + new_word;
+            for (int i = 0; i < (int)pad[new_word-1].size(); i++)
+            {
+                QString str = "";
+                str = str + pad[new_word-1][i];
+                messege.push_back(str);
+            }
+        }
+    }
+
+    QString strt = "";
+    for (int i = 0; i < (int)messege.size(); i++)
+        strt = strt + messege[i];
+
+    ui->lbl_now_using_text->setText(strt);
+    ui->edit_text->setText(strt);
+    ui->lbl_count_of_char_value->setText(QString::number(messege.size()));
 }
