@@ -22,21 +22,6 @@ home_window::home_window(QString login, QWidget *parent) :
     ui->lbl_login_value->setText(login_name);
     ui->lbl_level_value->setText("1");
 
-    /* Пусть у нас есть переменная level, которая хранит уровень
-     * тогда
-     * ui->lbl_level_value->setText(level);
-     *
-     * if (level==1)&&(он первый раз заходит в это окно)
-     * {
-     *      QMessageBox::information(this,"1 уровень", "Самый простой способ получить часть сообщения от штаба - "
-     *                                                  "сыграть в рулетку. После выигрыша ты сможешь открыть часть сообщения или даже две. "
-     *                                                  "Когда ты получишь часть сообщения, тебе нужно отправить его обратно в штаб, "
-     *                                                  "чтобы он подтвердил правильность. Если ты не отправишь - штаб не зачтет тебе победу."
-     *                                                  "После того, как выиграешь в рулетку, нажми на один из вопросительных знаков. Тебе откроется часть сообщения. "
-     *                                                  "После этого нажми на кнопку Отправить сообщение."
-     *                                                  "Для перехода на 2 уровень тебе необходимо отправить в штаб одну часть сообщения.");
-     * }
-     */
     add_new_player(login_name);
 
     ui->lbl_new_intercepted_msg->setPixmap(QPixmap::fromImage(QImage(":/images/new_messege.png")).scaled(
@@ -164,15 +149,15 @@ void home_window::set_visibale_new_messege(bool vis)
 /* ------ */
 void home_window::on_automat_clicked()
 {
-    int luck = rand() % 10;
+    int luck = rand() % 100;
 
-    if (luck<7)
+    if (luck<90)
     {
         //3 случайные картинки, не совпадающие
         rand_image(1);
         QMessageBox::information(this,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
     }
-    else if (luck<9)
+    else if (luck<97)
     {
 
         //открыть 2 одинаковые
