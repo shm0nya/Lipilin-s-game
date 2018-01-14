@@ -750,6 +750,11 @@ void MainWindow::solo()
     }
 
     home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code);
+    send_messege_wnd->up_level(10);
+    home_wnd->set_lvl_label("10");
+    home_wnd->up_level(10);
+    intercept_wnd->up_level(10);
+
 }
 
 void MainWindow::show_rsa_wnd()
