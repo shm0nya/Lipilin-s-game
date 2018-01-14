@@ -64,7 +64,7 @@ void make_img_window::set_runes()
 
         pb->setMaximumSize(80, 80);
         pb->setMinimumSize(80, 80);
-        pb->setIcon(QIcon(QPixmap::fromImage(runes[i])));
+        pb->setIcon(QIcon(QPixmap::fromImage(QImage(runes[i]))));
 
         pb->i = i;
 
@@ -73,7 +73,7 @@ void make_img_window::set_runes()
             ir = pb->i;
             ic = -1;
             flag_img_choosen = true;
-            ui->lbl_created_img->setPixmap(QPixmap::fromImage(runes[pb->i]).scaled(ui->lbl_created_img->size()));
+            ui->lbl_created_img->setPixmap(QPixmap::fromImage(QImage(runes[pb->i])).scaled(ui->lbl_created_img->size()));
         });
 
         vbox->addWidget(pb);
@@ -140,7 +140,7 @@ void make_img_window::set_rune(QImage img, int i, int j, QString str)
 
  QImage make_img_window::paint_picture_at_code (int rune_ind, int color_ind)
  {
-     QImage r = runes[rune_ind];
+     QImage r = QImage(runes[rune_ind]);
      QRgb c = colors[color_ind];
      return paint_picture(r, c);
  }

@@ -33,7 +33,7 @@ public:
     void set_colors(); /* Ставит pushbuttons с икноками всех возможных цветов (vector<QRGB> colors) */
     void set_runes();  /* Ставит pushbuttons с икноками всех возможных рун (vector<QImage> runes)   */
 
-    QImage get_rune(int i) {return runes[i%runes.size()];}  //
+    QImage get_rune(int i) {return QImage(runes[i%runes.size()]);}  //
     QRgb get_color(int i) {return colors[i%colors.size()];} //
     QImage paint_picture (QImage data, QRgb color);         // Окрашивает руну из data в цвет color
     QImage paint_picture_at_code (int rune_ind, int color_ind); // Окрашивает руну из data в цвет color
@@ -74,26 +74,26 @@ private:
     };
 
     // Хранилище рун
-    std::vector<QImage> runes =
+    std::vector<QString> runes =
     {
-        QImage(":/runes/a.png"),
-        QImage(":/runes/b.png"),
-        QImage(":/runes/c.png"),
-        QImage(":/runes/ch.png"),
-        QImage(":/runes/d.png"),
-        QImage(":/runes/e.png"),
-        QImage(":/runes/h.png"),
-        QImage(":/runes/i.png"),
-        QImage(":/runes/k.png"),
-        QImage(":/runes/l.png"),
-        QImage(":/runes/m.png"),
-        QImage(":/runes/n.png"),
-        QImage(":/runes/o.png"),
-        QImage(":/runes/p.png"),
-        QImage(":/runes/r.png"),
-        QImage(":/runes/t.png"),
-        QImage(":/runes/u.png"),
-        QImage(":/runes/v.png"),
+        ":/runes/a.png",
+        ":/runes/b.png",
+        ":/runes/c.png",
+        ":/runes/ch.png",
+        ":/runes/d.png",
+        ":/runes/e.png",
+        ":/runes/h.png",
+        ":/runes/i.png",
+        ":/runes/k.png",
+        ":/runes/l.png",
+        ":/runes/m.png",
+        ":/runes/n.png",
+        ":/runes/o.png",
+        ":/runes/p.png",
+        ":/runes/r.png",
+        ":/runes/t.png",
+        ":/runes/u.png",
+        ":/runes/v.png",
     };
 
     int root_i; // Координата i, для рута
