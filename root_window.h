@@ -49,6 +49,8 @@ private slots:
 
     void on_edit_text_editingFinished();
 
+    void on_button_level_up_clicked();
+
 signals:
     void get_rune(int, int);                                    // Сигнал "дай мне руну" (шлется в make_img), там есть vector с рунами
     void show_make_img_with_my_img(QImage, int, int, QString);  // Смена окон
