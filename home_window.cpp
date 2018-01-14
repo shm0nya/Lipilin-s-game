@@ -20,7 +20,7 @@ home_window::home_window(QString login, QWidget *parent) :
 
     login_name = login;
     ui->lbl_login_value->setText(login_name);
-    ui->lbl_level_value->setText("FiRsT Leeeeevel!!!!!!");
+    ui->lbl_level_value->setText("1");
 
     /* Пусть у нас есть переменная level, которая хранит уровень
      * тогда
@@ -47,6 +47,11 @@ home_window::home_window(QString login, QWidget *parent) :
 home_window::~home_window()
 {
     delete ui;
+}
+
+void home_window:: set_lvl_label(QString lvl)
+{
+    ui->lbl_level_value->setText(lvl);
 }
 
 vector <vector<QImage>> cut_image(QImage &image, int n, int m)
