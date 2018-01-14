@@ -153,6 +153,7 @@ void root_window::on_button_start_clicked()
 {
     flag_gamego_on = true;
     emit this->start();
+    QMessageBox::information(this,"Старт", "Игра началась.");
 }
 
 void root_window::set_rune_at_GL(QPB_modify *pb, int i, int j)
@@ -208,6 +209,7 @@ void root_window::on_edit_text_editingFinished()
     ui->lbl_count_of_char_value->setText(QString::number(count));
 }
 
+<<<<<<< HEAD
 void root_window::delete_player(QString login)
 {
     for (int i = 0; i < (int)ui->user_list->count(); i++)
@@ -220,4 +222,10 @@ void root_window::delete_player(QString login)
              break;
        }
     }
+=======
+void root_window::on_button_level_up_clicked()
+{
+    //повышение уровня
+    //после рассылки игрокам уровня вывести его значение в level (lable)
+>>>>>>> 18ecb4e796007bcd531d8a2a3eaff8f119a06142
 }
