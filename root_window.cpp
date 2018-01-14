@@ -227,7 +227,6 @@ void root_window::delete_player(QString login)
        }
     }
 }
-<<<<<<< HEAD
 
 void root_window::mix_message()
 {
@@ -302,6 +301,4 @@ void root_window::on_button_level_up_clicked()
 {
     //повышение уровня
     //после рассылки игрокам уровня вывести его значение в level (lable)
-
->>>>>>> 2d472b81e2f7edb1d70bd114cb71d83e2e6274b7
 }
