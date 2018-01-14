@@ -39,6 +39,7 @@ public:
 
     void add_new_player(QString login);                 // Добавляет нового пользователя в список на ui
     bool get_flag_game_on(){return flag_gamego_on;}     // Флаг, указывающий, игра началась или нет
+    void delete_player(QString login);
 
 private slots:
     void on_button_apply_clicked();                     // Изменение n, m рутом (пересчет сетки)

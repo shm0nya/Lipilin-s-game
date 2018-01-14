@@ -207,3 +207,17 @@ void root_window::on_edit_text_editingFinished()
     ui->lbl_now_using_text->setText(new_text);
     ui->lbl_count_of_char_value->setText(QString::number(count));
 }
+
+void root_window::delete_player(QString login)
+{
+    for (int i = 0; i < (int)ui->user_list->count(); i++)
+    {
+       QString txt = ui->user_list->takeItem(i)->text();
+       if (txt == login)
+       {
+             QListWidgetItem *it = ui->user_list->item(i);
+             delete it;
+             break;
+       }
+    }
+}

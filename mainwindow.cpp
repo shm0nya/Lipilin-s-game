@@ -47,6 +47,13 @@ void MainWindow::rootwindow()
 
 void MainWindow::playerwindow()
 {
+    QMessageBox::information(this,"Правила", "Позволь объяснить тебе смысл игры. "
+                                             "Ты - агент, которому нужно стать лучшим среди всех. "
+                                             "Штаб послал всем агентам сообщение, в котором закодирована важная информация."
+                                             "Твоя задача - как можно быстрее восстановить сообщение штаба. "
+                                             "Но помни - ты здесь не один. Другие агенты тоже хотят победить. "
+                                             "И путь к победе не всегда бывает честным...");
+
     QString name_login = ui->login_edit->text();
 
     home_wnd = new home_window(name_login);
@@ -105,12 +112,6 @@ void MainWindow::on_Login_button_clicked()
         rootwindow();
     else
     {
-        QMessageBox::information(this,"Правила", "Позволь объяснить тебе смысл игры. "
-                                                 "Ты - агент, которому нужно стать лучшим среди всех. "
-                                                 "Штаб послал всем агентам сообщение, в котором закодирована важная информация."
-                                                 "Твоя задача - как можно быстрее восстановить сообщение штаба. "
-                                                 "Но помни - ты здесь не один. Другие агенты тоже хотят победить. "
-                                                 "И путь к победе не всегда бывает честным...");
         QByteArray data;
         data.append("0r");
         data.append(ui->login_edit->text());
@@ -302,6 +303,12 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     QMap<QString, QString>::iterator it;
     QString verdict = "true";
 
+    if (user_list[sender.toString()] != "")
+    {
+        root_wnd->delete_player(user_list[sender.toString()]);
+        user_list[sender.toString()] = "";
+    }
+
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
         if (it.value() == login)
@@ -319,12 +326,13 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     Data.append(verdict);
     socket->writeDatagram(Data, sender, 65201);
 
+    if (verdict == "false")
+        return;
+
     /* В случае, если уникальный, занесение в БД и оповещение других пользователей */
-    if (verdict == "true")
-    {
-        NET_a_new_player_come(login, sender.toString());
-        user_list[sender.toString()] = login;
-    }
+
+    NET_a_new_player_come(login, sender.toString());
+    user_list[sender.toString()] = login;
 
     if (flag_is_it_root)
     {
@@ -349,6 +357,9 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
+        if (it.value() == "")
+            continue;
+
         users = users + it.value() + ' ';
 
         QHostAddress temp_addres(it.key());
