@@ -254,7 +254,7 @@ void root_window::mix_message()
 void root_window::pad_message()
 {
     int size = messege.size();
-    if (size < n*m)
+    if (size > n*m)
     {
         while (size<n*m)
             messege.pop_back();
@@ -296,9 +296,5 @@ void root_window::pad_message()
     ui->lbl_now_using_text->setText(strt);
     ui->edit_text->setText(strt);
     ui->lbl_count_of_char_value->setText(QString::number(messege.size()));
-=======
-void root_window::on_button_level_up_clicked()
-{
-    //повышение уровня
-    //после рассылки игрокам уровня вывести его значение в level (lable)
 }
+
