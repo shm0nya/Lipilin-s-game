@@ -63,7 +63,7 @@ void root_window::Lvl_up_all()
 {
     if (level==max_level)
     {
-        ui->level->setText(QString::number(level) + "Это максимальный уровень");
+        ui->level->setText(QString::number(level) + " Это максимальный уровень");
         return;
     }
 
@@ -77,7 +77,7 @@ void root_window::Lvl_down_all()
 {
     if (level==1)
     {
-        ui->level->setText(QString::number(level) + "Это минимальный уровень");
+        ui->level->setText(QString::number(level) + " Это минимальный уровень");
         return;
     }
 

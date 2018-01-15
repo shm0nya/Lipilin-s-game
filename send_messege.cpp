@@ -50,7 +50,7 @@ send_messege::send_messege(QWidget *parent) :
 
     ui->button_crypt_rsa->setEnabled(level>=5);
 
-    ui->button_load_img->setEnabled(level>=6);
+    //ui->button_load_img->setEnabled(level>=6);
     ui->button_make_img->setEnabled(level>=6);
 
     ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
@@ -802,8 +802,9 @@ void send_messege::up_level(int level)
 
     ui->button_crypt_rsa->setEnabled(level>=8);
 
-    ui->button_load_img->setEnabled(level>=6);
-    ui->button_make_img->setEnabled(level>=6);
+    ui->button_choose_img->setEnabled(level>=1);
+
+    ui->button_make_img->setEnabled(level>=3);
 
     ui->button_crypto_p->setEnabled(((level==3)||(level>=5))&&(!p_key.empty()));
     ui->button_crypto_s->setEnabled((level>=4)&&(!s_key.empty()));

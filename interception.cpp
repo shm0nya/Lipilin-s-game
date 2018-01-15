@@ -176,5 +176,5 @@ void interception::on_button_decrypt_clicked()
 
 void interception::up_level(int level)
 {
-    ui->button_decrypt->setEnabled(level>=4);
+    ui->button_decrypt->setEnabled(level>=6);
 }
