@@ -180,16 +180,34 @@ long long int prostoe_chislo(long long int max)
 
 long long int take_d(long long int e, long long int phi)
 {
-    long long int d = 3;
-    while (1)
+    long long int d_simple = 3;
+    int d = 0;
+    while (d_simple !=1)
     {
-        if ((e*d) % (phi) == 1)
-        {
-            break;
-        }
-        d++;
+        d = rand();
+        d_simple = (e*d) % phi;
     }
+
     return d;
+}
+
+long long int take_e(long long int phi)
+{
+    int e = 0;
+    int e_simple = 0;
+    while (e_simple !=1)
+    {
+        e = rand()%phi;
+        e_simple = gcd (e, phi);
+    }
+
+    return e;
+}
+
+int gcd(int a,int b)
+{
+    if (b==0) return a;
+    else return gcd(b,a%b);
 }
 
 bool prostoe(long long int n)

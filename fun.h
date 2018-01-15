@@ -32,6 +32,8 @@ vector<QRgb> sblok_like_vigener_reverse(vector<QRgb> &data, vector<vector<int>> 
 /* assimetry from Stas */
 long long int prostoe_chislo(long long int max);
 long long int take_d(long long int e, long long int phi);
+long long int take_e(long long int phi);
+int gcd(int a,int b);
 bool prostoe(long long int n);
 vector <int> crypt(vector<int> s1, int e, int n);
 vector<int> decrypt (vector <int> crypted, int d, int n);

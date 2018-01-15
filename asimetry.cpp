@@ -9,7 +9,6 @@ asimetry::asimetry(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->progress_bar_exchange->setVisible(false);
-
 }
 
 asimetry::~asimetry()
@@ -26,7 +25,7 @@ void asimetry::on_button_generate_clicked()
 
     n = p*q;
     long long int phi = (p - 1)*(q - 1);
-    e = (int)prostoe_chislo(phi);
+    e = (int)take_e(phi);
     d = (int)take_d(e, phi);
 
     QString s = QString::number(p);
