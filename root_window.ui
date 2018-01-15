@@ -287,18 +287,18 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="gridLayoutWidget_2">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>431</x>
      <y>190</y>
-     <width>160</width>
-     <height>80</height>
+     <width>251</width>
+     <height>55</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="componate_lvl_info">
+    <item>
+     <layout class="QHBoxLayout" name="componate_lvl_show">
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
@@ -313,14 +313,44 @@
         </property>
        </widget>
       </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
-    <item row="1" column="0">
-     <widget class="QPushButton" name="button_level_up">
-      <property name="text">
-       <string>Повысить уровень</string>
-      </property>
-     </widget>
+    <item>
+     <layout class="QHBoxLayout" name="componate_up_lvl_butt">
+      <item>
+       <widget class="QPushButton" name="button_level_up">
+        <property name="text">
+         <string>Повысить уровень</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

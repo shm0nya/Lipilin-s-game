@@ -616,7 +616,12 @@ void send_messege::on_button_send_messege_clicked()
         j = ui->edit_coordinate_j->text().toInt();
 
     QString code = now_using_rune_code;
-    QString algoritm = ui->lbl_algoritm_value->text();
+    QString algoritm;
+    if (flag_new_image)
+        algoritm = "";
+    else
+        algoritm = ui->lbl_algoritm_value->text();
+
     if (flag_rsa_used)
     {
         emit this->send_rsa_messege(code, e, n, i, j);
@@ -670,6 +675,10 @@ void send_messege::set_intercept_info(QImage img, QString code, int i, int j)
     int widch = ui->img_changed->width();
     int heich = ui->img_changed->height();
     ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image.scaled(widch,heich)));
+
+    int wid = ui->img_original->width();
+    int hei = ui->img_original->height();
+    ui->img_original->setPixmap((QPixmap::fromImage(Loaded_image.scaled(wid,hei))));
 
     now_using_rune_code = code;
     this->set_position_of_img(i-1, j-1);

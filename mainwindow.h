@@ -296,8 +296,8 @@ private:
     vector<vector<QImage>> source_img;        // Исходные изображения, которые прислыает root
     vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
     vector<vector<QString>> runes_code;       // Коды source image
-    int img_count_n = 5;                      // Дефолтное значение
-    int img_count_m = 5;                      // Дефолтное значение
+    int img_count_n;                          // Дефолтное значение
+    int img_count_m;                          // Дефолтное значение
     QVector <QString> me_overhere_addres_list;// Список людей, которые меня прослушивают
     QString i_overhear_login = "";            // Логин того, кого я подслушиваю
 

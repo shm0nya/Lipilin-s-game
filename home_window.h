@@ -39,7 +39,8 @@ public:
     explicit home_window(QString str_login, QWidget *parent = 0);
     ~home_window();
     void create_img_buttons(vector<vector<QImage>> &cut, int n, int m,
-                            vector<vector<QString>> codes);             /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
+                            vector<vector<QString>>& codes,
+                            vector<vector<QString>> mess);             /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
                                                                          * каждая кнопка по клику на неё вызывает сигнал home_window::i_opend(QImage, int, int)
                                                                          * После генерации каждой кнопки шлет сигнал home_window::do_it() в Main_window
                                                                          * для того, чтобы создать идентичную кнопку в окне choose_button
@@ -56,6 +57,8 @@ public:
     void i_find_image_bf(int i, int j);
     void set_lvl_label(QString lvl);
     void up_level(int level);
+    void set_button_was_sending(int i, int j);
+    void set_flag_offline(bool t){flag_offline = t;}
 
 signals:
     void change_wnd_to_swnd();             /* Сигнал для переключения с home_window на send_messege */
@@ -93,6 +96,7 @@ private:
     vector<QString> players;
     vector <vector<QPB_modify *>> icons;
     int count_777 = 0;
+    bool flag_offline = false;
 
     std::vector<QImage> runes =
     {

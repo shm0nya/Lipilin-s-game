@@ -59,6 +59,12 @@ root_window::root_window(QWidget *parent) :
 
 void root_window::Lvl_up_all()
 {
+    if (level==max_level)
+    {
+        ui->level->setText(QString::number(level) + "Это максимальный уровень");
+        return;
+    }
+
     level++;
     ui->level->setText(QString::number(level));
     emit this->lvl_up();
@@ -132,7 +138,7 @@ void root_window::create_images()
             pb->str = messege[j + i*m];
 
             pb->reverse_img = temp_rune;
-            pb->rune_code = QString::number((j + i*m)%runes_size) + '_' + QString::number((j + i*m)%colors_size);
+            pb->rune_code = QString::number(let) + '_' + QString::number(col);
 
             QSize button_size(50,50);
             pb->setMaximumSize(button_size);

@@ -102,6 +102,7 @@ private:
     int n, e, d;                  // Ключи RSA
     bool flag_rsa = false;
     bool flag_rsa_used = false;
+    bool flag_was_crypted = false;
 
     void decryp_rsa();
 };

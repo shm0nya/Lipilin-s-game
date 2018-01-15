@@ -287,7 +287,7 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 'g':
-        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code);
+        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege);
         break;
 
     case 'i':
@@ -423,17 +423,9 @@ void MainWindow::NET_send_info_for_start()
         for (int j = 0; j < m; j++)
             img_code = img_code + root_wnd->get_rune_code_at_position(i, j) + ' ';
 
-    if (messeges.size() + img_code.size() > 65000)
-    {
-        QMessageBox::information(this, "error" ,"Слишком большие кодовые слова");
-        return;
-    }
-
     /* Шлем данные */
     for (it = user_list.begin(); it!=user_list.end(); it++)
-    {
         NET_send_info_for_player(it.key(), messeges, img_code);
-    }
 
     /* Посылаем сигнал старта игры */
     for (it = user_list.begin(); it!=user_list.end(); it++)
@@ -553,7 +545,10 @@ void MainWindow::test_player_image(QString code, QString p_key, int p_key_size, 
         send_messege_wnd->players_img_verdict(verdict);
 
     if (verdict)
+    {
         home_wnd->i_find_image_bf(i-1, j-1);
+        home_wnd->set_button_was_sending(i-1, j-1);
+    }
 
     for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
         NET_send_intercepted_messege_for_player(me_overhere_addres_list[k],
@@ -732,6 +727,8 @@ void MainWindow::send_messege_wnd_on_intercept_value(QImage img, QString code, i
 
 void MainWindow::solo()
 {
+    img_count_n = 5;                          // Дефолтное значение
+    img_count_m = 5;
     for (int i = 0; i < 16; i++)
     {
         vector <QString> temp_vec;
@@ -746,14 +743,26 @@ void MainWindow::solo()
         }
         source_img.push_back(images);
         runes_code.push_back(temp_vec);
-        code_messege.push_back(temp_vec);
     }
 
-    home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code);
+    for (int i = 0; i < img_count_n; i++)
+    {
+        vector<QString> tmp;
+        for (int j = 0; j < img_count_m; j++)
+        {
+            QString str = QString::number(i*img_count_m + j);
+            tmp.push_back(str);
+        }
+        code_messege.push_back(tmp);
+    }
+
+
+    home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege);
     send_messege_wnd->up_level(10);
     home_wnd->set_lvl_label("10");
     home_wnd->up_level(10);
     intercept_wnd->up_level(10);
+    home_wnd->set_flag_offline(true);
 
 }
 
