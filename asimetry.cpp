@@ -9,6 +9,7 @@ asimetry::asimetry(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->progress_bar_exchange->setVisible(false);
+
 }
 
 asimetry::~asimetry()

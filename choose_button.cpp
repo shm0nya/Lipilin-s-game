@@ -5,6 +5,7 @@ choose_button::choose_button(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::choose_button)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
 }
 

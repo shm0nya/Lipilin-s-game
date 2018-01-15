@@ -2,5 +2,5 @@
 
 QPB_modify::QPB_modify(QPushButton *parent) : QPushButton(parent)
 {
-    //QImage reverse_img = ("");
+    setAttribute(Qt::WA_DeleteOnClose);
 }
