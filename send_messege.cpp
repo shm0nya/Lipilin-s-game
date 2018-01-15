@@ -20,14 +20,6 @@ send_messege::send_messege(QWidget *parent) :
 
     ui->lbl_algoritm_value->setText("");
 
-    /* Вот это примерно вставить в обработку уровня
-     *
-     * if (level==1)&&(он первый раз заходит в это окно)
-     * {
-     *      QMessageBox::information(this,"1 уровень", "Для отправки части сообщения в штаб нажми на кнопку Выбрать и выбери открытое изображение. "
-     *                                                  "После выбора нажми кнопку Отправить сообщение и ожидай подтверждения штаба.);
-     * }
-    */
     QRegExp is_value_variable("[a-zA-Z0-9а-яА-Я]{1,20}");
     ui->p_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
     ui->s_key_edit->setValidator(new QRegExpValidator(is_value_variable, this));
@@ -55,6 +47,10 @@ send_messege::send_messege(QWidget *parent) :
 
     ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
     ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
+
+    /* Кнопка загрузить изображение */
+    ui->button_load_img->setVisible(false);
+    ui->button_load_img->setEnabled(false);
 }
 
 send_messege::~send_messege()
@@ -341,9 +337,10 @@ void send_messege::on_button_algoritm_crypto_clicked()
     QString algoritme = ui->lbl_algoritm_value->text();
     if (algoritme == "RSA")
     {
-        emit this->on_button_crypt_rsa_clicked();
+        ui->button_cancel_rsa->clicked();
         return;
     }
+
     flag_new_image = false;
 
     int algoritm_size = algoritme.size();
@@ -377,7 +374,7 @@ void send_messege::on_button_crypto_cansel_clicked()
 
     if (algoritme == "RSA")
     {
-        decryp_rsa();
+        QMessageBox::information(this, "oops", "Не применялись операции шифрования P и S");
         return;
     }
 
@@ -773,23 +770,6 @@ void send_messege::on_button_crypt_rsa_clicked()
     flag_rsa_used = true;
 }
 
-void send_messege::decryp_rsa()
-{
-    vector<int> data = image_to_vector(Encrypted_image);
-    vector<int> decrypted_data = decrypt_rsa2(data, e, n);
-    Encrypted_image = set_vector_at_image(Encrypted_image, decrypted_data);
-
-    int lblwid = ui->img_changed->width();
-    int lblhei = ui->img_changed->height();
-    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
-
-    ui->lbl_algoritm_value->setText("");
-
-    flag_new_image = true;
-    flag_rsa_used = false;
-    mc = 75;
-}
-
 void send_messege::up_level(int level)
 {
     //QMessageBox::information(this, "error", "Кffff");
@@ -807,4 +787,21 @@ void send_messege::up_level(int level)
 
     ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
     ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
+}
+
+void send_messege::on_button_cancel_rsa_clicked()
+{
+    vector<int> data = image_to_vector(Encrypted_image);
+    vector<int> decrypted_data = decrypt_rsa2(data, e, n);
+    Encrypted_image = set_vector_at_image(Encrypted_image, decrypted_data);
+
+    int lblwid = ui->img_changed->width();
+    int lblhei = ui->img_changed->height();
+    ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+
+    ui->lbl_algoritm_value->setText("");
+
+    flag_new_image = true;
+    flag_rsa_used = false;
+    mc = 75;
 }

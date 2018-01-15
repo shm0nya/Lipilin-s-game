@@ -82,8 +82,8 @@ private slots:
     void on_button_algoritm_crypto_delete_clicked(); /* Сбрасыывает алгоритм (подробнее см в send_messege.cpp) */
     void on_button_send_messege_clicked();
     void on_button_back_clicked();
-
     void on_button_crypt_rsa_clicked();
+    void on_button_cancel_rsa_clicked();
 
 private:
     Ui::send_messege *ui;
@@ -103,8 +103,6 @@ private:
     bool flag_rsa = false;
     bool flag_rsa_used = false;
     bool flag_was_crypted = false;
-
-    void decryp_rsa();
 };
 
 QImage encrypt_image_p(QImage encrypted_image, std::vector<int> pb_key); /* Принимает QImage - изображение, которое надо шифровать,
