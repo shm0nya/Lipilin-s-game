@@ -129,7 +129,6 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
             pb_vec.push_back(pb);
         }
         icons.push_back(pb_vec);
-
     }
 }
 
@@ -301,10 +300,10 @@ void home_window::rand_image(int c)
 
 void home_window::i_find_image_bf(int i, int j)
 {
-
+    QPB_modify *pb = icons[i][j];
     count_777++; // Компенсация перехваченного сообщения
-    if (icons[i][j]->was_opening == false)
-        emit icons[i][j]->clicked();
+    if (pb->was_opening == false)
+        emit pb->clicked();
 }
 
 /* ------ */
@@ -323,8 +322,10 @@ void home_window::up_level(int level)
 
 void home_window::set_button_was_sending(int i, int j)
 {
-   icons[i][j]->was_sending = true;
+   QPB_modify* pb = icons[i][j];
+   pb->was_sending = true;
 
-   ui->componate_custom_buttons_img->addWidget(icons[i][j], icons[i][j]->i, icons[i][j]->j);
+   ui->componate_custom_buttons_img->addWidget(pb, pb->i, pb->j);
 
+   icons[pb->i][pb->j] = pb;
 }
