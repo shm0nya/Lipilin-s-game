@@ -72,7 +72,6 @@ signals:
 
 
 private slots:
-    void on_button_load_img_clicked(); /* Позволяет пользователю загрузить своё изображение (подробнее см в send_messege.cpp) */
     void on_button_p_key_generate_clicked();/* Генерирует ключ P (подробнее см в send_messege.cpp) */
     void on_button_s_key_generate_clicked();/* Генерирует ключ S (подробнее см в send_messege.cpp) */
     void on_button_crypto_p_clicked();/* Шифрует P (подробнее см в send_messege.cpp) */

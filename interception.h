@@ -7,6 +7,7 @@
 #include <QMessageBox>
 
 #include "qpb_modify.h"
+#include "fun.h"
 
 struct inter_messege
 {
@@ -67,6 +68,7 @@ private:
     QString login_of_intercept;
     bool flag_now_using_message = false;
     bool flag_decr = false;
+    bool flag_good_decr;
     int index_message;                                  // Какое сейчас используется перехваченное сообщение
 };
 

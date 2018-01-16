@@ -538,6 +538,12 @@ void MainWindow::test_player_image(QString code, QString p_key, int p_key_size, 
     }
 
     // В зависимости игра оффлайн или онлайн
+    if ((i-1>= (int)runes_code.size()) || ((j-1) >=(int)runes_code[0].size()))
+    {
+        QMessageBox::information(this, "errr", "Не могу распознать изображение");
+        return;
+    }
+
     bool verdict = code == runes_code[i-1][j-1];
     if (root_address == "127.0.0.1")
         send_messege_wnd->players_img_verdict(verdict);

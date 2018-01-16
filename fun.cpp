@@ -319,3 +319,109 @@ vector<int> decrypt_rsa2(vector<int> data, int e, int n)
 
     return data;
 }
+
+QImage encrypt_image_p(QImage encrypted_image, vector<int> pb_key)
+{
+    // Инициируются переменные для удобства использования
+    int wid = encrypted_image.width();
+    int hei = encrypted_image.height();
+    int p_size = pb_key.size();
+
+    for (int i = 0; i < hei*wid;)
+    {
+
+        // Считывание и шифрование
+        vector<QRgb> temp;
+        for (int j=0; j<p_size; j++)
+        {
+            QRgb t;
+            t=encrypted_image.pixel(i%wid, i/wid);
+            temp.push_back(t);
+            i++;
+        }
+
+        // Шифрование и запись зашифрованных пикселей
+        int temp_size = temp.size();
+        if (temp_size==p_size)
+        {
+            temp = pblok_use(temp, pb_key);
+            for (int j = 0; j<p_size;j++)
+            {
+                int k=i-p_size+j;
+                encrypted_image.setPixel(k%wid, k/wid, temp[j]);
+            }
+        }
+    }
+    return encrypted_image;
+}
+
+QImage encrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
+{
+    // Существует out of range of image Хз как фиксить
+    int wid = encrypted_image.width();
+    int hei = encrypted_image.height();
+    int blok_size = sb_key[0].size() * 3;
+
+    int cikl = hei*wid;
+
+    // Считывание
+    for (int i = 0; i < cikl;)
+    {
+        vector<QRgb> temp;
+        for (int j=0; j<blok_size; j++)
+        {
+            QRgb t;
+
+            t=encrypted_image.pixel(i%wid, i/wid);
+            temp.push_back(t);
+            i++;
+        }
+
+        // Шифрование и запись зашифрованных пикселей
+        int temp_size = temp.size();
+        if (temp_size==blok_size)
+        {
+            temp = sblok_like_vigener_use(temp, sb_key);
+            for (int j = 0; j<blok_size;j++)
+            {
+                int k=i-blok_size+j;
+                encrypted_image.setPixel(k%wid, k/wid, temp[j]);
+            }
+        }
+    }
+    return encrypted_image;
+}
+
+QImage decrypt_image_s(QImage encrypted_image, std::vector<vector<int>> sb_key)
+{
+    int wid = encrypted_image.width();
+    int hei = encrypted_image.height();
+    int blok_size = sb_key[0].size()*3;
+
+    // Считывание
+    int cikl = hei*wid;
+    for (int i = 0; i < cikl;)
+    {
+        vector<QRgb> temp;
+        for (int j=0; j<blok_size; j++)
+        {
+            QRgb t;
+            t=encrypted_image.pixel(i%wid, i/wid);
+            temp.push_back(t);
+            i++;
+        }
+
+        // Шифроание и запись зашифрованных пикселей
+        int temp_size = temp.size();
+        if (temp_size==blok_size)
+        {
+            temp = sblok_like_vigener_reverse(temp, sb_key);
+            for (int j = 0; j<blok_size;j++)
+            {
+                int k=i-blok_size+j;
+                encrypted_image.setPixel(k%wid, k/wid, temp[j]);
+            }
+        }
+    }
+    return encrypted_image;
+}
