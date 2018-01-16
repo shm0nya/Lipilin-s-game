@@ -49,8 +49,7 @@ send_messege::send_messege(QWidget *parent) :
     ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
 
     /* Кнопка загрузить изображение */
-    ui->button_load_img->setVisible(false);
-    ui->button_load_img->setEnabled(false);
+
 }
 
 send_messege::~send_messege()
