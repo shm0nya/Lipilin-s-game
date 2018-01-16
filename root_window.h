@@ -51,6 +51,7 @@ private slots:
 
     void on_edit_text_editingFinished();
     void Lvl_up_all();
+    void Lvl_down_all();
 
 
 signals:

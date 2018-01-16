@@ -35,14 +35,14 @@ send_messege::send_messege(QWidget *parent) :
     ui->progress_send->setVisible(false);
     int level = 1;
     ui->button_p_key_generate->setEnabled(level>=3);
-    ui->button_s_key_generate->setEnabled(level>=3);
-    ui->button_crypto_cansel->setEnabled(level>=3);
-    ui->button_algoritm_crypto->setEnabled(level>=3);
+    ui->button_s_key_generate->setEnabled(level>=4);
+    ui->button_crypto_cansel->setEnabled(level>=4);
+    ui->button_algoritm_crypto->setEnabled(level>=4);
     ui->button_algoritm_crypto_delete->setEnabled(level>=3);
 
     ui->button_crypt_rsa->setEnabled(level>=5);
 
-    ui->button_load_img->setEnabled(level>=6);
+    //ui->button_load_img->setEnabled(level>=6);
     ui->button_make_img->setEnabled(level>=6);
 
     ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
@@ -774,19 +774,20 @@ void send_messege::up_level(int level)
 {
     //QMessageBox::information(this, "error", "Кffff");
 
-    ui->button_p_key_generate->setEnabled(level>=3);
-    ui->button_s_key_generate->setEnabled(level>=3);
+    ui->button_p_key_generate->setEnabled((level==3)||(level>=5));
+    ui->button_s_key_generate->setEnabled(level>=4);
     ui->button_crypto_cansel->setEnabled(level>=3);
     ui->button_algoritm_crypto->setEnabled(level>=3);
     ui->button_algoritm_crypto_delete->setEnabled(level>=3);
 
-    ui->button_crypt_rsa->setEnabled(level>=5);
+    ui->button_crypt_rsa->setEnabled(level>=8);
 
-    ui->button_load_img->setEnabled(level>=6);
-    ui->button_make_img->setEnabled(level>=6);
+    ui->button_choose_img->setEnabled(level>=1);
 
-    ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
-    ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
+    ui->button_make_img->setEnabled(level>=3);
+
+    ui->button_crypto_p->setEnabled(((level==3)||(level>=5))&&(!p_key.empty()));
+    ui->button_crypto_s->setEnabled((level>=4)&&(!s_key.empty()));
 }
 
 void send_messege::on_button_cancel_rsa_clicked()

@@ -18,6 +18,31 @@ interception::interception(QWidget *parent) :
 interception::~interception()
 {
     delete ui;
+
+    for (int i = 0; i < (int)buttons_of_messege.size(); i++)
+        delete buttons_of_messege[i];
+
+    clearLayout(lay);
+    delete lay;
+}
+
+void interception:: clearLayout( QLayout* layout )
+{
+    QLayoutItem* item = Q_NULLPTR;
+    while( (item = layout->takeAt(0)) )
+    {
+        if (item->layout())
+        {
+            clearLayout( item->layout() );
+            delete item->layout();
+        }
+        else if ( item->widget() )
+            delete item->widget();
+        else if( item->spacerItem() )
+            delete item->spacerItem();
+
+        delete item;
+    }
 }
 
 void interception::on_button_back_clicked()
@@ -151,5 +176,5 @@ void interception::on_button_decrypt_clicked()
 
 void interception::up_level(int level)
 {
-    ui->button_decrypt->setEnabled(level>=4);
+    ui->button_decrypt->setEnabled(level>=6);
 }

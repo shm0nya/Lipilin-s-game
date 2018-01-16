@@ -317,7 +317,7 @@ void home_window::up_level(int level)
 {
 
     ui->button_overhear_messege->setEnabled(level>=2);
-    ui->button_assimetry->setEnabled(level>=5);
+    ui->button_assimetry->setEnabled(level>=7);
 }
 
 void home_window::set_button_was_sending(int i, int j)

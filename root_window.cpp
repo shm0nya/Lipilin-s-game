@@ -55,17 +55,33 @@ root_window::root_window(QWidget *parent) :
     //create_images();
 
     connect(ui->button_level_up, SIGNAL(clicked()), this, SLOT(Lvl_up_all()));
+
+    connect(ui->button_level_down, SIGNAL(clicked()), this, SLOT(Lvl_down_all()));
 }
 
 void root_window::Lvl_up_all()
 {
     if (level==max_level)
     {
-        ui->level->setText(QString::number(level) + "Это максимальный уровень");
+        ui->level->setText(QString::number(level) + " Это максимальный уровень");
         return;
     }
 
     level++;
+    ui->level->setText(QString::number(level));
+    emit this->lvl_up();
+
+}
+
+void root_window::Lvl_down_all()
+{
+    if (level==1)
+    {
+        ui->level->setText(QString::number(level) + " Это минимальный уровень");
+        return;
+    }
+
+    level--;
     ui->level->setText(QString::number(level));
     emit this->lvl_up();
 
