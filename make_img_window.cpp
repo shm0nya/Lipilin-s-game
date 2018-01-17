@@ -13,7 +13,6 @@ make_img_window::make_img_window(QWidget *parent) :
 
     QRegExp one_char("[А-Я]{0,1}");
     ui->edit_root_messege->setValidator(new QRegExpValidator(one_char, this));
-
 }
 
 make_img_window::~make_img_window()

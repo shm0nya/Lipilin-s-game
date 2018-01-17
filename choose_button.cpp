@@ -48,7 +48,6 @@ void choose_button::open_button(QImage img, int i, int j, QString code)
     set_button(pb, i, j);
 }
 
-
 void choose_button::on_button_cancel_clicked()
 {
     emit this->reject();

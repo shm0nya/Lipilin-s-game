@@ -73,6 +73,7 @@
 #include <QTime>
 #include <QBuffer>
 #include <QVector>
+#include <QIcon>
 
 #include <vector>
 
@@ -316,6 +317,8 @@ private:
 
     bool flag_is_it_root = false;
     bool flag_assimetry_done = false;
+
+    QIcon icon_test = QIcon(":/images/question.png");
 };
 
 int count_simbols_befor(QString data, char befor); /* Находит количество символов до определенного */

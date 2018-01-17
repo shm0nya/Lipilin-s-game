@@ -148,7 +148,7 @@ void MainWindow::create_pb(int i, int j)
     pb->setMaximumSize(button_size);
     pb->setMinimumSize(button_size);
 
-    pb->setIcon(QIcon(":/images/question.png"));
+    pb->setIcon(icon_test);
     QSize icon_size(40,40);
     pb->setIconSize(icon_size);
 
