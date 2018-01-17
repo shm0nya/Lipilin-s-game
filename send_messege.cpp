@@ -484,6 +484,12 @@ void send_messege::on_button_send_messege_clicked()
         j = ui->edit_coordinate_j->text().toInt();
 
     QString code = now_using_rune_code;
+    if (code == "100_100")
+    {
+        QMessageBox::information(this, "???", "Вы пытаетесь подсунуть мне что-то невразумительное");
+        return;
+    }
+
     QString algoritm;
     if (flag_new_image)
         algoritm = "";

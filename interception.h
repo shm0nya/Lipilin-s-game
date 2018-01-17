@@ -6,6 +6,9 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
+#include <vector>
+#include <string>
+
 #include "qpb_modify.h"
 #include "fun.h"
 

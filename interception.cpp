@@ -118,6 +118,13 @@ void interception::on_button_to_send_messege_clicked()
         return;
     }
 
+    QString code;
+    if (flag_good_decr == true)
+        code = intercepted_messeges[index_message].code;
+    else
+        code = "100_100";
+
+
 
     emit this->go_to_crypto(intercepted_messeges[index_message].original_image,
                             intercepted_messeges[index_message].code,
@@ -157,19 +164,51 @@ void interception::on_button_decrypt_clicked()
         return;
     }
 
+    flag_good_decr = true;
     inter_messege msg = intercepted_messeges[index_message];
-    if ((msg.algoritm == "RSA") || (msg.p_key == "unknown"))
+    bool flag_must_be_undecrypt = true;     // Определяет, показать расшифрованное сообщение или нет
+    QImage img = msg.img;
+    if (msg.algoritm == "RSA")
     {
         QMessageBox::information(this, "error", "Не получилось расшифровать."
-                                                 "Возможно применялась ассиметричная криптография для"
-                                                 "передачи ключей или шифрования."
-                                                 "Но вы можете попробовать угадать, какое это изображение.");
-        return;
+                                                 "Использовался алгоритм РСА"
+                                                 "Будет проведена попытка расшифровать на случайном ключе");
+        std::vector<int> data = image_to_vector(img);
+        std::vector<int> crypted_data = crypt_rsa2(data, rand()%2500, rand()%5000);
+        img = set_vector_at_image(img, crypted_data);
+
+        flag_must_be_undecrypt = false;
+    }
+
+    if (msg.p_key == "unknown")
+    {
+        QMessageBox::information(this, "error", "Не получилось расшифровать."
+                                                 "Ключи неизвестны так как использовался"
+                                                 "Алгоритм RSA для передачи ключей");
+        std::vector<int> pk;
+        pk = pblok_key(msg.p_key_size + rand()% msg.p_key_size, rand());
+        std::vector<std::vector<int>> sk;
+        sk = sblok_like_vigener_key(msg.s_key_size + rand()%msg.s_key_size, rand());
+
+        std::string str = msg.algoritm.toStdString();
+        for (int i = 0; i < (int)str.size(); i++)
+            if (str[i] == 'P')
+                img = encrypt_image_p(img, pk);
+            else
+                img = encrypt_image_s(img, sk);
+
+        flag_must_be_undecrypt = false;
+    }
+
+    if (flag_must_be_undecrypt)
+    {
+        img = msg.original_image;
+        flag_good_decr = false;
     }
 
     int wid = ui->image_intercept_dec->width();
     int hei = ui->image_intercept_dec->height();
-    ui->image_intercept_dec->setPixmap(QPixmap::fromImage(msg.original_image).scaled(wid, hei));
+    ui->image_intercept_dec->setPixmap(QPixmap::fromImage(img).scaled(wid, hei));
 
     flag_decr = true;
 }
