@@ -16,6 +16,10 @@ root_window::root_window(QWidget *parent) :
     QRegExp reg("[А-Я]{0,70}");
     ui->edit_text->setValidator(new QRegExpValidator(reg, this));
 
+    QRegExp reg_nm("[0-9]{0,1}");
+    ui->edit_m->setValidator(new QRegExpValidator(reg_nm, this));
+    ui->edit_n->setValidator(new QRegExpValidator(reg_nm, this));
+
     /* Заглушка против неправомерных едйствий рута */
     ui->button_start->setEnabled(false);
     ui->button_level_down->setEnabled(false);
@@ -57,10 +61,7 @@ root_window::root_window(QWidget *parent) :
     letters["Ю"]=17;
     letters["Я"]=1;
 
-    //create_images();
-
     connect(ui->button_level_up, SIGNAL(clicked()), this, SLOT(Lvl_up_all()));
-
     connect(ui->button_level_down, SIGNAL(clicked()), this, SLOT(Lvl_down_all()));
 }
 
@@ -141,9 +142,18 @@ void root_window::on_button_apply_clicked()
 
 void root_window::create_images()
 {
+    /* Очистка от предыдущей информации */
     pb_runes.clear();
-    mix_message();
+    QLayoutItem *ch;
+    while ((ch = ui->componate_alphabet_buttons->takeAt(0))!= 0)
+    {
+        ui->componate_alphabet_buttons->removeItem(ch);
+        ch->widget()->deleteLater();
+       delete ch;
+    }
 
+    /* Установка новой информации */
+    mix_message();
     for (int i = 0; i < n; i++)
     {
         std::vector<QPB_modify*> temp_vec;
@@ -187,12 +197,20 @@ void root_window::on_button_default_clicked()
     n = 6;
     m = 7;
     messege = default_text;
-    create_images();
 
     ui->edit_m->setText(QString::number(m));
     ui->edit_n->setText(QString::number(n));
 
+    QString str = "";
+    for (int i = 0; i < (int)messege.size(); i++)
+        str = str + messege[i];
+
+    ui->lbl_now_using_text->setText(str);
+    ui->edit_text->setText(str);
+    ui->lbl_count_of_char_value->setText(QString::number(messege.size()));
     ui->button_start->setEnabled(true);
+
+    create_images();
 }
 
 void root_window::on_button_start_clicked()
@@ -305,6 +323,14 @@ void root_window::pad_message()
     {
         while (size<n*m)
             messege.pop_back();
+
+        QString str = "";
+        for (int i = 0; i < (int)messege.size(); i++)
+            str = str + messege[i];
+
+        ui->lbl_now_using_text->setText(str);
+        ui->edit_text->setText(str);
+        ui->lbl_count_of_char_value->setText(QString::number(messege.size()));
         return;
     }
 
