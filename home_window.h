@@ -40,7 +40,8 @@ public:
     ~home_window();
     void create_img_buttons(vector<vector<QImage>> &cut, int n, int m,
                             vector<vector<QString>>& codes,
-                            vector<vector<QString>> mess);             /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
+                            vector<vector<QString>> mess,
+                            QIcon icon_test);             /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
                                                                          * каждая кнопка по клику на неё вызывает сигнал home_window::i_opend(QImage, int, int)
                                                                          * После генерации каждой кнопки шлет сигнал home_window::do_it() в Main_window
                                                                          * для того, чтобы создать идентичную кнопку в окне choose_button

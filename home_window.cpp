@@ -66,7 +66,7 @@ vector <vector<QImage>> cut_image(QImage &image, int n, int m)
 }
 
 void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, vector<vector<QString>>& codes,
-                                     vector<vector<QString>> mess)
+                                     vector<vector<QString>> mess, QIcon icon_test)
 {
     for (int i = 0; i < n; i++)
     {
@@ -85,7 +85,7 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
             pb->setMaximumSize(button_size);
             pb->setMinimumSize(button_size);
 
-            pb->setIcon(QIcon(":/images/question.png"));
+            pb->setIcon(icon_test);
             QSize icon_size(40,40);
             pb->setIconSize(icon_size);
 

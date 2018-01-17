@@ -142,7 +142,6 @@ void MainWindow::show_ch_wnd()
 
 void MainWindow::create_pb(int i, int j)
 {
-
     QPB_modify* pb = new QPB_modify;
     QSize button_size(50,50);
     pb->setMaximumSize(button_size);
@@ -287,9 +286,8 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 'g':
-        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege);
+        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege, icon_test);
         break;
-
     case 'i':
         if (who == '0')
             NET_players_intercept_for_root(data, sender);
@@ -763,7 +761,7 @@ void MainWindow::solo()
     }
 
 
-    home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege);
+    home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege, icon_test);
     send_messege_wnd->up_level(10);
     home_wnd->set_lvl_label("10");
     home_wnd->up_level(10);

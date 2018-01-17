@@ -317,7 +317,6 @@ private:
 
     bool flag_is_it_root = false;
     bool flag_assimetry_done = false;
-
     QIcon icon_test = QIcon(":/images/question.png");
 };
 
