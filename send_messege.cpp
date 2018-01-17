@@ -447,7 +447,10 @@ void send_messege::set_position_of_img(int i, int j)
 
 void send_messege::on_button_send_messege_clicked()
 {
-    /*  Забивает время */
+    /* Делает кнопки неактивными */
+    this->setEnabled(false);
+
+    /* Забивает время */
     ui->lbl_progress->setVisible(true);
     ui->progress_send->setVisible(true);
 
@@ -463,6 +466,8 @@ void send_messege::on_button_send_messege_clicked()
     ui->lbl_progress->setVisible(false);
     ui->progress_send->setVisible(false);
     /* ------------------------------------------ */
+
+    this->setEnabled(true);
 
     int i;
     QString i_str = ui->edit_coordinate_i->text();
@@ -607,6 +612,9 @@ void send_messege::on_button_crypt_rsa_clicked()
             return;
     }
 
+    /* Сделать неактивным */
+    this->setEnabled(false);
+
     /* Забить временем */
     ui->lbl_progress->setVisible(true);
     ui->progress_send->setVisible(true);
@@ -621,6 +629,8 @@ void send_messege::on_button_crypt_rsa_clicked()
 
     ui->lbl_progress->setVisible(false);
     ui->progress_send->setVisible(false);
+
+    this->setEnabled(true);
 
     vector <int> data = image_to_vector(Encrypted_image);
     vector<int> crypt_data = crypt_rsa2(data, e, n);
