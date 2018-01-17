@@ -152,8 +152,7 @@ void root_window::create_images()
        delete ch;
     }
 
-    /* Установка новой информации */
-    mix_message();
+    /* Генерация рун */
     for (int i = 0; i < n; i++)
     {
         std::vector<QPB_modify*> temp_vec;
@@ -161,7 +160,7 @@ void root_window::create_images()
         {
             // задается руна, соответствующая букве, с определенным цветом
             int let = letters[messege[j + i*m]];
-            int col = p_colors[(j + i*m)%colors_size];
+            int col = (j + i*m)%colors_size;
             emit this->get_rune(let, col);
 
             QPB_modify *pb = new QPB_modify;
@@ -185,11 +184,27 @@ void root_window::create_images()
                 //emit this->show_make_img_with_my_img(pb->reverse_img, pb->i, pb->j, pb->str);
                 QMessageBox::information(this, "", pb->str);
             });
-            ui->componate_alphabet_buttons->addWidget(pb, i, j);
             temp_vec.push_back(pb);
         }
         pb_runes.push_back(temp_vec);
     }
+
+    /* Перемешивание рун */
+    for (int i = 0; i < (int)pb_runes.size(); i++)
+    {
+        std::vector<QPB_modify*> next;
+        next.resize(pb_runes[i].size());
+        for (int j = 0; j < (int)pb_runes[i].size(); j++)
+            next[j] = pb_runes[i][p_colors[j]];
+
+        pb_runes[i] = next;
+    }
+
+    /* Установка рун */
+    for (int i = 0; i < (int)pb_runes.size(); i++)
+        for (int j = 0; j < (int)pb_runes[i].size(); j++)
+            ui->componate_alphabet_buttons->addWidget(pb_runes[i][j], i, j);
+
 }
 
 void root_window::on_button_default_clicked()
