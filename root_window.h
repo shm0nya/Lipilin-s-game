@@ -64,8 +64,8 @@ private:
     Ui::root_window *ui;
 
     /* Параметры по-умолчанию */
-    int n = 5;
-    int m = 6;
+    int n = 6;
+    int m = 7;
     std::vector<QString> default_text = {
                         "Д", "Е", "Н", "Ь", "И",
                         "К", "С", "В", "В", "О",

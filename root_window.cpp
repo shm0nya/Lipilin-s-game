@@ -16,6 +16,11 @@ root_window::root_window(QWidget *parent) :
     QRegExp reg("[А-Я]{0,70}");
     ui->edit_text->setValidator(new QRegExpValidator(reg, this));
 
+    /* Заглушка против неправомерных едйствий рута */
+    ui->button_start->setEnabled(false);
+    ui->button_level_down->setEnabled(false);
+    ui->button_level_up->setEnabled(false);
+
 
     // Инициализация соответствия букв и рун (слева буквы, справа руны)
 
@@ -131,6 +136,7 @@ void root_window::on_button_apply_clicked()
     }
 
     create_images();
+    ui->button_start->setEnabled(true);
 }
 
 void root_window::create_images()
@@ -185,6 +191,8 @@ void root_window::on_button_default_clicked()
 
     ui->edit_m->setText(QString::number(m));
     ui->edit_n->setText(QString::number(n));
+
+    ui->button_start->setEnabled(true);
 }
 
 void root_window::on_button_start_clicked()
@@ -192,6 +200,12 @@ void root_window::on_button_start_clicked()
     flag_gamego_on = true;
     emit this->start();
     QMessageBox::information(this,"Старт", "Игра началась.");
+
+    ui->button_level_up->setEnabled(true);
+    ui->button_level_down->setEnabled(true);
+    ui->button_apply->setEnabled(false);
+    ui->button_default->setEnabled(false);
+    ui->button_start->setEnabled(false);
 }
 
 void root_window::set_rune_at_GL(QPB_modify *pb, int i, int j)
