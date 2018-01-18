@@ -10,6 +10,7 @@
 #include <QMap>
 
 #include <vector>
+#include <ctime>
 
 #include "qpb_modify.h"
 #include "fun.h"

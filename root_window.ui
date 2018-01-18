@@ -134,7 +134,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -231,7 +231,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>7</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -261,7 +261,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>6</string>
+                 <string/>
                 </property>
                </widget>
               </item>

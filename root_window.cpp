@@ -11,7 +11,7 @@ root_window::root_window(QWidget *parent) :
     ui->edit_n->setValidator(new QRegExpValidator(is_int, this));
     ui->edit_m->setValidator(new QRegExpValidator(is_int, this));
 
-    p_colors = pblok_key(colors_size, 100500);
+    p_colors = pblok_key(colors_size, time(0));
 
     QRegExp reg("[А-Я]{0,70}");
     ui->edit_text->setValidator(new QRegExpValidator(reg, this));
@@ -152,6 +152,7 @@ void root_window::create_images()
        delete ch;
     }
 
+    mix_message();
     /* Генерация рун */
     for (int i = 0; i < n; i++)
     {
@@ -160,7 +161,7 @@ void root_window::create_images()
         {
             // задается руна, соответствующая букве, с определенным цветом
             int let = letters[messege[j + i*m]];
-            int col = (j + i*m)%colors_size;
+            int col = p_colors[(j + i*m)%colors_size];
             emit this->get_rune(let, col);
 
             QPB_modify *pb = new QPB_modify;
@@ -189,22 +190,10 @@ void root_window::create_images()
         pb_runes.push_back(temp_vec);
     }
 
-    /* Перемешивание рун */
-    for (int i = 0; i < (int)pb_runes.size(); i++)
-    {
-        std::vector<QPB_modify*> next;
-        next.resize(pb_runes[i].size());
-        for (int j = 0; j < (int)pb_runes[i].size(); j++)
-            next[j] = pb_runes[i][p_colors[j]];
-
-        pb_runes[i] = next;
-    }
-
     /* Установка рун */
     for (int i = 0; i < (int)pb_runes.size(); i++)
         for (int j = 0; j < (int)pb_runes[i].size(); j++)
             ui->componate_alphabet_buttons->addWidget(pb_runes[i][j], i, j);
-
 }
 
 void root_window::on_button_default_clicked()
