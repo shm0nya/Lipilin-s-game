@@ -73,6 +73,7 @@ private:
     bool flag_decr = false;
     bool flag_good_decr;
     int index_message;                                  // Какое сейчас используется перехваченное сообщение
+    QImage decr_img;
 };
 
 #endif // INTERCEPTION_H

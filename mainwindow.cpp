@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::AnyIPv4, 65201); // начинаем слушать 65201 порт
-    connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udp дейтаграммы и анализируем
+    connect(socket, SIGNAL(readyRead()), this, SLOT(NET_datagramm_analysis())); // ловим udаграммыp дейт и анализируем
 
     ui->edit_ip_root->setText(root_address);
     ui->lbl_now_use_ip_root->setText(root_address);
@@ -256,12 +256,13 @@ void MainWindow::NET_datagramm_analysis()
     {
         QString temp = "";
         temp_data.replace(0, 6, temp);
-         //QMessageBox::information(this, "error", "Ключи RSA не сгенерироаны. Вернитесь в домашнее окно");
-        //QMessageBox::information(this, "error", temp_data);
+
         send_messege_wnd->up_level(temp_data.toInt());
         home_wnd->set_lvl_label(temp_data);
         home_wnd->up_level(temp_data.toInt());
         intercept_wnd->up_level(temp_data.toInt());
+
+        return;
     }
 
     char who = QCharRef(data[0]).toLatin1();
@@ -382,9 +383,12 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
         socket->writeDatagram(Data, temp_addres, 65201);
     }
 
+
+    /*
     QByteArray Data;
     Data.append(users);
     socket->writeDatagram(Data, QHostAddress(sender), 65201);
+    */
 }
 
 void MainWindow::NET_add_new_player (QString login)

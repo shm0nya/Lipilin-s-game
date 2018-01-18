@@ -119,15 +119,22 @@ void interception::on_button_to_send_messege_clicked()
     }
 
     QString code;
+    QImage img;
     if (flag_good_decr == true)
+    {
+        img = intercepted_messeges[index_message].original_image;
         code = intercepted_messeges[index_message].code;
+    }
     else
+    {
+        img = decr_img;
         code = "100_100";
+    }
 
 
 
-    emit this->go_to_crypto(intercepted_messeges[index_message].original_image,
-                            intercepted_messeges[index_message].code,
+    emit this->go_to_crypto(img,
+                            code,
                             intercepted_messeges[index_message].i,
                             intercepted_messeges[index_message].j);
 }
@@ -164,7 +171,7 @@ void interception::on_button_decrypt_clicked()
         return;
     }
 
-    flag_good_decr = true;
+    flag_good_decr = false;
     inter_messege msg = intercepted_messeges[index_message];
     bool flag_must_be_undecrypt = true;     // Определяет, показать расшифрованное сообщение или нет
     QImage img = msg.img;
@@ -180,15 +187,15 @@ void interception::on_button_decrypt_clicked()
         flag_must_be_undecrypt = false;
     }
 
-    if (msg.p_key == "unknown")
+    if ((msg.p_key == "unknown") && (msg.algoritm != ""))
     {
         QMessageBox::information(this, "error", "Не получилось расшифровать."
                                                  "Ключи неизвестны так как использовался"
                                                  "Алгоритм RSA для передачи ключей");
         std::vector<int> pk;
-        pk = pblok_key(msg.p_key_size + rand()% msg.p_key_size, rand());
+        pk = pblok_key(msg.p_key_size + rand()%30, rand()%5000);
         std::vector<std::vector<int>> sk;
-        sk = sblok_like_vigener_key(msg.s_key_size + rand()%msg.s_key_size, rand());
+        sk = sblok_like_vigener_key(msg.s_key_size + rand()%30, rand());
 
         std::string str = msg.algoritm.toStdString();
         for (int i = 0; i < (int)str.size(); i++)
@@ -203,8 +210,10 @@ void interception::on_button_decrypt_clicked()
     if (flag_must_be_undecrypt)
     {
         img = msg.original_image;
-        flag_good_decr = false;
+        flag_good_decr = true;
     }
+
+    decr_img = img;
 
     int wid = ui->image_intercept_dec->width();
     int hei = ui->image_intercept_dec->height();

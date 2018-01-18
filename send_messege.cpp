@@ -541,7 +541,8 @@ void send_messege::on_button_back_clicked()
 
 void send_messege::set_intercept_info(QImage img, QString code, int i, int j)
 {
-    flag_new_image = false;
+    flag_new_image = true;
+    flag_rsa_used = false;
     mc = 45;
 
     Encrypted_image = img;
@@ -674,6 +675,12 @@ void send_messege::up_level(int level)
 
 void send_messege::on_button_cancel_rsa_clicked()
 {
+    if (!flag_rsa_used)
+    {
+        QMessageBox::information(this, "error", "Не применено шифрование RSA");
+        return;
+    }
+
     vector<int> data = image_to_vector(Encrypted_image);
     vector<int> decrypted_data = decrypt_rsa2(data, e, n);
     Encrypted_image = set_vector_at_image(Encrypted_image, decrypted_data);

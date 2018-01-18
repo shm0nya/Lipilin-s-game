@@ -74,6 +74,7 @@
 #include <QBuffer>
 #include <QVector>
 #include <QIcon>
+#include <QThread>
 
 #include <vector>
 
