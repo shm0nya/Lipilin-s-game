@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "fun.h"
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -49,6 +50,7 @@ void MainWindow::rootwindow()
 
 void MainWindow::playerwindow()
 {
+
     QMessageBox::information(this,"Правила", "Позволь объяснить тебе смысл игры. "
                                              "Ты - агент, которому нужно стать лучшим среди всех. "
                                              "Штаб послал всем агентам сообщение, в котором закодирована важная информация."
@@ -342,6 +344,7 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     /* Отправка ответа. Идет в начале, т.к. NET_a_new_player_come отсылает созданному пользователю информацию
      * Он должен быть создан перед тем, как ему отправится информация
      */
+    QThread::sleep(1);
     QByteArray Data;
     Data.append("1r");
     Data.append(verdict);
@@ -350,6 +353,7 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     if (verdict == "false")
         return;
 
+    QThread::sleep(1);
     /* В случае, если уникальный, занесение в БД и оповещение других пользователей */
 
     NET_a_new_player_come(login, sender.toString());
@@ -430,6 +434,7 @@ void MainWindow::NET_send_info_for_start()
             img_code = img_code + root_wnd->get_rune_code_at_position(i, j) + ' ';
 
     /* Шлем данные */
+
     for (it = user_list.begin(); it!=user_list.end(); it++)
         NET_send_info_for_player(it.key(), messeges, img_code);
 
@@ -668,13 +673,14 @@ void MainWindow::NET_send_info_for_player(QString address, QString &messeges, QS
     QHostAddress temp_addres(address);
 
     QString datagramm = messeges + codes;
-
+    QThread::sleep(1);
     QByteArray first_data;
     first_data.append("1S");
     first_data.append(datagramm);
     socket->writeDatagram(first_data, temp_addres, 65201);
 
     // В случае, если игра началась, а пользователь опоздал - сразу шлется старт
+    QThread::sleep(1);
     if (root_wnd->get_flag_game_on())
     {
         QByteArray Data;
