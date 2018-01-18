@@ -30,7 +30,7 @@ root_window::root_window(QWidget *parent) :
 
     letters["А"]=1;
     letters["Б"]=2;
-    letters["В"]=18;
+    letters["В"]=0;
     letters["Г"]=9;
     letters["Д"]=5;
     letters["Е"]=6;
@@ -48,7 +48,7 @@ root_window::root_window(QWidget *parent) :
     letters["С"]=3;
     letters["Т"]=16;
     letters["У"]=17;
-    letters["Ф"]=18;
+    letters["Ф"]=0;
     letters["Х"]=7;
     letters["Ц"]=4;
     letters["Ч"]=4;

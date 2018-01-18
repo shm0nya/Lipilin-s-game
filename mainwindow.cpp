@@ -870,8 +870,8 @@ void MainWindow::create_source_images()
         vector<QImage> temp_vec;
         for (int j = 0; j < img_count_m; j++)
         {
-            QString ir = runes_code[i][j];
-            QString ic = cut_string_befor_simbol(ir, '_');
+            QString ic = runes_code[i][j];
+            QString ir = cut_string_befor_simbol(ic, '_');
             int r = ir.toInt();
             int c = ic.toInt();
             QImage img = make_wnd->paint_picture_at_code(r, c);
