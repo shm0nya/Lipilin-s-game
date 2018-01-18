@@ -97,8 +97,8 @@ void interception::show_info_at_messege_on_index(int i)
 
     if (msg.algoritm == "RSA")
     {
-        QMessageBox::information(this, "omg", "Этот игрок зашифровал сообщение с помощью алгоритма RSA, расшифровать не получится"
-                                              "Не самый умный ход с его стороны, не такли?");
+        QMessageBox::information(this, "omg", "Этот игрок зашифровал сообщение с помощью алгоритма RSA, расшифровать не получится. "
+                                              "Не самый умный ход с его стороны, не так ли?");
     }
 
     flag_decr = false;
@@ -114,7 +114,7 @@ void interception::on_button_to_send_messege_clicked()
 
     if (flag_decr == false)
     {
-        QMessageBox::information(this, "error", "Сообщение не расшифровано");
+        QMessageBox::information(this, "error", "Не удалось расшифровать сообщение");
         return;
     }
 
@@ -177,9 +177,9 @@ void interception::on_button_decrypt_clicked()
     QImage img = msg.img;
     if (msg.algoritm == "RSA")
     {
-        QMessageBox::information(this, "error", "Не получилось расшифровать."
-                                                 "Использовался алгоритм РСА"
-                                                 "Будет проведена попытка расшифровать на случайном ключе");
+        QMessageBox::information(this, "error", "Не получилось расшифровать. "
+                                                 "Использовался алгоритм RSA. "
+                                                 "Будет произведена попытка расшифровать на случайном ключе");
         std::vector<int> data = image_to_vector(img);
         std::vector<int> crypted_data = crypt_rsa2(data, rand()%2500, rand()%5000);
         img = set_vector_at_image(img, crypted_data);
@@ -189,9 +189,9 @@ void interception::on_button_decrypt_clicked()
 
     if ((msg.p_key == "unknown") && (msg.algoritm != ""))
     {
-        QMessageBox::information(this, "error", "Не получилось расшифровать."
-                                                 "Ключи неизвестны так как использовался"
-                                                 "Алгоритм RSA для передачи ключей");
+        QMessageBox::information(this, "error", "Не получилось расшифровать. "
+                                                 "Ключи неизвестны, так как использовался "
+                                                 "алгоритм RSA для передачи ключей");
         std::vector<int> pk;
         pk = pblok_key(msg.p_key_size + rand()%30, rand()%5000);
         std::vector<std::vector<int>> sk;

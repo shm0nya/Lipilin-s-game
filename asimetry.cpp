@@ -48,7 +48,7 @@ void asimetry::on_button_exchange_clicked()
 {
     if (!flag_key_generated)
     {
-        QMessageBox::information(this, "error", "Ключи не сгенерированы");
+        QMessageBox::information(this, "error", "Не удалось сгенерировать ключи");
         return;
     }
 

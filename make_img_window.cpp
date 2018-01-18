@@ -38,7 +38,7 @@ void make_img_window::set_colors()
         pb->setIconSize(pb->size());
         connect(pb, &QPushButton::clicked, [this, pb](){
             if(!flag_img_choosen)
-                QMessageBox::information(this, "error", "Выберите изображение (справа), да там, еще можно двигать ползунок");
+                QMessageBox::information(this, "error", "Выберите изображение (справа), да, там еще можно двигать ползунок");
             else
             {
                 ic = pb->j;

@@ -71,8 +71,8 @@ void send_messege::on_button_p_key_generate_clicked()
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this,"warning",
-                              "Вы меняете ключ, при уже зашифрованной картинке или перехваченной "
-                              "это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы меняете ключ, при уже зашифрованной или перехваченной картинке. "
+                              "Это приведет к тому, что изображение вернется в начальное состояние. "
                               "Вы уверены в своем решении?",
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)
@@ -134,8 +134,8 @@ void send_messege::on_button_s_key_generate_clicked()
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this,"warning",
-                              "Вы меняете ключ, при уже зашифрованной картинке или перехваченной "
-                              "это приведет к тому, что изображение вернется в начальное состояние. "
+                              "Вы меняете ключ, при уже зашифрованной или перехваченной картинке. "
+                              "Это приведет к тому, что изображение вернется в начальное состояние. "
                               "Вы уверены в своем решении?",
                               QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes)

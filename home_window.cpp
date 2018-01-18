@@ -112,7 +112,7 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
                 connect(pb2, &QPushButton::clicked, [this, pb2]()
                 {
                     if (pb2->was_sending == false)
-                        QMessageBox::information(this, "info", "Не отправлено в штаб");
+                        QMessageBox::information(this, "info", "Не удалось отправить сообщение в штаб");
                     else
                         QMessageBox::information(this, "info", pb2->str);
                 });
