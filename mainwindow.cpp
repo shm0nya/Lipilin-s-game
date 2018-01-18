@@ -673,15 +673,6 @@ void MainWindow::NET_send_info_for_player(QString address, QString &messeges, QS
     first_data.append("1S");
     first_data.append(datagramm);
     socket->writeDatagram(first_data, temp_addres, 65201);
-
-    // В случае, если игра началась, а пользователь опоздал - сразу шлется старт
-    if (root_wnd->get_flag_game_on())
-    {
-        QByteArray Data;
-        Data.append("1g");
-        socket->writeDatagram(Data, temp_addres, 65201);
-    }
-
 }
 
 void MainWindow::NET_add_intercepted_messege(QString data)
