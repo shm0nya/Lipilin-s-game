@@ -74,7 +74,6 @@
 #include <QBuffer>
 #include <QVector>
 #include <QIcon>
-#include <QThread>
 
 #include <vector>
 
@@ -217,6 +216,7 @@ private slots:
                                                                                                                                                         //
     void send_messege_wnd_on_intercept_value(QImage img, QString code, int i, int j);
     void solo();
+    void set_flag_assimetry(bool t){flag_assimetry_done = t;}
                                                                                                                           //
     /************************************************************************************************************************************************** */
 

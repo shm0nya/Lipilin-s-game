@@ -96,6 +96,8 @@ void MainWindow::playerwindow()
     connect(send_messege_wnd, SIGNAL(send_rsa_messege(QString,int,int, int, int)),
             this, SLOT(NET_send_rsa_img(QString,int,int, int, int)));
 
+    connect(send_messege_wnd, SIGNAL(using_ass_keys_or_not(bool)), this, SLOT(set_flag_assimetry(bool)));
+
     if (root_address == "127.0.0.1")
         solo();
 
@@ -787,7 +789,6 @@ void MainWindow::back_from_rsa_wnd()
 void MainWindow::use_assimetry_crypto(int n,int e,int d)
 {
     send_messege_wnd->set_ass_key(n, e, d);
-    flag_assimetry_done = true;
 }
 
 void MainWindow::NET_send_rsa_img(QString code, int e, int n, int i, int j)

@@ -39,17 +39,12 @@ send_messege::send_messege(QWidget *parent) :
     ui->button_crypto_cansel->setEnabled(level>=4);
     ui->button_algoritm_crypto->setEnabled(level>=4);
     ui->button_algoritm_crypto_delete->setEnabled(level>=3);
-
     ui->button_crypt_rsa->setEnabled(level>=5);
-
-    //ui->button_load_img->setEnabled(level>=6);
     ui->button_make_img->setEnabled(level>=6);
-
     ui->button_crypto_p->setEnabled((level>=3)&&(!p_key.empty()));
     ui->button_crypto_s->setEnabled((level>=3)&&(!s_key.empty()));
 
-    /* Кнопка загрузить изображение */
-
+    ui->check_box_crypt_keys->setEnabled(false);
 }
 
 send_messege::~send_messege()
@@ -655,8 +650,6 @@ void send_messege::on_button_crypt_rsa_clicked()
 
 void send_messege::up_level(int level)
 {
-
-
     ui->button_p_key_generate->setEnabled((level==3)||(level>=5));
 
     if (level == 4)
@@ -708,4 +701,18 @@ void send_messege::on_button_cancel_rsa_clicked()
     flag_new_image = true;
     flag_rsa_used = false;
     mc = 75;
+}
+
+void send_messege::on_check_box_crypt_keys_clicked()
+{
+    emit this->using_ass_keys_or_not(ui->check_box_crypt_keys->checkState());
+}
+
+void send_messege::set_ass_key(int nn, int ee, int dd)
+{
+    n = nn;
+    e = ee;
+    d = dd;
+    flag_rsa = true;
+    ui->check_box_crypt_keys->setEnabled(true);
 }

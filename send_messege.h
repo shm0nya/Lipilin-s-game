@@ -43,14 +43,7 @@ public:
                                                 QString skey_str, int skey_size,
                                                 QString algoritm);
 
-    void set_ass_key(int nn, int ee, int dd)
-    {
-        n = nn;
-        e = ee;
-        d = dd;
-        flag_rsa = true;
-    }
-
+    void set_ass_key(int nn, int ee, int dd);
     ~send_messege();
 
 signals:
@@ -69,6 +62,7 @@ signals:
                                                                                      * Если нас прослушивают отправляет тому, кто прослушивает
                                                                                      */
     void send_rsa_messege(QString, int, int, int, int);
+    void using_ass_keys_or_not(bool);
 
 
 private slots:
@@ -83,6 +77,8 @@ private slots:
     void on_button_back_clicked();
     void on_button_crypt_rsa_clicked();
     void on_button_cancel_rsa_clicked();
+
+    void on_check_box_crypt_keys_clicked();
 
 private:
     Ui::send_messege *ui;

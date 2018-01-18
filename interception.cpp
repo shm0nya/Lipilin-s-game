@@ -189,9 +189,8 @@ void interception::on_button_decrypt_clicked()
 
     if ((msg.p_key == "unknown") && (msg.algoritm != ""))
     {
-        QMessageBox::information(this, "error", "Не получилось расшифровать. "
-                                                 "Ключи неизвестны, так как использовался "
-                                                 "алгоритм RSA для передачи ключей");
+        QMessageBox::information(this, "error", "Ключи неизвестнызашифрованы, использовался алгоритм RSA для передачи ключей"
+                                                "Будет произведена попытка расшифровать на случайном ключе");
         std::vector<int> pk;
         pk = pblok_key(msg.p_key_size + rand()%30, rand()%5000);
         std::vector<std::vector<int>> sk;
