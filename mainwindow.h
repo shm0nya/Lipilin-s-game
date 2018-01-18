@@ -287,7 +287,8 @@ private slots:
     void NET_send_rsa_img(QString code, int e, int n, int i, int j);
     void NET_set_rsa_intercept_mess(QString data);
 
-   void NET_send_lvl();
+    void NET_send_lvl();
+    void create_source_images();
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:
@@ -295,7 +296,6 @@ private:
     QUdpSocket *socket;
     QString root_address = "127.0.0.1";       // Меняется в зависиости от сети! Менять ручками в исходном коде
     QMap<QString, QString> user_list;         // Список пользователей. Ключ - адресс (IPv4), value -  логин
-    vector<vector<QImage>> source_img;        // Исходные изображения, которые прислыает root
     vector<vector<QString>> code_messege;     // Строки, которые кодируются рунами
     vector<vector<QString>> runes_code;       // Коды source image
     int img_count_n;                          // Дефолтное значение

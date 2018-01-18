@@ -65,7 +65,8 @@ vector <vector<QImage>> cut_image(QImage &image, int n, int m)
   return cut;
 }
 
-void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, vector<vector<QString>>& codes,
+void home_window::create_img_buttons(vector<vector<QImage>> cut,
+                                     int n, int m, vector<vector<QString>> codes,
                                      vector<vector<QString>> mess, QIcon icon_test)
 {
     for (int i = 0; i < n; i++)
@@ -74,10 +75,10 @@ void home_window::create_img_buttons(vector<vector<QImage>> &cut, int n, int m, 
         for (int j = 0; j < m; j++)
         {
             QPB_modify *pb = new QPB_modify;
-            pb->reverse_img = cut[i][j];
             pb->i = i;
             pb->j = j;
             pb->rune_code = codes[i][j];
+            pb->reverse_img = cut[i][j];
             pb->was_opening = false;
             pb->str = mess[i][j];
 

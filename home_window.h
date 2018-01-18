@@ -38,8 +38,8 @@ class home_window : public QWidget
 public:
     explicit home_window(QString str_login, QWidget *parent = 0);
     ~home_window();
-    void create_img_buttons(vector<vector<QImage>> &cut, int n, int m,
-                            vector<vector<QString>>& codes,
+    void create_img_buttons(vector<vector<QImage>> cut, int n, int m,
+                            vector<vector<QString>> codes,
                             vector<vector<QString>> mess,
                             QIcon icon_test);             /* Функция, которая создает иконки изображений (QpusgButton с натянутым QIcon),
                                                                          * каждая кнопка по клику на неё вызывает сигнал home_window::i_opend(QImage, int, int)
@@ -52,8 +52,6 @@ public:
     vector<vector<QString>> set_messeges (vector<vector<QString>> msg){return msg;}
     vector<vector<QImage>> set_runes(vector<vector<QImage>> runes) {return runes;}
 
-
-    QImage get_cut_img(int i, int j){return cut[i][j];}                 // Для игры "локально"
     void set_visibale_new_messege(bool vis);                            // Делает изображение с конвертом видимым и нет
     void i_find_image_bf(int i, int j);
     void set_lvl_label(QString lvl);
@@ -93,7 +91,6 @@ private:
     Ui::home_window *ui;
     QImage original_img;
     QString login_name;
-    vector<vector<QImage>> cut;
     vector<QString> players;
     vector <vector<QPB_modify *>> icons;
     int count_777 = 0;

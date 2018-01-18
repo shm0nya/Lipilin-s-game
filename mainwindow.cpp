@@ -250,6 +250,9 @@ void MainWindow::NET_datagramm_analysis()
 
     socket->readDatagram(buffer.data(), buffer.size(),&sender, &senderPort);
     QString data(buffer);
+    if ((int)data.size() == 0)
+        return;
+
     QString temp_data = data;
 
     if (temp_data.left(6) == "level:")
@@ -287,7 +290,7 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 'g':
-        home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege, icon_test);
+        create_source_images();
         break;
     case 'i':
         if (who == '0')
@@ -309,6 +312,8 @@ void MainWindow::NET_datagramm_analysis()
         NET_set_rsa_intercept_mess(data);
         break;
     }
+
+    emit socket->readyRead();
 }
 
 void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
@@ -383,12 +388,9 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
         socket->writeDatagram(Data, temp_addres, 65201);
     }
 
-
-    /*
     QByteArray Data;
     Data.append(users);
     socket->writeDatagram(Data, QHostAddress(sender), 65201);
-    */
 }
 
 void MainWindow::NET_add_new_player (QString login)
@@ -468,19 +470,12 @@ void MainWindow::NET_start_messeges_phase_1(QString messeges)
     /* Генерируем изображения */
     for (int i = 0; i < img_count_n; i++)
     {
-        vector<QImage> temp_vec;
         vector<QString> temp_code_vec;
         for (int j = 0; j < img_count_m; j++)
         {
             temp_str = cut_string_befor_simbol(messeges, ' ');
             temp_code_vec.push_back(temp_str);
-            QImage temp_img;
-            int ic = cut_string_befor_simbol(temp_str, '_').toInt();
-            int jc = temp_str.toInt();
-            temp_img = make_wnd->paint_picture_at_code(ic, jc);
-            temp_vec.push_back(temp_img);
         }
-        source_img.push_back(temp_vec);
         runes_code.push_back(temp_code_vec);
     }
 }
@@ -737,6 +732,7 @@ void MainWindow::solo()
 {
     img_count_n = 5;                          // Дефолтное значение
     img_count_m = 5;
+    vector<vector<QImage>> source_img;        // Исходные изображения, которые прислыает root
     for (int i = 0; i < 16; i++)
     {
         vector <QString> temp_vec;
@@ -746,6 +742,7 @@ void MainWindow::solo()
             QString code = QString::number(i) + '_' + QString::number(j);
             temp_vec.push_back(code);
 
+            /* Создание и запись изображения */
             QImage img = make_wnd->paint_picture_at_code(i, j);
             images.push_back(img);
         }
@@ -753,6 +750,7 @@ void MainWindow::solo()
         runes_code.push_back(temp_vec);
     }
 
+    /* Вытаскивание закодированных строк */
     for (int i = 0; i < img_count_n; i++)
     {
         vector<QString> tmp;
@@ -764,7 +762,7 @@ void MainWindow::solo()
         code_messege.push_back(tmp);
     }
 
-
+    /* Старт игры */
     home_wnd->create_img_buttons(source_img, img_count_n, img_count_m, runes_code, code_messege, icon_test);
     send_messege_wnd->up_level(10);
     home_wnd->set_lvl_label("10");
@@ -862,4 +860,25 @@ void MainWindow::NET_send_lvl()
        socket->writeDatagram(Data, temp_addres, 65201);
    }
 
+}
+
+void MainWindow::create_source_images()
+{
+    vector<vector<QImage>> source_images;
+    for (int i = 0; i < img_count_n; i++)
+    {
+        vector<QImage> temp_vec;
+        for (int j = 0; j < img_count_m; j++)
+        {
+            QString ir = runes_code[i][j];
+            QString ic = cut_string_befor_simbol(ir, '_');
+            int r = ir.toInt();
+            int c = ic.toInt();
+            QImage img = make_wnd->paint_picture_at_code(r, c);
+            temp_vec.push_back(img);
+        }
+        source_images.push_back(temp_vec);
+    }
+
+    home_wnd->create_img_buttons(source_images, img_count_n, img_count_m, runes_code, code_messege, icon_test);
 }
