@@ -655,9 +655,23 @@ void send_messege::on_button_crypt_rsa_clicked()
 
 void send_messege::up_level(int level)
 {
-    //QMessageBox::information(this, "error", "Кffff");
+
 
     ui->button_p_key_generate->setEnabled((level==3)||(level>=5));
+
+    if (level == 4)
+    {
+        if (Encrypted_image != Loaded_image)
+        {
+            Encrypted_image = Loaded_image;
+            int lblwid = ui->img_changed->width();
+            int lblhei = ui->img_changed->height();
+            ui->img_changed->setPixmap(QPixmap::fromImage(Encrypted_image).scaled(lblwid,lblhei));
+            flag_new_image = true;
+            ui->lbl_algoritm_value->setText("");
+        }
+    }
+
     ui->button_s_key_generate->setEnabled(level>=4);
     ui->button_crypto_cansel->setEnabled(level>=3);
     ui->button_algoritm_crypto->setEnabled(level>=3);
