@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="gridLayoutWidget">
+  <widget class="QWidget" name="gridLayoutWidget1">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -36,7 +36,7 @@
    </property>
    <layout class="QGridLayout" name="componate_custom_buttons_img"/>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="layoutWidget2">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -285,7 +285,7 @@
     <string>Жмите на рычаг!</string>
    </property>
   </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QWidget" name="horizontalLayoutWidget3">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -318,7 +318,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="layoutWidget4">
    <property name="geometry">
     <rect>
      <x>711</x>
