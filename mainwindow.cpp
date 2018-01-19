@@ -118,6 +118,7 @@ void MainWindow::on_Login_button_clicked()
         rootwindow();
     else
     {
+		QThread::msleep(200);
         QByteArray data;
         data.append("0r");
         data.append(ui->login_edit->text());
@@ -388,12 +389,13 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
         users = users + it.value() + ' ';
 
         QHostAddress temp_addres(it.key());
+		QThread::msleep(200);
         QByteArray Data;
         Data.append("1n");
         Data.append(new_player_login);
         socket->writeDatagram(Data, temp_addres, 65201);
     }
-
+	QThread::msleep(200);
     QByteArray Data;
     Data.append(users);
     socket->writeDatagram(Data, QHostAddress(sender), 65201);
@@ -573,7 +575,7 @@ void MainWindow::NET_send_players_inercept_login(QString login)
         NET_no_overhere_for_root(login);
 
     intercept_wnd->set_login_of_intercept(login);
-
+	QThread::msleep(200);
     QByteArray Data;
     Data.append("0iyes ");
     Data.append(login);
@@ -584,11 +586,11 @@ void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sende
 {
     QByteArray Data;
     Data.append("1i");
-
+	
     QString action = cut_string_befor_simbol(data, ' ');
     Data.append(action);
     Data.append(' ');
-
+	QThread::msleep(200);
     // Поиск в map по значению
     QHostAddress addres;
     QMap<QString, QString>::iterator it;
@@ -600,7 +602,7 @@ void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sende
             break;
         }
     }
-
+	
     Data.append(sender.toString());
     socket->writeDatagram(Data, addres, 65201);
 }
@@ -622,7 +624,8 @@ void MainWindow::NET_send_intercepted_messege_for_player (QString addres, QStrin
                                              QString s_key, int s_key_size, 
                                              int i, int j, QString algoritm)
 {
-    QByteArray Data;
+    QThread::msleep(200);
+	QByteArray Data;
     Data.append("1I");
     QString messege = "";
 
@@ -812,6 +815,7 @@ void MainWindow::NET_send_rsa_img(QString code, int e, int n, int i, int j)
 
     for (int k = 0; k < int(me_overhere_addres_list.size()); k++)
     {
+		QThread::msleep(200);
         QString addres = me_overhere_addres_list[k];
         socket->writeDatagram(Data, QHostAddress(addres), 65201);
     }
@@ -849,7 +853,7 @@ void MainWindow::NET_send_lvl()
    for (it = user_list.begin(); it!=user_list.end(); it++)
    {
        QHostAddress temp_addres(it.key());
-
+		QThread::msleep(200);
        QByteArray Data;
        Data.append("level:");
        Data.append(s);
