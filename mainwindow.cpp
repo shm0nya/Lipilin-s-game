@@ -382,7 +382,7 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        if (it.value() == "")
+        if ((it.value() == "") || (it.value() == new_player_login))
             continue;
 
         users = users + it.value() + ' ';
