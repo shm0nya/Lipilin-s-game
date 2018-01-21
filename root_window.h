@@ -92,7 +92,7 @@ private:
     QMap<QString, int> letters;                     // Инициализация при создании rootwnd. Соответствие между char и руной
                                                     // QString потому что я заебался
 
-    int max_level = 10;
+    int max_level = 8;
 
     void mix_message();
     void pad_message();

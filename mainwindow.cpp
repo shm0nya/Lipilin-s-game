@@ -672,9 +672,17 @@ void MainWindow::NET_send_info_for_player(QString address, QString &messeges, QS
     socket->writeDatagram(first_data, temp_addres, 65201);
 
     // В случае, если игра началась, а пользователь опоздал - сразу шлется старт
-    QThread::msleep(200);
     if (root_wnd->get_flag_game_on())
     {
+        QThread::msleep(200);
+        int new_level = root_wnd->level;
+        QString s = QString::number(new_level);
+        QByteArray Data2;
+        Data2.append("level:");
+        Data2.append(s);
+        socket->writeDatagram(Data2, temp_addres, 65201);
+
+        QThread::msleep(200);
         QByteArray Data;
         Data.append("1g");
         socket->writeDatagram(Data, temp_addres, 65201);
