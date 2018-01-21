@@ -140,6 +140,15 @@ void home_window::create_img_buttons(vector<vector<QImage>> cut,
 
 void home_window::add_new_player(QString new_player_login)
 {
+	for (int i = 0; i < (int)ui->user_list->count(); i++)
+	{	   
+		if (new_player_login == ui->user_list->item(i)->text())
+		{
+			 delete ui->user_list->takeItem(i);
+			 break;
+		}
+	}
+	
     players.push_back(new_player_login);
     ui->user_list->addItem(new_player_login);
 }
