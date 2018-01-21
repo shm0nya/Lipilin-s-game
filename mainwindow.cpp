@@ -327,13 +327,6 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     QMap<QString, QString>::iterator it;
     QString verdict = "true";
 
-    if (user_list[sender.toString()] != "")
-    {
-        root_wnd->delete_player(user_list[sender.toString()]);
-    }
-	 user_list[sender.toString()] = login;
-	 root_wnd->add_new_player(login);
-
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
         if (it.value() == login)
@@ -358,6 +351,13 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     QThread::msleep(200);
     /* В случае, если уникальный, занесение в БД и оповещение других пользователей */
 
+	if (user_list[sender.toString()] != "")
+    {
+        root_wnd->delete_player(user_list[sender.toString()]);
+    }
+	 user_list[sender.toString()] = login;
+	 root_wnd->add_new_player(login);
+	
     NET_a_new_player_come(login, sender.toString());
 
     if (flag_is_it_root)
