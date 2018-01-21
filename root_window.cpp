@@ -286,14 +286,12 @@ void root_window::on_edit_text_editingFinished()
 void root_window::delete_player(QString login)
 {
     for (int i = 0; i < (int)ui->user_list->count(); i++)
-    {
-       QString txt = ui->user_list->takeItem(i)->text();
-       if (txt == login)
-       {
-             QListWidgetItem *it = ui->user_list->item(i);
-             delete it;
-             break;
-       }
+    {	   
+		if (login == ui->user_list->item(i)->text())
+		{
+			 delete ui->user_list->takeItem(i);
+			 break;
+		}
     }
 }
 

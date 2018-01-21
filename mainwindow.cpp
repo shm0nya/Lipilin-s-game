@@ -330,8 +330,9 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     if (user_list[sender.toString()] != "")
     {
         root_wnd->delete_player(user_list[sender.toString()]);
-        user_list[sender.toString()] = "";
     }
+	 user_list[sender.toString()] = login;
+	 root_wnd->add_new_player(login);
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
@@ -358,11 +359,9 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     /* В случае, если уникальный, занесение в БД и оповещение других пользователей */
 
     NET_a_new_player_come(login, sender.toString());
-    user_list[sender.toString()] = login;
 
     if (flag_is_it_root)
     {
-        root_wnd->add_new_player(login);
         if (root_wnd->get_flag_game_on())
             NET_send_info_for_player(sender.toString(), messeges, img_code);
     }
