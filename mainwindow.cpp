@@ -287,7 +287,7 @@ void MainWindow::NET_datagramm_analysis()
         break;
 
     case 'n':
-        NET_add_new_player(data);
+        NET_add_player (data, sender);
         break;
 
     case 'S':
@@ -355,10 +355,9 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     {
         root_wnd->delete_player(user_list[sender.toString()]);
     }
-	
+    user_list[sender.toString()] = login;
     NET_a_new_player_come(login, sender.toString());
-	
-	user_list[sender.toString()] = login;
+
 	root_wnd->add_new_player(login);
 
     if (flag_is_it_root)
@@ -383,7 +382,7 @@ void MainWindow::NET_a_new_player_come(QString new_player_login, QString sender)
 
     for (it = user_list.begin(); it!=user_list.end(); it++)
     {
-        if (it.value() == "")
+        if ((it.value() == "") || (it.value() == new_player_login))
             continue;
 
         users = users + it.value() + ' ';
@@ -889,4 +888,15 @@ void MainWindow::create_source_images()
     }
 
     home_wnd->create_img_buttons(source_images, img_count_n, img_count_m, runes_code, code_messege, icon_test);
+}
+
+void MainWindow::NET_add_player (QString login, QHostAddress sender)
+{
+    if (user_list[sender.toString()] != "")
+    {
+        home_wnd->delete_player(user_list[sender.toString()]);
+    }
+
+    user_list[sender.toString()] = login;
+    home_wnd->add_new_player(login);
 }

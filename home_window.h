@@ -58,6 +58,7 @@ public:
     void set_lvl_label(QString lvl);
     void up_level(int level);
     void set_button_was_sending(int i, int j);
+    void delete_player(QString login);
     void set_flag_offline(bool t){flag_offline = t;}
 
 signals:

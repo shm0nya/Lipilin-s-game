@@ -140,16 +140,11 @@ void home_window::create_img_buttons(vector<vector<QImage>> cut,
 
 void home_window::add_new_player(QString new_player_login)
 {
-	for (int i = 0; i < (int)ui->user_list->count(); i++)
-	{	   
-		if (new_player_login == ui->user_list->item(i)->text())
-		{
-			 delete ui->user_list->takeItem(i);
-			 break;
-		}
-	}
-	
+
     players.push_back(new_player_login);
+
+
+
     ui->user_list->addItem(new_player_login);
 }
 
@@ -360,6 +355,27 @@ void home_window::rotate_rulet()
             rand_image(3);
             count_777+=2;
             QMessageBox::information(this,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
+        }
+    }
+}
+
+void home_window::delete_player(QString login)
+{
+    for (int i = 0; i < (int)ui->user_list->count(); i++)
+    {
+        if (login == ui->user_list->item(i)->text())
+        {
+             delete ui->user_list->takeItem(i);
+             break;
+        }
+    }
+
+    for (int i = 0; i < (int)players.size(); i++)
+    {
+        if (login == players[i])
+        {
+            players.erase(players.begin()+i);
+            break;
         }
     }
 }

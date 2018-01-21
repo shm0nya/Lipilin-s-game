@@ -289,6 +289,8 @@ private slots:
 
     void NET_send_lvl();
     void create_source_images();
+
+    void NET_add_player (QString login, QHostAddress sender);
 /************************************************************************************************************************************************************* */                                                                                                                                                               //
 
 private:
