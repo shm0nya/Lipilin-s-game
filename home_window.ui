@@ -334,45 +334,11 @@
     <item>
      <layout class="QVBoxLayout" name="componate_overhear_edit">
       <item>
-       <layout class="QHBoxLayout" name="componate_edit_and_lbl">
-        <item>
-         <widget class="QLabel" name="lbl_overhere_text">
-          <property name="text">
-           <string>Перехватывать</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="edit_overhere">
-          <property name="minimumSize">
-           <size>
-            <width>130</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="componate_overhbutt">
         <item>
          <widget class="QPushButton" name="button_inercept">
           <property name="text">
-           <string>Подтвердить</string>
+           <string>Начать перехватывать</string>
           </property>
          </widget>
         </item>

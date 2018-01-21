@@ -157,7 +157,15 @@ void home_window::on_button_overhear_messege_clicked()
 void home_window::on_button_inercept_clicked()
 {
     QString intercepting_player;
-    intercepting_player = ui->edit_overhere->text();
+    for (int i = 0; i < (int)ui->user_list->count(); i++)
+    {
+        QListWidgetItem *it = ui->user_list->item(i);
+        if (it->isSelected())
+        {
+            intercepting_player = ui->user_list->item(i)->text();
+            break;
+        }
+    }
 
     int player_size = players.size();
     for (int i = 0; i < player_size; i++)
