@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <ctime>
 #include <cstdlib>
+#include <QThread>
+#include <QTimer>
 
 home_window::home_window(QString login, QWidget *parent) :
     QWidget(parent),
@@ -27,6 +29,9 @@ home_window::home_window(QString login, QWidget *parent) :
     ui->lbl_new_intercepted_msg->setPixmap(QPixmap::fromImage(QImage(":/images/new_messege.png")).scaled(
                                                ui->lbl_new_intercepted_msg->size()));
     ui->lbl_new_intercepted_msg->setVisible(false);
+
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(rotate_rulet()));
 }
 
 home_window::~home_window()
@@ -170,34 +175,11 @@ void home_window::set_visibale_new_messege(bool vis)
 /* ------ */
 void home_window::on_automat_clicked()
 {
-    int luck;
-    if (flag_offline)
-        luck = 99;
-    else
-        luck = rand() % 100;
-
-    if (luck<90)
-    {
-        //3 случайные картинки, не совпадающие
-        rand_image(1);
-        QMessageBox::information(this,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
-    }
-    else if (luck<97)
-    {
-
-        //открыть 2 одинаковые
-        rand_image(2);
-        count_777++;
-        QMessageBox::information(this,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
-    }
-    else
-    {
-
-        //открыть 3 одинаковые
-        rand_image(3);
-        count_777+=2;
-        QMessageBox::information(this,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
-    }
+    ui->automat->setEnabled(false);
+    int iRand = rand() % 2;
+    rand_image(iRand);
+    count_timer = 0;
+    timer->start(450);
 }
 
 void home_window::rand_image(int c)
@@ -329,4 +311,46 @@ void home_window::set_button_was_sending(int i, int j)
    ui->componate_custom_buttons_img->addWidget(pb, pb->i, pb->j);
 
    icons[pb->i][pb->j] = pb;
+}
+
+void home_window::rotate_rulet()
+{
+    int iRand = rand() % 2;
+    rand_image(iRand);
+    count_timer++;
+
+    if (count_timer == 17)
+    {
+        timer->stop();
+        ui->automat->setEnabled(true);
+        count_timer = 0;
+
+        int luck;
+        if (flag_offline)
+            luck = 99;
+        else
+            luck = rand() % 100;
+        if (luck<90)
+        {
+            //3 случайные картинки, не совпадающие
+            rand_image(1);
+            QMessageBox::information(this,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
+        }
+        else if (luck<97)
+        {
+
+            //открыть 2 одинаковые
+            rand_image(2);
+            count_777++;
+            QMessageBox::information(this,"WIN", "Поздравляем! Вы можете открыть одно изображение!");
+        }
+        else
+        {
+
+            //открыть 3 одинаковые
+            rand_image(3);
+            count_777+=2;
+            QMessageBox::information(this,"WIN", "Вы сказочный везунчик! Вы можете открыть целых два изображения!");
+        }
+    }
 }

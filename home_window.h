@@ -19,6 +19,7 @@
 #include <QImage>
 #include <QVBoxLayout>
 #include <QImage>
+#include <QTimer>
 
 #include <vector>
 
@@ -85,6 +86,7 @@ private slots:
     void on_button_inercept_clicked();
     void on_automat_clicked();
     void rand_image(int c);
+    void rotate_rulet();
 
     void on_button_assimetry_clicked();
 private:
@@ -95,6 +97,8 @@ private:
     vector <vector<QPB_modify *>> icons;
     int count_777 = 0;
     bool flag_offline = false;
+    int count_timer = 0;
+    QTimer *timer;
 
     std::vector<QImage> runes =
     {
