@@ -339,7 +339,7 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     /* Отправка ответа. Идет в начале, т.к. NET_a_new_player_come отсылает созданному пользователю информацию
      * Он должен быть создан перед тем, как ему отправится информация
      */
-   QThread::msleep(200);
+    QThread::msleep(200);
     QByteArray Data;
     Data.append("1r");
     Data.append(verdict);
@@ -358,7 +358,8 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     user_list[sender.toString()] = login;
     NET_a_new_player_come(login, sender.toString());
 
-	root_wnd->add_new_player(login);
+    if (root_address!="127.0.0.1")
+        root_wnd->add_new_player(login);
 
     if (flag_is_it_root)
     {

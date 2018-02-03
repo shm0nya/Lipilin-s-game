@@ -296,9 +296,11 @@ void home_window::rand_image(int c)
 void home_window::i_find_image_bf(int i, int j)
 {
     QPB_modify *pb = icons[i][j];
-    count_777++; // Компенсация перехваченного сообщения
     if (pb->was_opening == false)
+    {
+        count_777++; // Компенсация перехваченного сообщения
         emit pb->clicked();
+    }
 }
 
 /* ------ */
