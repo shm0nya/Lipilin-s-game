@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle("Мастер-класс Криптография");
     ui->Login_button->setEnabled(false);
     QRegExp is_login_variable("[a-zA-Z0-9]{1,20}");
     ui->login_edit->setValidator(new QRegExpValidator(is_login_variable, this));
@@ -358,11 +358,12 @@ void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
     user_list[sender.toString()] = login;
     NET_a_new_player_come(login, sender.toString());
 
-    if (root_address!="127.0.0.1")
+    if ((root_address!="127.0.0.1") && (login != "root"))
         root_wnd->add_new_player(login);
 
     if (flag_is_it_root)
     {
+        root_wnd->add_new_player(login);
         if (root_wnd->get_flag_game_on())
             NET_send_info_for_player(sender.toString(), messeges, img_code);
     }
