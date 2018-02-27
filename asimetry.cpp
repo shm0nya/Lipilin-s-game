@@ -48,7 +48,7 @@ void asimetry::on_button_exchange_clicked()
 {
     if (!flag_key_generated)
     {
-        QMessageBox::information(this, "error", "Ключи не сгенерированы!");
+        QMessageBox::information(this, "error", "Не удалось сгенерировать ключи");
         return;
     }
 
@@ -63,10 +63,8 @@ void asimetry::on_button_exchange_clicked()
         ui->progress_bar_exchange->setValue(i+1);
     }
 
-     ui->label_4->setText("2713");
-
     ui->progress_bar_exchange->setVisible(false);
-    ui->lbl_status_value->setText("Обмен завершен");
+    ui->lbl_status_value->setText("Ключи получены");
 
     emit this->keys_was_generated(n, e, d);
 }
