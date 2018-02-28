@@ -581,6 +581,7 @@ void MainWindow::NET_send_players_inercept_login(QString login)
     Data.append("0iyes ");
     Data.append(login);
     socket->writeDatagram(Data, QHostAddress(root_address), 65201);
+    i_overhear_login = login;
 }
 
 void MainWindow::NET_players_intercept_for_root(QString data, QHostAddress sender)
