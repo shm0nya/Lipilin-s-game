@@ -13,7 +13,7 @@ home_window::home_window(QString login, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->button_send_messege,SIGNAL(clicked()),this, SIGNAL(change_wnd_to_swnd()));
-
+    this->setWindowTitle("Мастер-класс Криптография");
     int level = 1;
     ui->button_overhear_messege->setEnabled(level>=2);
     ui->button_assimetry->setEnabled(level>=5);
@@ -344,13 +344,13 @@ void home_window::rotate_rulet()
             luck = 99;
         else
             luck = rand() % 100;
-        if (luck<90)
+        if (luck<82)
         {
             //3 случайные картинки, не совпадающие
             rand_image(1);
             QMessageBox::information(this,"LOSE", "К сожалению, вам не повезло. Попробуйте еще раз.");
         }
-        else if (luck<97)
+        else if (luck<92)
         {
 
             //открыть 2 одинаковые

@@ -589,7 +589,7 @@ void send_messege::on_button_crypt_rsa_clicked()
 {
     if (!flag_rsa)
     {
-        QMessageBox::information(this, "error", "Ключи RSA не сгенерироаны. Вернитесь в домашнее окно");
+        QMessageBox::information(this, "error", "Ключи RSA не сгенерированы. Вернитесь в домашнее окно");
         return;
     }
 

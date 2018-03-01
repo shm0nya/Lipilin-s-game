@@ -64,7 +64,7 @@
         <item>
          <widget class="QLabel" name="lbl_messege_show">
           <property name="text">
-           <string>Закодированный текст ( в порядке следования квадратов)</string>
+           <string>Закодированный текст</string>
           </property>
          </widget>
         </item>
