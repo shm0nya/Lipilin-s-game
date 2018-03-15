@@ -247,78 +247,80 @@ void MainWindow::then_made_img(QImage img, QString code)
 
 void MainWindow::NET_datagramm_analysis()
 {
-    QByteArray buffer; //Дейтаграмма
-    buffer.resize(socket->pendingDatagramSize());
-
-    QHostAddress sender; // IP отправителя
-    quint16 senderPort; // Port
-
-    socket->readDatagram(buffer.data(), buffer.size(),&sender, &senderPort);
-    QString data(buffer);
-    if ((int)data.size() == 0)
-        return;
-
-    QString temp_data = data;
-
-    if (temp_data.left(6) == "level:")
+    while(socket->hasPendingDatagrams()!= -1)
     {
-        QString temp = "";
-        temp_data.replace(0, 6, temp);
+        QByteArray buffer; //Дейтаграмма
+        buffer.resize(socket->pendingDatagramSize());
 
-        send_messege_wnd->up_level(temp_data.toInt());
-        home_wnd->set_lvl_label(temp_data);
-        home_wnd->up_level(temp_data.toInt());
-        intercept_wnd->up_level(temp_data.toInt());
+        QHostAddress sender; // IP отправителя
+        quint16 senderPort; // Port
 
-        return;
+        socket->readDatagram(buffer.data(), buffer.size(),&sender, &senderPort);
+        QString data(buffer);
+        if ((int)data.size() == 0)
+            continue;
+
+        QString temp_data = data;
+
+        if (temp_data.left(6) == "level:")
+        {
+            QString temp = "";
+            temp_data.replace(0, 6, temp);
+
+            send_messege_wnd->up_level(temp_data.toInt());
+            home_wnd->set_lvl_label(temp_data);
+            home_wnd->up_level(temp_data.toInt());
+            intercept_wnd->up_level(temp_data.toInt());
+
+            continue;
+        }
+
+        char who = QCharRef(data[0]).toLatin1();
+        char action = QCharRef(data[1]).toLatin1();
+        data.remove(0, 2); // Удаляются первые 2 символа т.к. они уже записаны в who, data
+
+        //анализируем дейтаграмму
+        switch (action)
+        {
+        case 'r':
+            if (who == '0') // Отправитель player
+                NET_registration_for_root(data ,sender);
+            else
+                NET_registration_for_player(data);
+            break;
+
+        case 'n':
+            NET_add_player (data, sender);
+            break;
+
+        case 'S':
+            NET_start_messeges_phase_1(data);
+            break;
+
+        case 'g':
+            create_source_images();
+            break;
+        case 'i':
+            if (who == '0')
+                NET_players_intercept_for_root(data, sender);
+            else
+                NET_players_intercept_for_player(data);
+
+            break;
+
+        case 'a':
+            NET_list_of_user_in_game(data);
+            break;
+
+        case 'I':
+            NET_add_intercepted_messege(data);
+            break;
+
+        case 'R':
+            NET_set_rsa_intercept_mess(data);
+            break;
+        }
     }
-
-    char who = QCharRef(data[0]).toLatin1();
-    char action = QCharRef(data[1]).toLatin1();
-    data.remove(0, 2); // Удаляются первые 2 символа т.к. они уже записаны в who, data
-
-    //анализируем дейтаграмму
-    switch (action) {
-    case 'r':
-        if (who == '0') // Отправитель player
-            NET_registration_for_root(data ,sender);
-        else
-            NET_registration_for_player(data);
-        break;
-
-    case 'n':
-        NET_add_player (data, sender);
-        break;
-
-    case 'S':
-        NET_start_messeges_phase_1(data);
-        break;
-
-    case 'g':
-        create_source_images();
-        break;
-    case 'i':
-        if (who == '0')
-            NET_players_intercept_for_root(data, sender);
-        else
-            NET_players_intercept_for_player(data);
-
-        break;
-
-    case 'a':
-        NET_list_of_user_in_game(data);
-        break;
-
-    case 'I':
-        NET_add_intercepted_messege(data);
-        break;
-
-    case 'R':
-        NET_set_rsa_intercept_mess(data);
-        break;
-    }
-
-    emit socket->readyRead();
 }
 
 void MainWindow::NET_registration_for_root(QString login, QHostAddress sender)
